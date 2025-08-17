@@ -1,0 +1,204 @@
+.hero {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-image: url("../../assets/Hero.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+    /* antes: 78rem */
+    height: auto;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgb(0, 0, 0) 10%, rgba(245, 149, 6, 0.2) 100%);
+    z-index: 0;
+}
+
+.hero>* {
+    position: relative;
+    z-index: 1;
+}
+
+.logoWrapper,
+.Title1,
+.Title2,
+.phrase,
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* antes: 78rem */
+}
+
+.logoWrapper {
+    height: 12.75rem;
+}
+
+.logo {
+    width: 10rem;
+    height: 12.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoImg {
+    width: 10rem;
+    height: 10rem;
+}
+
+.Title1 {
+    height: 2.125rem;
+}
+
+.Title1 span {
+    color: #F2F2F2;
+    text-align: center;
+    font-family: "Playfair Display";
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.Title2 {
+    height: 2.3125rem;
+}
+
+.Title2 span {
+    color: #D59532;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: 0.175rem;
+}
+
+.phrase {
+    height: 3.6875rem;
+}
+
+.phrase p {
+    color: #F2F2F2;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.buttons {
+    height: 6.4375rem;
+    gap: 1.5625rem;
+}
+
+.whatsappBtn,
+.instagramBtn,
+.locationBtn {
+    width: 10.3125rem;
+    height: 2.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 3.125rem;
+    color: #F2F2F2;
+    background-color: transparent;
+    font-family: Montserrat;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: center;
+    border: 0.0625rem solid #D59532;
+    transition: all 0.3s ease;
+}
+
+
+
+.whatsappBtn:hover,
+.instagramBtn:hover,
+.locationBtn:Hover {
+    background-color: #D59532;
+    transform: scale(1.03);
+}
+
+
+
+/* RESPONSIVO */
+@media (max-width: 23.5rem) {
+    .hero {
+        width: 100%;
+        /* antes: 21.4375rem */
+        height: 17.9375rem;
+    }
+
+    .hero::before {
+        background: linear-gradient(to right, rgb(0, 0, 0) 25%, rgba(245, 149, 6, 0.2) 100%);
+    }
+
+    .logoWrapper,
+    .Title1,
+    .Title2,
+    .phrase,
+    .buttons {
+        width: 100%;
+        /* antes: 21.4375rem */
+    }
+
+    .logoWrapper {
+        height: 6.75rem;
+    }
+
+    .logo {
+        width: 100%;
+        /* antes: 21.4375rem */
+        height: 6.75rem;
+    }
+
+    .logoImg {
+        width: 5.3125rem;
+        height: 5.3125rem;
+    }
+
+    .Title1 {
+        height: 2.5rem;
+    }
+
+    .Title1 span {
+        font-size: 1.5rem;
+    }
+
+    .Title2 {
+        height: 1.875rem;
+    }
+
+    .Title2 span {
+        font-size: 1rem;
+        letter-spacing: 0.1rem;
+    }
+
+    .phrase {
+        height: 2.25rem;
+    }
+
+    .phrase p {
+        font-size: 0.75rem;
+    }
+
+    .buttons {
+        height: 4.5625rem;
+        gap: 1.25rem;
+    }
+
+    .whatsappBtn,
+    .instagramBtn,
+    .locationBtn {
+        width: 5.25rem;
+        height: 1.6875rem;
+        font-size: 0.625rem;
+        gap: 0.5rem;
+    }
+}

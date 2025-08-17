@@ -1,0 +1,68 @@
+.card {display: flex;
+    width: 7.75rem;
+    height: 5.0625rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;}
+
+.number {color: #F2F2F2;
+
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 7.9rem;
+}
+
+    .label {color: #9CA3AF;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+       width: 7.9rem;
+    }
+
+        .orangeLabel {
+            color: #D59532;
+            /* laranja */
+        }
+
+@media (max-width: 23.5rem) {
+    .card {
+        display: flex;
+            width: 7.75rem;
+            height: 2.625rem;
+            flex-direction: column;
+            justify-content: center;
+           
+            flex-shrink: 0;
+        }
+    
+        .number {
+        color: #F2F2F2;
+        
+            text-align: center;
+            font-family: Montserrat;
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            width: 7.75rem;
+        }
+    
+        .label {
+        color: #9CA3AF;
+        
+            text-align: center;
+            font-family: Montserrat;
+            font-size: 0.625rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            width: 7.75rem;
+        }
+}

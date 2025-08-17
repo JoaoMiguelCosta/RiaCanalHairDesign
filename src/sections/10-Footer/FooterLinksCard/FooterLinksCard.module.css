@@ -1,0 +1,59 @@
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 10.5625rem;
+    width: 12.125rem;
+}
+
+/* Título */
+.title {
+    color: #D59532;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 0.75rem;
+}
+
+/* Mantemos o grid e alinhamos à esquerda dentro de cada célula */
+.linksGrid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 0.75rem 2rem;
+    justify-items: start;
+    /* 👈 garante texto à esquerda */
+}
+
+/* Texto dos links (agora <a>) */
+.linkText {
+    color: #D1D5DB;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: normal;
+
+    text-decoration: none;
+    /* 👈 mantém visual de texto */
+    cursor: pointer;
+    /* 👈 feedback de clique */
+    transition: color 0.25s ease;
+}
+
+.linkText:hover,
+.linkText:focus-visible {
+    color: #D59532;
+    outline: none;
+}
+
+@media (max-width: 23.5rem) {
+    .info {
+        width: 100%;
+        height: auto;
+    }
+
+    .title {
+        text-align: left;
+        margin-bottom: 0.75rem;
+    }
+}

@@ -1,0 +1,180 @@
+/* === Base (Desktop First) === */
+.aboutus {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.aboutus1 {
+    background-color: orange;
+    width: 78rem;
+    height: 26.125rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.aboutus2 {
+    background-color: black;
+    width: 78rem;
+    height: 12.125rem;
+    border-top: 0.065rem solid #D59532;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7rem;
+}
+
+.aboutleft {
+    width: 41.5625rem;
+    height: 26.125rem;
+    background-color: black;
+}
+
+.aboutright {
+    display: flex;
+    width: 36.44rem;
+    height: 26.125rem;
+    padding: 0 2.375rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    background-color: black;
+}
+
+.aboutText {
+    display: flex;
+    width: 40.3125rem;
+    height: 5.625rem;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.statCards {
+    display: flex;
+    height: 6.07rem;
+    justify-content: center;
+    align-items: center;
+    gap: 6.25rem;
+    background-color: black;
+}
+
+.aboutright1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 22.5rem;
+    width: 31.56rem;
+    flex-shrink: 0;
+    background-color: black;
+}
+
+.myImageContainer {
+    display: flex;
+    height: 20.25rem;
+    width: 31.56rem;
+    border: 0.0625rem solid #D59532;
+}
+
+.myImage {
+    width: 100%;
+    height: auto;
+}
+
+.customCaptionContainer {
+    display: flex;
+    height: 2.5rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+/* === Mobile Styles (≤ 23.5rem ≈ 376px) === */
+@media (max-width: 23.5rem) {
+
+    .aboutus,
+    .aboutus1,
+    .aboutleft,
+    .aboutright,
+    .aboutright1,
+    .aboutus2,
+    .aboutText,
+    .statCards,
+    .customCaptionContainer {
+        width: 100%;
+        height: auto;
+    }
+
+    .aboutus {
+       
+        align-items: center;
+    }
+
+    .aboutus1,
+    .aboutleft,
+    .aboutright,
+    .aboutus2,
+    .aboutText,
+    .statCards {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+.aboutus2 { border-top: none; }
+    .aboutleft {
+        align-items: flex-start;
+    }
+
+    .aboutright {
+        padding: 0 !important;
+        gap: 0.625rem;
+    }
+
+    /* Ajuste da imagem no mobile */
+    .aboutright1 {
+        width: 100%;
+        max-width: 21.4375rem;
+        /* 343px */
+    }
+
+    .myImageContainer {
+        width: 100%;
+        max-width: 21.4375rem;
+        /* limita no mobile */
+        aspect-ratio: 281 / 233;
+        /* mantém proporção da imagem */
+        height: auto;
+        border: 0.0625rem solid #D59532;
+        display: flex;
+        overflow: hidden;
+    }
+
+    .myImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .customCaptionContainer {
+        padding: 0.5rem 1rem;
+        text-align: center;
+    }
+
+    .aboutus2 {
+        padding: 1rem 0;
+        gap: 1rem;
+    }
+
+    .aboutText {
+        padding: 0.5rem 0;
+    }
+
+    .statCards {
+        flex-direction: row;
+        gap: 1rem;
+    }
+}

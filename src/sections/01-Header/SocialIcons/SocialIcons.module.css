@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    width: auto;
+    min-width: 7.6875rem;
+    min-height: 6.625rem;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    flex-shrink: 0;
+    background: transparent;
+    /* não “quebra” a faixa preta full-width */
+    padding: 0 0.5rem;
+}
+
+a,
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+a:hover {
+    transform: scale(1.1);
+}
+
+.icon {
+    width: 1.375rem;
+    height: 1.375rem;
+    color: #f2f2f2;
+}
+
+.icon:hover {
+    color: #d59532;
+    transform: scale(1.2);
+}
+
+@media (max-width: 23.5rem) {
+    .container {
+        display: none;
+    }
+}

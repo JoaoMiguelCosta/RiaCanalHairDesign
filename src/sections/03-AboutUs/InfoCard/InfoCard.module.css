@@ -1,0 +1,55 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 18rem;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    align-self: stretch;
+    height: 1.6875rem;
+
+    color: #f2f2f2;
+    font-family: "Playfair Display";
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.text {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    align-self: stretch;
+    height: 4.625rem;
+    width: 18rem;
+
+    color: #d1d5db;
+    font-family: Montserrat;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+@media (max-width: 23.5rem) {
+    .card {
+        width: 21.4375rem;
+        height: 6.375rem;
+    }
+
+    .title {
+        font-size: 1.125rem;
+    }
+
+    .text {
+        font-size: 0.75rem;
+        height: 4.25rem;
+    }
+}

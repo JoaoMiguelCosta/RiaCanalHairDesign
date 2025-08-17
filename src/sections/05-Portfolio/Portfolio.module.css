@@ -1,0 +1,289 @@
+.portfolio {
+    width: 100%;
+
+    height: auto;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 2rem;
+   
+}
+
+.aboutText {
+    height: 7rem;
+    width: 78rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.aboutText span {
+    width: 41.9375rem;
+    height: 2.5rem;
+}
+
+.Buttons {
+    display: flex;
+    height: 3.4375rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 78rem;
+    gap: 2rem;
+    background-color: black;
+}
+
+.serviceBtn {
+    display: flex;
+    width: 8.5625rem;
+    height: 1.8125rem;
+    padding: 0.28125rem 0.75rem 0.40625rem 0.8125rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    background: #0E0E11;
+
+    color: #D1D5DB;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: normal;
+    border: 0.5px solid #D59532;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.serviceBtn:hover {
+    background-color: #D59532;
+    color: #1A1F2D;
+}
+
+.myImageContainer {
+    width: 100%;
+    width: 23.875rem;
+    height: 16rem;
+    /* limita no mobile */
+    aspect-ratio: 281 / 233;
+    /* mantém proporção da imagem */
+
+    border: 0.0625rem solid #D59532;
+    display: flex;
+    overflow: hidden;
+}
+
+.myImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.imageHoverCard {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* zoom + brilho suave */
+.imageHoverCard .myImage {
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.imageHoverCard:hover .myImage {
+    transform: scale(1.05);
+    filter: brightness(0.9);
+}
+
+/* overlay que sobe do bottom */
+.imageOverlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.875rem 0.8rem;
+    background: rgba(0, 0, 0, 0.55);
+    border-top: 1px solid #D59532;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.imageHoverCard:hover .imageOverlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* tipografia do overlay */
+.overlayTitle {
+    margin: 0;
+    color: #D59532;
+    font-family: "Playfair Display", serif;
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 500;
+}
+
+.overlayLegend {
+    margin: 0.375rem 0 0;
+    color: #F2F2F2;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.875rem;
+    /* 14px desktop overlay; ajusta se quiseres */
+    font-weight: 400;
+}
+
+.jobs {
+    height: auto;
+    /* ou um valor menor */
+    margin-bottom: 1.5rem;
+    /* controla o espaço entre linhas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.job {
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 23.9375rem;
+    height: 15rem;
+}
+
+.serviceBtn:not([data-active="true"]):hover {
+    background-color: #D59532;
+    color: #1A1F2D;
+}
+
+/* estado ativo (fica selecionado) */
+.serviceBtn[data-active="true"],
+.serviceBtn[aria-pressed="true"] {
+    background-color: #D59532;
+    color: #1A1F2D;
+    border-color: #D59532;
+    /* opcional */
+}
+
+/* opcional: manter o mesmo aspeto mesmo em hover quando já está ativo */
+.serviceBtn[data-active="true"]:hover {
+    background-color: #D59532;
+    color: #1A1F2D;
+}
+
+
+@media (max-width: 23.5rem) {
+    .portfolio {
+
+        width: 100%;
+display: flex;
+flex-direction: column;
+        height: 224rem;
+        background-color: black;
+        gap: 1rem;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .aboutText {
+        width: 100%;
+        text-align: center;
+    }
+
+    .aboutText span {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .Buttons {
+        display: flex;
+        height: 3.5rem;
+        padding: 0 1.75rem;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.625rem;
+        width: 100%;
+    }
+
+    .serviceBtn {
+        width: 6rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #D1D5DB;
+    }
+
+    .myImageContainer {
+        display: flex;
+        width: 21.4375rem;
+        height: 16rem;
+        align-items: center;
+        border: 1px solid #D59532;
+        background: #1C2431;
+    }
+
+    .myImageContainer {
+        display: flex;
+        width: 21.4375rem;
+        height: 16rem;
+        align-items: center;
+        border: 1px solid #D59532;
+        background: #1C2431;
+    }
+
+    .imageOverlay {
+        opacity: 1;
+        transform: translateY(0);
+        padding: 1.25rem 1rem 1rem;
+        /* mais espaço em cima */
+    }
+
+    /* tipografia mobile */
+    .overlayTitle {
+        font-size: 1.25rem;
+        /* 20px */
+        line-height: 1.2;
+    }
+
+    .overlayLegend {
+        font-size: 0.75rem;
+        /* 12px */
+        line-height: 1.35;
+    }
+
+    /* opcional: reduzir o zoom em touch (hover não existe) */
+    .imageHoverCard .myImage {
+        transform: none;
+        /* evita “saltos” em touch */
+        filter: none;
+        /* mantém a imagem normal */
+    }
+
+    .jobs {
+        width: 23.4375 rem;
+        /* mantém alinhado com as imagens */
+        height: auto;
+        /* deixa o container ajustar pelo conteúdo */
+        flex-direction: column;
+        justify-content: flex-start;
+        /* mantém os itens no topo */
+        align-items: center;
+
+
+    }
+
+    .job {
+        width: 21.4375rem;
+        height: 20.4375rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+}

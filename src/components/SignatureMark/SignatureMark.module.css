@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: black;
+}
+
+/* Logo wrapper (envolve o img) */
+.logoWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    width: 6.5625rem;
+    height: 6.5625rem;
+}
+
+/* Imagem do logo */
+.logoImg {
+    width: 5.4375rem;
+    height: 5.4375rem;
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
+}
+
+/* Responsivo até 375px */
+@media (max-width: 23.5rem) {
+    .container {
+        width: 7.6875rem;
+        height: 3.125rem;
+        justify-content: space-between;
+        flex-shrink: 0;
+    }
+
+    .logoWrapper {
+        height: 3.125rem;
+    }
+
+    .logoImg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}

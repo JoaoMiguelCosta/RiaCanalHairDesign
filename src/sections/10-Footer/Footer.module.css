@@ -1,0 +1,123 @@
+.footer {
+    height: auto;
+    width: 100%;
+    background-color: black;
+   
+}
+
+.title {
+    display: flex;
+    height: 9.8125rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.talk {
+    display: flex;
+    width: 100%;
+    height: 7.4375rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+}
+
+.talkButton {
+    display: flex;
+    width: 17rem;
+    height: 4.25rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+    background: #D59532;
+    color: #F2F2F2;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.125rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+
+}
+
+.talkButton:hover {
+    background: #c17f28;
+    /* tom mais escuro ao passar o mouse */
+    transform: scale(1.05);
+    /* leve zoom */
+}
+
+.cards {
+    display: flex;
+    height: 14.1875rem;
+    justify-content: center;
+    align-items: center;
+    gap: 3.75rem;
+    flex-shrink: 0;
+    background-color: black;
+    border-top: 0.5px solid #D59532;
+}
+
+@media (max-width: 23.5rem) {
+    .footer {
+        width: 100%;
+        /* largura do layout do mock */
+        height: auto;
+        /* respiro lateral */
+      
+        background: #000;
+    }
+
+    .title {
+        height: auto;
+        padding: 0.75rem 0;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .talk {
+        width: 100%;
+        height: auto;
+        gap: 0.5rem;
+        padding: 0.5rem 0 1rem;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .talkButton {
+        width: 100%;
+        height: 3.25rem;
+        font-size: 1rem;
+        letter-spacing: 0.075rem;
+    }
+
+    .cards {
+        flex-direction: column;
+        /* empilha os 4 cards */
+        justify-content: center;
+        align-items: center;
+   
+        gap: 1.5rem;
+        height: auto;
+        padding: 1.25rem 0;
+        border-top: 0.5px solid #D59532;
+    }
+
+    /* cada card ocupa a largura disponível e centra conteúdo interno */
+    .cards>* {
+        width: 100% !important;
+        height: auto !important;
+    }
+}

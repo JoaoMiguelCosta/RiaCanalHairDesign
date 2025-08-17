@@ -1,0 +1,90 @@
+/* =========================
+   Estilo original
+========================= */
+.tagline {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 6.5625rem;
+    height: 6.6875rem;
+}
+
+.brand {
+    color: #f2f2f2;
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 0.125rem;
+}
+
+.service {
+    color: #d59532;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.0375rem;
+}
+
+/* =========================
+   Variação para o footer
+========================= */
+.taglineFooter {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+
+.brandFooter {
+    color: #F2F2F2;
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.serviceFooter {
+    color: #D59532;
+    font-family: "Playfair Display", serif;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* =========================
+   Responsividade original
+========================= */
+@media (max-width: 23.5rem) {
+    .tagline {
+        width: 4.5625rem;
+        height: 3.125rem;
+    }
+
+    .brand {
+        font-size: 0.875rem;
+    }
+
+    .service {
+        font-size: 0.625rem;
+        letter-spacing: 0.00313rem;
+    }
+
+    /* Ajustes para footer no mobile */
+    .brandFooter {
+        font-size: 1rem;
+    }
+
+    .serviceFooter {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,35 @@
+:root {
+    --header-h: clamp(3.25rem, 6vw, 6.75rem);
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: #000;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+    min-height: var(--header-h);
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(1280px, 100% - clamp(1rem, 4vw, 4rem));
+    margin-inline: auto;
+    min-height: var(--header-h);
+}
+
+html {
+    scroll-padding-top: var(--header-h);
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 480px) {
+    .headerContent {
+        justify-content: space-between;
+        width: 100%;
+        padding-inline: 0.5rem;
+    }
+}

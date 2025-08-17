@@ -1,0 +1,48 @@
+.default,
+.highlight,
+.centerMobile {
+color: #D1D5DB;
+    font-family: Montserrat;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  
+   
+}
+
+/* Alinhamento específico */
+.default {
+    text-align: center;
+}
+
+.highlight {
+    text-align: left;
+}
+
+.centerMobile {
+    text-align: center;
+    
+    
+}
+
+/* Mobile overrides */
+@media (max-width: 23.5rem) {
+    .default {
+        font-size: 0.75rem;
+        text-align: left;
+       
+    }
+
+    .highlight {
+        font-size: 0.75rem;
+        text-align: left;
+      
+    }
+
+    .centerMobile {
+        font-size: 0.75rem;
+        text-align: center;
+       
+    }
+}

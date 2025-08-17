@@ -1,0 +1,266 @@
+.space {
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    height: auto;
+    background-color: black;
+    justify-content: center;
+  
+    
+
+}
+
+
+
+
+.aboutText {
+    height: 7rem;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: black;
+}
+
+.aboutText1 {
+    height: 7rem;
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: black;
+}
+
+.aboutText span {
+    width: 41.9375rem;
+    height: 2.5rem;
+    text-align: left;
+}
+
+.rececao {
+    width: 100%;
+    height: 35rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    flex-direction: column;
+}
+
+.relax {
+    width: 100%;
+    height: 32rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    
+
+}
+
+
+.styling {
+    width: 100%;
+    height: 32rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: black;
+}
+
+.video {
+    width: 100%;
+    height: 32rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+
+
+
+
+}
+
+.filosofy {
+    height: 22.75rem;
+    width: 78rem;
+    background-color: red;
+    flex-direction: column;
+}
+
+.filosofy1 {
+    height: 15.9375rem;
+    width: 78rem;
+    background-color: black;
+    display: flex;
+
+}
+
+.filosofy11 {
+    height: 15.9375rem;
+    width: 50%;
+    background-color: orange;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.filosofy12 {
+    height: 15.9375rem;
+    width: 50%;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    /* permite quebrar linha */
+    justify-content: center;
+    /* centraliza horizontalmente */
+    align-items: center;
+    gap: 1rem;
+    /* espaço entre os cards */
+}
+
+.filosofy12>* {
+    flex: 0 0 auto;
+    /* impede esticar */
+}
+
+.filosofy12> :nth-child(1),
+.filosofy12> :nth-child(2) {
+    width: 40%;
+    /* dois primeiros lado a lado */
+}
+
+.filosofy12> :nth-child(3) {
+    width: 100%;
+    /* último ocupa linha inteira */
+    text-align: center;
+}
+
+
+
+@media (max-width: 23.5rem) {
+
+    
+    .space {
+        width:100%; display: flex;
+        flex-direction: column;
+       height: auto;
+       gap: 1rem;
+    }
+
+    
+    .aboutText {
+        width: 100%;
+        height: auto;
+       
+      
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+      
+        text-align: center;
+    }
+
+    
+
+    .aboutText span {
+        width: 100%;
+        height: auto;
+        display: block;
+        text-align: left;
+    }
+
+   
+    .rececao,
+    .relax,
+    .styling {
+        width: 100%;
+        height: auto;
+     
+        display: flex;
+        flex-direction: column;
+        
+        justify-content: center;
+        align-items: center;
+      
+      
+        background: transparent;
+      
+    }
+
+          .relax {gap: 1rem;}
+                  .styling {
+                      gap: 1rem;
+                  }
+
+    .video {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: black;
+      
+       
+
+
+
+
+    }
+
+          .filosofy {
+              height: auto;
+              /* remove altura fixa */
+              width:100%;
+              background-color: transparent;
+              /* se não quiser cor no mobile */
+              display: flex;
+              flex-direction: column;
+              /* empilha título/texto e cards */
+              
+          }
+    
+          .filosofy1 {
+              height: auto;
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              /* empilha título/textos acima e cards abaixo */
+          }
+    
+          .filosofy11 {
+              width: 100%;
+              /* ocupa toda largura */
+              height: auto;
+              background-color: transparent;
+         
+              /* respiro lateral */
+          }
+    
+          .filosofy12 {
+              width: 100%;
+              height: auto;
+              background-color: transparent;
+              display: flex;
+              flex-direction: column;
+              /* coloca os 3 cards um abaixo do outro */
+              align-items: center;
+              gap: 1rem;
+              
+          }
+    
+          .filosofy12>* {
+              width: 100%;
+              /* cada card ocupa largura total */
+              text-align: center;
+              /* centraliza conteúdo */
+          }
+
+                  
+}

@@ -1,0 +1,146 @@
+.contact {
+    background-color: black;
+
+    width: 100%;
+
+}
+
+/* texto acima dos cards */
+.aboutText {
+    min-height: 7rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.aboutText span {
+    width: 41.9375rem;
+    max-width: 90%;
+    text-align: center;
+}
+
+/* WRAPPER principal: esquerda (Arrive+Mapa) + direita (Cards) */
+.CardsMetricMap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3.75rem;
+    width: 100%;
+
+    margin-bottom: 2rem;
+}
+
+/* Coluna esquerda */
+.MapArrive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+
+    width: 27.4375rem;
+    min-height: 38.1875rem;
+    flex: 0 0 27.4375rem;
+    /* largura fixa no desktop */
+}
+
+/* Mapa responsivo nas medidas pedidas */
+.Map {
+    width: 100%;
+    max-width: 27.4375rem;
+    height: auto;
+    aspect-ratio: 439 / 360;
+    border: 1px solid #D59532;
+}
+
+/* Coluna direita */
+.CardsMetric {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    width: 28.4375rem;
+    max-width: 28.4375rem;
+    flex: 0 0 28.4375rem;
+    background-color: black;
+}
+
+/* Lista de InformationCard */
+.Cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    background-color: black;
+}
+
+/* Métricas — só flex */
+.MetricCard {
+    display: flex;
+    flex-wrap: wrap;
+    /* permite quebrar linha */
+    gap: 1.25rem;
+    width: 100%;
+    background-color: black;
+  
+}
+
+
+
+/* <= 23.5rem (376px): mobile pequeno */
+@media (max-width: 23.5rem) {
+    .contact {
+        width: 100%;
+     
+        /* gutters menores */
+    }
+
+    .aboutText span {
+        max-width: 100%;
+    }
+
+    .CardsMetricMap {
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+              width: 100%;
+       
+    }
+.MetricCard {
+    display: flex;
+    flex-wrap: wrap;
+    /* permite quebrar linha */
+    gap: 1.25rem;
+    width: 100%;
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/* Coluna esquerda */
+.MapArrive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    width: 343px;
+  
+}
+
+.CardsMetric {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    width: 343px;
+   
+
+}
+   
+}

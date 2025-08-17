@@ -1,0 +1,154 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 22.625rem;
+    padding: 1rem 1.25rem 1.25rem;
+    border: 1px solid #D59532;
+    border-radius: 0.75rem;
+    background: #1C2431;
+    box-sizing: border-box;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Barra de progresso (topo) */
+.progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 3px;
+    width: 100%;
+    background: rgba(213, 149, 50, 0.18);
+}
+
+.progressFill {
+    height: 100%;
+    width: 0%;
+    background: #D59532;
+    transition: width 100ms linear;
+}
+
+/* Depoimento */
+.quote {
+    display: block;
+    text-align: center;
+    color: #F2F2F2;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(1rem, 1.2vw + 0.9rem, 1.25rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.6;
+    padding: 0 0.25rem;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    position: relative;
+}
+
+.quote::before,
+.quote::after {
+    position: relative;
+    top: -0.05em;
+    font-size: 1.4em;
+    line-height: 0;
+    color: #D59532;
+    font-style: normal;
+}
+
+.quote::before {
+    content: "“";
+    margin-right: 0.15em;
+}
+
+.quote::after {
+    content: "”";
+    margin-left: 0.15em;
+}
+
+/* Nome */
+.author {
+    display: block;
+    text-align: center;
+    color: #D59532;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 0 1rem;
+}
+
+/* Serviço */
+.service {
+    display: block;
+    text-align: center;
+    color: #D1D5DB;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.4;
+    padding: 0 1rem;
+}
+
+/* Localização */
+.location {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    width: 20%;
+    max-width: 20%;
+    border-top: 1px solid #D59532;
+    color: #D1D5DB;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.locationContent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: auto;
+    height: auto;
+}
+
+/* ===== Mobile até 23.5rem (376px) ===== */
+@media (max-width: 23.5rem) {
+    .container {
+        max-width: 100%;
+        width: 100%;
+        padding: 1rem 1rem 1.1rem;
+        gap: 0.75rem;
+    }
+
+    .quote {
+        font-size: clamp(0.98rem, 2.8vw + 0.7rem, 1.125rem);
+        line-height: 1.6;
+        padding: 0 0.1rem;
+    }
+
+    .author {
+        font-size: 0.95rem;
+        /* um pouco maior e legível */
+    }
+
+    .service {
+        font-size: 0.85rem;
+    }
+
+    .location {
+        width: 50%;
+        /* mais larga no mobile para caber bem */
+        max-width: 50%;
+        font-size: 0.8rem;
+        padding-top: 0.6rem;
+        margin-top: 0.3rem;
+    }
+}

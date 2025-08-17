@@ -1,0 +1,59 @@
+/* TitleServices.module.css */
+.container {
+    display: flex;
+    height: 5.375rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    width: 78rem;
+
+    color: #F2F2F2;
+    text-align: center;
+    font-family: "Playfair Display";
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+/* quando usares variant="highlight" no TitleServices */
+.highlight {
+    display: flex;
+    height: 4.75rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    width: 34.75rem;
+
+    color: #F2F2F2;
+    text-align: center;
+    font-family: "Playfair Display";
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+/* MOBILE ≤ 375px */
+@media (max-width: 23.5rem) {
+
+    .container,
+    .highlight {
+        display: flex;
+        width: 21.4375rem;
+        
+        height: 2.875rem;
+        justify-content: center;
+        align-items: center;
+        gap: 0.625rem;
+
+    color: #F2F2F2;
+    
+        text-align: center;
+        font-family: "Playfair Display";
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+}

@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  max-width: 90%;
+  /* em vez de 78rem */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 6rem;
+  /* espaçamento fixo e consistente */
+  margin-right: 6rem;
+}
+
+@media (max-width: 23.5rem) {
+
+  /* 376px */
+  .container {
+    max-width: 90%;
+    /* em vez de 21.4375rem */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 1.03125rem;
+    margin-right: 1.03125rem;
+    background-color: black;
+  }
+}

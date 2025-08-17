@@ -1,0 +1,77 @@
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 22.4375rem;
+    height: 10.5625rem;
+    background: black;
+}
+
+/* logo + tagline: texto centrado com o logo */
+.logoTagline {
+    display: flex;
+    align-items: center;
+    /* mantém o texto no meio do logo */
+    gap: 0.625rem;
+    height: auto;
+    margin: 0 0 0.75rem;
+   
+    transform: translateY(-1.27rem);
+  
+}
+
+.logoWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.1875rem;
+    height: 4.1875rem;
+}
+
+.logoImg {
+    width: 3.5rem;
+    height: 3.5rem;
+    aspect-ratio: 1/1;
+}
+
+/* Texto descritivo */
+.text {
+    display: flex;
+  
+    height: 6.375rem;
+    gap: 0.625rem;
+}
+
+.textspan {
+    color: #d1d5db;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-align: left;
+}
+
+@media (max-width: 23.5rem) {
+    .info {
+        width: 100%;
+        height: auto;
+        align-items: center;
+    }
+
+    .logoTagline {
+        justify-content: center;
+        /* logo + texto centrados */
+        margin: 0 0 0.75rem;
+    }
+
+    .text {
+        justify-content: center;
+        height: auto;
+    }
+
+    .textspan {
+        text-align: center;
+        /* igual ao mock */
+    }
+}

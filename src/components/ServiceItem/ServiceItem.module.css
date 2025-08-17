@@ -1,0 +1,118 @@
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.625rem;
+    /* 10px entre bullet e texto */
+    height: 1.5rem;
+    /* 24px */
+    padding-left: 0.625rem;
+    /* 10px */
+    padding-right: 0.5rem;
+    /* 8px */
+    border: 0.0625rem solid #D59532;
+    /* 1px */
+    border-radius: 9999px;
+    /* pill */
+    background: transparent;
+    box-sizing: border-box;
+    min-width: 0;
+    /* importante p/ truncar texto em containers flex */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* suavidade */
+    cursor: pointer;
+}
+
+/* Hover geral */
+.item:hover {
+    background-color: #D59532;
+    color: #F2F2F2;
+}
+
+.item:hover .text {
+    color: #F2F2F2;
+}
+
+.item:hover .bullet {
+    background-color: #F2F2F2;
+}
+
+/* Variantes (mantidas para quem usa standalone no desktop) */
+.primary {
+    width: 17.34375rem;
+    /* 277.5px */
+    max-width: 100%;
+}
+
+.secondary {
+    width: 14.25rem;
+    /* 228px */
+    max-width: 100%;
+}
+
+/* Círculo (bullet) */
+.bullet {
+    width: 0.375rem;
+    /* 6px */
+    height: 0.375rem;
+    /* 6px */
+    border-radius: 50%;
+    background-color: #D59532;
+    flex: 0 0 auto;
+    transition: background-color 0.3s ease;
+}
+
+/* Texto */
+.text {
+    color: #D1D5DB;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.875rem;
+    /* 14px */
+    font-weight: 500;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+/* ===== MOBILE (≤ 375px) ===== */
+@media (max-width: 23.5rem) {
+    .item {
+        height: 1.0625rem;
+        /* 17px (Figma) */
+        padding-left: 0.5rem;
+        /* 8px */
+        padding-right: 0.5rem;
+        /* 8px */
+        gap: 0.5rem;
+        /* 8px */
+        width: 100%;
+        /* ocupa a coluna dada pelo pai */
+    }
+
+    /* variantes: não travar largura no mobile */
+    .primary,
+    .secondary {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .bullet {
+        width: 0.3125rem;
+        /* 5px */
+        height: 0.3125rem;
+        /* 5px */
+        flex-shrink: 0;
+    }
+
+    .text {
+        font-size: 0.75rem;
+        /* 12px */
+        line-height: 1;
+        /* sem espaço extra */
+        white-space: nowrap;
+        /* não quebra para 2 linhas */
+        overflow: hidden;
+        /* esconde excedente */
+        text-overflow: ellipsis;
+        /* … */
+    }
+}

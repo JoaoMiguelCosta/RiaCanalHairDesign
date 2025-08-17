@@ -1,0 +1,76 @@
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* igual para todos */
+    min-height: 10.5625rem;
+ 
+    width: 7.8125rem;
+}
+
+/* Título */
+.title {
+    color: #D59532;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 0.75rem;
+    
+    
+}
+
+/* Lista de ícones */
+.icons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.item {
+    display: flex;
+}
+
+.iconLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+/* Ícones (tamanho conforme pedido) */
+.icon {
+    width: 1.375rem;
+    height: 1.375rem;
+    aspect-ratio: 1 / 1;
+    color: #D1D5DB;
+    transition: color 0.3s ease;
+}
+
+.iconLink:hover .icon,
+.iconLink:focus .icon {
+    color: #D59532;
+}
+
+@media (max-width: 23.5rem) {
+    .info {
+        width: 100%;
+        height: auto;
+        align-items: start;
+        min-height: 4rem;
+       
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .icons {
+        justify-content: center;
+        /* ícones centrados */
+    }
+}

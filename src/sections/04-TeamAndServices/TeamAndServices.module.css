@@ -1,0 +1,386 @@
+.teamandservices {
+    width: 78rem;
+    height: auto;
+}
+
+/* --- topo / texto --- */
+.aboutText {
+    height: 7rem;
+    width: 78rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.aboutText span {
+    width: 41.9375rem;
+    height: 2.5rem;
+}
+
+/* --- equipa --- */
+.HairDressers {
+    width: 78rem;
+    height: 24.1875rem;
+    display: flex;
+    padding: 2.125rem 6.40625rem;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 6.25rem;
+    background-color: black;
+}
+
+.HairDressersingle {
+    display: flex;
+    width: 17.5625rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 19.9395rem;
+}
+
+.myImageContainer {
+    border: 1px solid #D59532;
+    display: flex;
+    width: 17.5625rem;
+    height: 15.9375rem;
+}
+
+.myImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- botão portfólio --- */
+.HairdresserBottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.625rem;
+    background-color: black;
+    width: 78rem;
+}
+
+.button {
+    display: flex;
+    width: 12.625rem;
+    height: 2.625rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+    background: transparent;
+    /* fundo transparente */
+    color: #D59532;
+    /* texto na cor dourada */
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.125rem;
+    border: 0.0625rem solid #D59532;
+    /* borda dourada */
+   
+    /* pill */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover igual aos serviços */
+.button:hover {
+    background-color: #D59532;
+    color: #F2F2F2;
+}
+/* --- título + lista serviços --- */
+.HairdresserTitle {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    width: 78rem;
+    height: 18rem;
+}
+
+/* LISTA DE SERVIÇOS (flex) */
+.HairdresserServices {
+    display: flex;
+    flex-wrap: wrap;
+    /* permite quebrar linhas */
+    gap: 1.4375rem 30px;
+    /* row-gap / column-gap */
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 78rem;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    height: auto;
+    background: transparent;
+}
+
+/* ===== Blocos reutilizáveis (foto + serviços) ===== */
+.others {
+    display: flex;
+    height: 25rem;
+    width: 78rem;
+    padding: 0 3.75rem;
+    justify-content: center;
+    align-items: center;
+    gap: 3.75rem;
+    border-top: 0.5px solid #D59532;
+    
+    background-color: black;
+}
+
+.others1 {
+    display: flex;
+    width: 32rem;
+    height: 22.5rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    background-color: black;
+}
+
+.others2 {
+    display: flex;
+    width: 34.75rem;
+    padding-bottom: 2.375rem;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: 22.5rem;
+    background-color: black;
+}
+
+/* lista em 2 colunas com gap de 100px (desktop) */
+.EsteticaAdvanced {
+    width: 34.75rem;
+    /* 556px */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 100px;
+    /* row-gap | column-gap */
+    align-items: flex-start;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.EsteticaAdvanced>* {
+    flex: 0 0 calc((100% - 100px) / 2);
+}
+
+
+
+/* Desktop: Elisa invertida (serviços à esquerda, foto à direita) */
+
+
+/* ====================== MOBILE ====================== */
+@media (max-width: 23.5rem) {
+    /* 375px */
+
+    .teamandservices {
+        width: 100%;
+        max-width: 23.4375rem;
+        /* 375px */
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .aboutText {
+        width: 100%;
+        text-align: center;
+    }
+
+    .aboutText span {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .HairDressers {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        background-color: black;
+        padding: 0 0.625rem;
+        box-sizing: border-box;
+    }
+
+    .HairDressersingle {
+        width: 100%;
+        max-width: 17.5625rem;
+        /* 281px */
+        height: auto;
+        gap: .75rem;
+    }
+
+    .myImageContainer {
+        width: 100%;
+        max-width: 17.5625rem;
+        aspect-ratio: 281 / 233;
+        height: auto;
+        border: 0.0625rem solid #D59532;
+        overflow: hidden;
+    }
+
+    .HairdresserBottom {
+        height: 3.625rem;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.625rem;
+        flex-shrink: 0;
+        width: 100%;
+        /* 375px */
+    }
+
+    .button {
+        width: 10.3125rem;
+        height: 2.25rem;
+        font-size: 0.875rem;
+    }
+
+    .HairdresserTitle {
+        width: 100%;
+        height: auto;
+        padding: 0 0.625rem;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        box-sizing: border-box;
+    }
+
+    /* Lista de cabeleireiro: 2 colunas no mobile */
+    .HairdresserServices {
+        width: 100%;
+        height: auto;
+        background: transparent;
+        display: flex;
+        flex-wrap: wrap;
+        /* quebra de linha */
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0.75rem 0.5rem;
+        /* row-gap 12px, col-gap 8px */
+        padding: 0 0.5rem;
+        box-sizing: border-box;
+    }
+
+    /* 2 itens por linha */
+    .HairdresserServices>* {
+        flex: 0 0 calc((100% - 0.5rem) / 2);
+        /* 2 colunas => 1 gap de 8px */
+    }
+
+    /* Os dois ÚLTIMOS ocupam a linha inteira (um por linha) */
+    .HairdresserServices>*:nth-last-child(-n+2) {
+        flex-basis: 100%;
+    }
+
+    /* ===== Estética (Sabrina/Elisa/Mary) ===== */
+    .others {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        max-width: 21.4375rem;
+        /* 343px */
+        height: auto;
+        margin: 1.5rem auto 0;
+        /* respiro em cima */
+        padding: 0;
+        border-top: 0.5px solid #D59532;
+        
+        background: transparent;
+    }
+
+    .others1 {
+        width: 100%;
+        max-width: 21.4375rem;
+        /* 343px */
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.625rem;
+        background: transparent;
+    }
+
+    /* Foto — largura total do frame */
+    .others1 .myImageContainer {
+        width: 100%;
+        max-width: 21.4375rem;
+        /* 343px */
+        aspect-ratio: 343 / 239;
+        height: auto;
+        border: 1px solid #D59532;
+        overflow: hidden;
+    }
+
+    .others2 {
+        width: 100%;
+        max-width: 21.4375rem;
+        /* 343px */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        /* espaço entre botão, título e lista */
+        padding: 0;
+        height: auto;
+        background: transparent;
+    }
+
+    /* Lista 2 colunas (mobile) — cálculo estável */
+    .EsteticaAdvanced {
+        width: 100%;
+        max-width: 21.4375rem;
+        /* 343px */
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 0.75rem;
+        /* 12px */
+        column-gap: 0.5rem;
+        /* 8px */
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+    }
+
+    /* 2 por linha: 50% - metade do gap (4px) */
+    .EsteticaAdvanced>* {
+        flex: 0 0 calc(50% - 0.25rem);
+        /* 0.25rem = 4px */
+        max-width: calc(50% - 0.25rem);
+    }
+
+    /* Sabrina: último full-width */
+    .isSabrina>*:last-child {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+
+    /* Elisa: último full-width */
+    .isElisa>*:last-child {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+
+    /* Mary: manter 2x2 (nenhum full-width) */
+    .isMary>*:last-child {
+        flex-basis: calc(50% - 0.25rem);
+        max-width: calc(50% - 0.25rem);
+    }
+
+    /* Elisa no mobile: foto em cima, serviços em baixo */
+    .others.isElisaContainer {
+        flex-direction: column-reverse !important;
+    }
+}

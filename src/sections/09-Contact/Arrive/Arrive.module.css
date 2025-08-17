@@ -1,0 +1,76 @@
+.Arrive {
+    display: flex;
+    height: 15.625rem;
+    padding: 2.75rem 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+/* Título */
+.title {
+    display: flex;
+  
+    align-items: center;
+    align-self: stretch;
+
+    color: #f2f2f2;
+    font-family: "Playfair Display", serif;
+    font-size: 1.375rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    /* remove margens padrão do h2 */
+}
+
+/* Parágrafo introdutório */
+.intro {
+    display: flex;
+    height: 3.1875rem;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+    align-self: stretch;
+
+    color: #f2f2f2;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+}
+
+/* Linhas "Label: Valor" */
+.row {
+    display: flex;
+    height: 2.3125rem;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+    align-self: stretch;
+
+    margin: 0;
+}
+
+/* “Estacionamento:”, “Transportes:”, “Centro:” — a laranja */
+.label {
+    color: #d59532;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+/* Valor em branco */
+.value {
+    color: #f2f2f2;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;}

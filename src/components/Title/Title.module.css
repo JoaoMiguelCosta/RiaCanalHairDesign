@@ -1,0 +1,54 @@
+.default,
+.highlight {
+    height: 5.4375rem;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Apenas o alinhamento muda entre os dois */
+.default {
+    align-items: start;
+}
+
+.highlight {
+    align-items: center;
+
+}
+
+.span1,
+.span2 {
+    color: #F2F2F2;
+    text-align: center;
+    font-family: "Playfair Display";
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.span1 {
+    font-style: normal;
+    line-height: 1.1;
+}
+
+.span2 {
+    font-style: italic;
+    line-height: 1.1;
+}
+
+/* Responsivo */
+@media (max-width: 23.5rem) {
+
+    .default,
+    .highlight {
+        height: 3.625rem;
+       
+    }
+
+    .span1,
+    .span2 {
+        font-size: 1.375rem;
+       
+    }
+}

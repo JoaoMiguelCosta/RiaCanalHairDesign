@@ -1,0 +1,46 @@
+.caption {
+
+color: #D1D5DB;
+    font-family: Montserrat;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+    .title {color: #D59532;
+        text-align: center;
+        font-family: "Playfair Display";
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+       
+        
+    }
+
+                @media (max-width: 23.5rem) {
+        .caption {
+            color: #D1D5DB;
+            
+                font-family: Montserrat;
+                font-size: 0.625rem;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+            }
+
+                          .title {
+                        color: #D59532;
+                            
+                                text-align: center;
+                                font-family: "Playfair Display";
+                                font-size: 1.25rem;
+                                font-style: normal;
+                                font-weight: 500;
+                                line-height: normal;
+                          }
+                
+        
+                  
+                }

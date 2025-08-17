@@ -1,0 +1,155 @@
+.instagram {
+    width: 100%;
+    height: auto;
+}
+
+/* Texto central */
+.aboutText {
+    height: 7rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.aboutText span {
+    width: 41.9375rem;
+    height: 2.5rem;
+    text-align: center;
+}
+
+/* Botões do Instagram */
+.instagramButton,
+.instagramFollowButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 3.125rem;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+/* Botão principal do Instagram */
+.instagramButton {
+    width: 18rem;
+    height: 2.3125rem;
+    border: 1px solid #D59532;
+    color: #D59532;
+    background: transparent;
+    font-size: 1.25rem;
+}
+
+.instagramButton:hover {
+    background-color: #D59532;
+    color: #fff;
+}
+
+/* Botão "Seguir no Instagram" */
+.instagramFollowButton {
+    padding: 0.875rem 1.3125rem;
+    background-color: #D59532;
+    border: none;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #F2F2F2;
+    letter-spacing: 0.125rem;
+}
+
+.instagramFollowButton:hover {
+    background-color: #b37c26;
+    /* laranja mais escuro */
+}
+
+/* Agrupamento dos botões */
+.buttoninsta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    background-color: black;
+    padding: 0.8125rem 0;
+}
+
+/* Detalhes/estatísticas */
+.detalhes {
+    display: flex;
+    width: 100%;
+    height: 4.9375rem;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+/* Seguidores */
+.seguir {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    height: 4.375rem;
+}
+
+/* Hashtags */
+.hashtags {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.125rem;
+    color: #D59532;
+    background-color: black;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.09375rem;
+}
+
+.hashtags span {
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.hashtags span:hover {
+    color: #b37c26;
+    /* laranja mais escuro */
+}
+
+/* Responsivo */
+@media (max-width: 23.5rem) {
+    .instagram {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+    }
+
+    .aboutText span {
+        width: 100%;
+        max-width: 20rem;
+    }
+
+    .detalhes {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        height: auto;
+    }
+
+    .hashtags {
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+        width: 100%;
+        max-width: 20.5rem;
+        margin: 0 auto;
+        padding: 0.5rem 0;
+        height: auto;
+    }
+}
