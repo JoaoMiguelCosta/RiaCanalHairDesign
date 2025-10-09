@@ -1,0 +1,9 @@
+[
+  { "label": "Início", "href": "#Start" },
+  { "label": "Clientes", "href": "#Testimonials" },
+  { "label": "Sobre Nós", "href": "#AboutUs" },
+  { "label": "Instagram", "href": "#Instagram" },
+  { "label": "Espaço", "href": "#Space" },
+  { "label": "Contactos", "href": "#Location" },
+  { "label": "Portfólio", "href": "#Works" }
+]

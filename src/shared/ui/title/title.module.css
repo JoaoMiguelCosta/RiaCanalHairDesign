@@ -1,0 +1,74 @@
+/* container comum */
+.default,
+.highlight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+
+    /* tirar alturas fixas */
+    height: auto;
+    padding: clamp(12px, 3vw, 28px) 0;
+
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    /* h1 tem margin por defeito */
+}
+
+/* alinhamentos (mantidos) */
+.default {
+    align-items: flex-start;
+}
+
+.highlight {
+    align-items: center;
+}
+
+/* linhas */
+.span1,
+.span2 {
+    color: #F2F2F2;
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    line-height: 1.15;
+    display: block;
+
+    /* tamanho fluído: ~1.375rem (mob) → 2.25rem (desk) */
+    font-size: clamp(1.375rem, 2vw + 1rem, 2.25rem);
+
+    /* leitura estável e sem cortes */
+    text-align: center;
+    /* centra por defeito... */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* …e herdamos o alinhamento do container */
+.default .span1,
+.default .span2 {
+    text-align: left;
+}
+
+.highlight .span1,
+.highlight .span2 {
+    text-align: center;
+}
+
+/* variações de estilo (mantidas) */
+.span1 {
+    font-style: normal;
+}
+
+.span2 {
+    font-style: italic;
+}
+
+/* (opcional) preferências de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+
+    .default,
+    .highlight {
+        scroll-behavior: auto;
+    }
+}

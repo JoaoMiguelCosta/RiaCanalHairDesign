@@ -1,0 +1,69 @@
+/* tokens locais (evita números mágicos) */
+:root {
+    --card-maxw: 18rem;
+    --gap: 0.625rem;
+    --pad: clamp(8px, 2.2vw, 16px);
+    --pad-sm: clamp(8px, 3vw, 14px);
+
+    --title-fs: clamp(1rem, 2.5vw + 0.2rem, 1.25rem);
+    --text-fs: clamp(0.85rem, 1.6vw, 0.95rem);
+
+    --title-color: #f2f2f2;
+    --text-color: #d1d5db;
+}
+
+/* wrapper */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: min(100%, var(--card-maxw));
+    padding: var(--pad);
+    box-sizing: border-box;
+    gap: clamp(6px, 1.6vw, 10px);
+}
+
+/* linhas com estrutura idêntica: título e texto */
+:is(.title, .text) {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    align-self: stretch;
+    margin: 0;
+    /* evita empurrões extras */
+}
+
+/* título */
+.title {
+    color: var(--title-color);
+    font-family: "Playfair Display";
+    font-weight: 700;
+    line-height: 1.2;
+    font-size: var(--title-fs);
+    /* altura fixa removida (mantém o mesmo resultado visual, mas responsivo) */
+}
+
+/* texto */
+.text {
+    color: var(--text-color);
+    font-family: Montserrat;
+    font-weight: 500;
+    line-height: 1.5;
+    font-size: var(--text-fs);
+    overflow-wrap: anywhere;
+    /* evita overflow em ecrãs estreitos */
+    /* widths/heights fixos removidos */
+}
+
+/* mobile (≤ 376px) */
+@media (max-width: 23.5rem) {
+    .card {
+        width: 100%;
+        padding: var(--pad-sm);
+        /* ocupa a coluna toda em mobile */
+    }
+
+    /* .title e .text já são fluidos e sem alturas fixas */
+}

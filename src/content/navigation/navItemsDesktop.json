@@ -1,0 +1,9 @@
+[
+  { "label": "INÍCIO", "href": "#Start" },
+  { "label": "SOBRE NÓS", "hasDropdown": true },
+  { "label": "PORTFÓLIO", "hasDropdown": true },
+  { "label": "ESPAÇO", "href": "#Space" },
+  { "label": "INSTAGRAM", "href": "#Instagram" },
+  { "label": "CLIENTES", "hasDropdown": true },
+  { "label": "CONTACTOS", "hasDropdown": true }
+]

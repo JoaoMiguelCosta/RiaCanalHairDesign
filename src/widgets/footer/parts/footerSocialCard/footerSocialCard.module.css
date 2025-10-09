@@ -1,0 +1,61 @@
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: auto;
+    width: min(100%, 7.8125rem);
+}
+
+.title {
+    color: #D59532;
+    font: 500 1.125rem/1 "Montserrat", sans-serif;
+    margin: 0 0 .75rem;
+}
+
+.icons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.item {
+    display: flex;
+}
+
+.iconLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.icon {
+    width: 1.375rem;
+    height: 1.375rem;
+    aspect-ratio: 1/1;
+    color: #D1D5DB;
+    transition: color .3s;
+}
+
+.iconLink:hover .icon,
+.iconLink:focus .icon {
+    color: #D59532;
+}
+
+@media (max-width:23.5rem) {
+    .info {
+        width: 100%;
+        align-items: center;
+        min-height: 4rem;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .icons {
+        justify-content: center;
+    }
+}

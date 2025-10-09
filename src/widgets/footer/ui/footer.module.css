@@ -1,0 +1,113 @@
+.footer {
+    width: 100%;
+    height: auto;
+    background-color: black;
+}
+
+/* título */
+.title {
+    /* antes: height fixa */
+    height: auto;
+    padding: clamp(12px, 3vw, 24px) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CTA */
+.talk {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(10px, 2.5vw, 20px) 0;
+}
+
+.talkButton {
+    /* deixa largura natural com mínimo */
+    width: auto;
+    min-width: clamp(12rem, 30vw, 17rem);
+    height: auto;
+    padding: clamp(10px, 2vw, 14px) clamp(16px, 3vw, 20px);
+    background: #D59532;
+    color: #F2F2F2;
+    border: none;
+    border-radius: .25rem;
+    text-align: center;
+    font: 600 1.25rem/1 Montserrat, sans-serif;
+    letter-spacing: .125rem;
+    cursor: pointer;
+    transition: background .3s, transform .2s;
+}
+
+.talkButton:hover {
+    background: #c17f28;
+    transform: scale(1.05);
+}
+
+/* cartões */
+.cards {
+    display: flex;
+    width: 100%;
+    max-width: 78rem;
+    /* content width */
+    margin-inline: auto;
+    height: auto;
+    /* antes: height fixa */
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(16px, 5vw, 3.75rem);
+    padding: clamp(14px, 3vw, 24px) 0;
+    background-color: black;
+    border-top: .5px solid #D59532;
+    flex-wrap: wrap;
+    /* ✅ quebra em tablets */
+}
+
+@media (max-width: 414px) and (min-width: 376px) {
+    .cards {
+        flex-direction: column;
+        align-items: flex-start;
+        /* 👈 força alinhamento à esquerda */
+        gap: 1.5rem;
+        padding: 1.25rem 0;
+    }
+
+    .cards>* {
+        width: 100% !important;
+        text-align: left;
+        /* 👈 garante que os textos/links ficam alinhados à esquerda */
+    }
+}
+
+@media (max-width: 23.5rem) {
+    .title {
+        padding: .75rem 0;
+        text-align: center;
+    }
+
+    .talk {
+        gap: .5rem;
+        padding: .5rem 0 1rem;
+    }
+
+    .talkButton {
+        width: 100%;
+        height: 3.25rem;
+        font-size: 1rem;
+        letter-spacing: .075rem;
+    }
+
+    .cards {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.25rem 0;
+    }
+
+    .cards>* {
+        width: 100% !important;
+        height: auto !important;
+    }
+}

@@ -1,0 +1,59 @@
+/* container variantes */
+.default,
+.highlight {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    align-self: stretch;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: 0.03125rem solid #D59532;
+    margin-top: clamp(16px, 3vw, 32px);
+   
+}
+
+/* mantém o fundo só na default, como já tinhas */
+.default {
+    background-color: #000;
+    /* em vez de height fixa: padding fluído */
+    padding: clamp(12px, 3vw, 28px) 0;
+}
+
+.highlight {
+    background-color: transparent;
+    padding: clamp(8px, 2.2vw, 18px) 0;
+}
+
+/* texto */
+.quote {
+    color: #D59532;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.5;
+
+    /* largura flexível com limite — antes: width fixa */
+    width: 100%;
+    max-width: 40.375rem;
+
+    /* tamanho fluído — antes: 1rem fixo */
+    font-size: clamp(.9rem, 1.2vw + .2rem, 1.1rem);
+
+    /* remove alturas fixas para não cortar texto */
+    height: auto;
+    margin: 0;
+    /* blockquote tem margin por padrão */
+    padding: 0 .75rem;
+    /* pequeno respiro lateral */
+}
+
+/* Mobile (≤ 376px) — já fica fluído pelo clamp; só afinamos limite */
+@media (max-width: 23.5rem) {
+    .quote {
+        max-width: 21.5rem;
+        /* mantém o teu limite visual se quiseres */
+        line-height: 1.45;
+    }
+}

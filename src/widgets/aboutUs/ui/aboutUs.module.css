@@ -1,0 +1,271 @@
+/* =========================
+   Cleaned CSS (mesmo visual)
+   ========================= */
+
+/* Tokens (evita números mágicos espalhados) */
+:root {
+    --maxW: min(100%, 78rem);
+    --gap-s: clamp(8px, 2vw, 16px);
+    --gap-m: clamp(12px, 4vw, 20px);
+    --gap-l: clamp(16px, 3vw, 32px);
+    --gap-xl: clamp(16px, 6vw, 7rem);
+
+    --pad-x: clamp(16px, 4vw, 32px);
+    --pad-y: clamp(16px, 4vw, 32px);
+    --pad-y-2: clamp(16px, 4vw, 28px);
+
+    --min-col: 260px;
+    --gold: #D59532;
+
+    --img-aspect: 281 / 233;
+    --img-max-h: clamp(18rem, 50vh, 36rem);
+    --radius-xl: 18px;
+}
+
+/* === Base (Desktop First) === */
+.aboutus {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    /* centra o bloco interno */
+}
+
+/* Bloco 1 (texto + foto) */
+.aboutus1 {
+    width: var(--maxW);
+    min-height: 26.125rem;
+    display: flex;
+    flex-direction: row;
+    gap: var(--gap-l);
+    padding-inline: var(--pad-x);
+    padding-block: var(--pad-y);
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    /* mantém o wrap para telas estreitas */
+}
+
+/* Bloco 2 (cards Missão/Visão/Valores) */
+.aboutus2 {
+    background-color: black;
+    width: var(--maxW);
+    padding: var(--pad-y-2) var(--pad-x);
+    border-top: 0.065rem solid var(--gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-xl);
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+/* Coluna esquerda (texto) e containers com fundo preto */
+.aboutleft,
+.aboutright,
+.aboutright1,
+.statCards {
+    background-color: black;
+}
+
+.aboutleft {
+    flex: 1 1 24rem;
+    min-width: var(--min-col);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-s);
+}
+
+.aboutright {
+    flex: 1.25 1 clamp(22rem, 38vw, 44rem);
+    min-width: var(--min-col);
+    padding: 0 clamp(12px, 2.4vw, 38px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.aboutright1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: clamp(28rem, 52vw, 46rem);
+    min-height: 12rem;
+    flex-shrink: 0;
+}
+
+.aboutText {
+    width: 100%;
+    max-width: 40.3125rem;
+    min-width: 0;
+    height: auto;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.statCards {
+    display: flex;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(12px, 6vw, 6.25rem);
+    flex-wrap: wrap;
+}
+
+/* ====== Imagem maior + realce visual ====== */
+.myImageContainer {
+    position: relative;
+    display: flex;
+    width: 100%;
+    aspect-ratio: var(--img-aspect);
+    max-height: var(--img-max-h);
+    background: #0b0b0b;
+    border: 0.0625rem solid var(--gold);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .35), 0 2px 6px rgba(0, 0, 0, .25);
+    overflow: clip;
+}
+
+/* elementos decorativos da imagem */
+.myImageContainer::before,
+.myImageContainer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.myImageContainer::before {
+    background: radial-gradient(120% 90% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .18) 100%);
+    mix-blend-mode: multiply;
+    opacity: .55;
+}
+
+.myImageContainer::after {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .28) 100%);
+}
+
+.myImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+    filter: brightness(1.06) contrast(1.08) saturate(1.10);
+    transform: translateZ(0);
+    transition:
+        transform .6s cubic-bezier(.22, .61, .36, 1),
+        filter .6s cubic-bezier(.22, .61, .36, 1);
+    will-change: transform, filter;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .myImageContainer:hover .myImage {
+        transform: scale(1.035);
+        filter: brightness(1.10) contrast(1.12) saturate(1.14);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .myImage {
+        transition: none;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .myImageContainer {
+        box-shadow: 0 14px 34px rgba(0, 0, 0, .5), 0 3px 10px rgba(0, 0, 0, .35);
+    }
+}
+
+.customCaptionContainer {
+    display: flex;
+    min-height: 2.5rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    padding-inline: clamp(8px, 2vw, 16px);
+    text-align: center;
+}
+
+/* === Mobile Styles (≤ 23.5rem ≈ 376px) === */
+@media (max-width: 23.5rem) {
+
+    /* Mesmos width/height para múltiplos blocos */
+    .aboutus,
+    .aboutus1,
+    .aboutleft,
+    .aboutright,
+    .aboutright1,
+    .aboutus2,
+    .aboutText,
+    .statCards,
+    .customCaptionContainer {
+        width: 100%;
+        height: auto;
+    }
+
+    .aboutus {
+        align-items: center;
+    }
+
+    .aboutus1 {
+        flex-direction: column;
+        gap: var(--gap-m);
+        padding-inline: clamp(12px, 5vw, 16px);
+        padding-block: clamp(12px, 5vw, 20px);
+    }
+
+    .aboutleft {
+        align-items: flex-start;
+    }
+
+    .aboutright {
+        padding: 0;
+        gap: 0.625rem;
+    }
+
+    .aboutright1 {
+        max-width: 21.4375rem;
+    }
+
+    /* Imagem (regra única para container + imagem) */
+    .myImageContainer {
+        max-width: 21.4375rem;
+        aspect-ratio: var(--img-aspect);
+        max-height: none;
+        border: 0.0625rem solid var(--gold);
+        display: flex;
+        overflow: hidden;
+    }
+
+    .myImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .customCaptionContainer {
+        padding: 0.5rem 1rem;
+        text-align: center;
+    }
+
+    .aboutus2 {
+        border-top: none;
+        padding: 1rem 0;
+        gap: 1rem;
+    }
+
+    .aboutText {
+        padding: 0.5rem 0;
+    }
+
+    .statCards {
+        flex-direction: row;
+        gap: 1rem;
+    }
+}

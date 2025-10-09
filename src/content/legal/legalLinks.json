@@ -1,0 +1,17 @@
+[
+  {
+    "label": "João Miguel Costa",
+    "href": "https://www.linkedin.com/in/jo%C3%A3o-miguel-costa1/",
+    "external": true
+  },
+  {
+    "label": "Termos & Condições",
+    "href": "/termos",
+    "external": false
+  },
+  {
+    "label": "Política de Privacidade",
+    "href": "/privacidade",
+    "external": false
+  }
+]

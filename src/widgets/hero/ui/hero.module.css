@@ -1,0 +1,199 @@
+.hero {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    background-image: url("../../assets/Hero.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    width: 100%;
+    padding-block: clamp(24px, 8vw, 96px);
+    min-height: min(75vh, 920px);
+    /* altura mais enxuta no geral */
+    min-width: 0;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right,
+            rgb(0, 0, 0) 10%,
+            rgba(245, 149, 6, 0.2) 100%);
+    z-index: 0;
+}
+
+.hero>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* Linhas centrais */
+.logoWrapper,
+.Title1,
+.Title2,
+.phrase,
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.logoWrapper {
+    padding-block: clamp(8px, 3vw, 20px);
+}
+
+.logo {
+    width: 10rem;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoImg {
+    width: clamp(5rem, 10vw + 2rem, 10rem);
+    height: auto;
+}
+
+/* Títulos */
+.Title1 {
+    padding-block: clamp(4px, 1.2vw, 8px);
+}
+
+.Title1 span {
+    color: #f2f2f2;
+    text-align: center;
+    font-family: "Playfair Display";
+    font-size: clamp(1.25rem, 4vw + 0.25rem, 2.25rem);
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.Title2 {
+    padding-block: clamp(2px, 1vw, 6px);
+}
+
+.Title2 span {
+    color: #d59532;
+    text-align: center;
+    font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    font-size: clamp(1rem, 3.5vw + 0.2rem, 1.75rem);
+    font-weight: 600;
+    letter-spacing: clamp(0.06rem, 0.4vw, 0.175rem);
+}
+
+/* Frase */
+.phrase {
+    padding-block: clamp(6px, 1.6vw, 12px);
+}
+
+.phrase p {
+    color: #f2f2f2;
+    text-align: center;
+    font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    font-size: clamp(0.9rem, 2.2vw + 0.2rem, 1.25rem);
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Botões */
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(8px, 2.8vw, 24px);
+    padding-block: clamp(8px, 2.5vw, 20px);
+}
+
+.whatsappBtn,
+.instagramBtn,
+.locationBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    width: auto;
+    min-width: clamp(7.5rem, 22vw, 10.5rem);
+    height: auto;
+    padding: clamp(10px, 1.8vw, 14px) clamp(14px, 3.2vw, 20px);
+    border-radius: 3.125rem;
+    color: #f2f2f2;
+    background-color: transparent;
+    font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    font-size: clamp(0.85rem, 1.6vw, 1.125rem);
+    font-weight: 600;
+    text-align: center;
+    border: 0.0625rem solid #d59532;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    line-height: 1;
+}
+
+.whatsappBtn:hover,
+.instagramBtn:hover,
+.locationBtn:hover {
+    background-color: #d59532;
+    transform: scale(1.03);
+}
+
+/* === RESPONSIVO: imagem de fundo e altura === */
+
+/* Tablets e abaixo (evita bug do background fixed) */
+@media (max-width: 64rem) {
+    .hero {
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: top center;
+        min-height: 70vh;
+        /* menos alto que desktop */
+    }
+}
+
+/* Telemóveis grandes (<= 768px) — mostra mais da imagem sem cortar */
+@media (max-width: 48rem) {
+    .hero {
+        background-attachment: scroll;
+        background-size: contain;
+        /* mostra a imagem inteira */
+        background-position: center top;
+        background-repeat: no-repeat;
+        min-height: 65vh;
+    }
+}
+
+/* Telemóveis médios (<= 480px) — volta a cobrir para não sobrar bordas */
+@media (max-width: 30rem) {
+    .hero {
+        background-size: cover;
+        background-position: center;
+        background-attachment: scroll;
+        min-height: 60vh;
+    }
+}
+
+/* Telemóveis pequenos (<= 376px) — ainda mais compacto */
+@media (max-width: 23.5rem) {
+    .hero {
+        background-attachment: scroll;
+        padding-block: clamp(16px, 7vw, 28px);
+        min-height: 55vh;
+    }
+
+    .hero::before {
+        background: linear-gradient(to right,
+                rgb(0, 0, 0) 25%,
+                rgba(245, 149, 6, 0.2) 100%);
+    }
+
+    .whatsappBtn,
+    .instagramBtn,
+    .locationBtn {
+        min-width: clamp(5.75rem, 34vw, 7.5rem);
+        padding: clamp(8px, 2.4vw, 12px) clamp(10px, 3vw, 16px);
+    }
+}

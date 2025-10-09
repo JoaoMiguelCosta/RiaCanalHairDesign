@@ -1,0 +1,257 @@
+.space {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(12px, 3vw, 24px);
+}
+
+/* texto topo */
+.aboutText,
+.aboutText1 {
+    width: min(100%, 78rem);
+    height: auto;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: black;
+    box-sizing: border-box;
+}
+
+.aboutText span {
+    width: 60%;
+    height: auto;
+    text-align: left;
+    max-width: none;
+}
+
+/* ===== blocos ===== */
+.relax,
+.styling,
+.video {
+    width: min(100%, 78rem);
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    /* permite quebrar linha */
+    justify-content: center;
+    align-items: stretch;
+    background-color: black;
+    gap: var(--g, clamp(16px, 3vw, 32px));
+    padding-inline: clamp(12px, 4vw, 32px);
+    box-sizing: border-box;
+
+    /* aumenta a área dos cards (herdado pelos FacilityCard) */
+    --card-w: 100%;
+    --card-min-h: clamp(22rem, 34vw, 28rem);
+}
+
+/* ----- 1ª fila (relax) ----- */
+.relax {
+    --g: clamp(16px, 3vw, 32px);
+
+    /* ✅ sem corte nem zoom nas imagens desta fila */
+    --bg-size: contain;
+    --bg-zoom: 1;
+}
+
+/* 2 colunas por defeito (médio) */
+.relax>* {
+    flex: 0 1 calc((100% - (1 * var(--g))) / 2);
+    max-width: calc((100% - (1 * var(--g))) / 2);
+}
+
+/* 4 colunas no desktop */
+@media (min-width: 64rem) {
+
+    /* ~1024px */
+    .relax>* {
+        flex-basis: calc((100% - (3 * var(--g))) / 4);
+        max-width: calc((100% - (3 * var(--g))) / 4);
+    }
+}
+
+/* ----- 2ª fila (styling) ----- */
+.styling {
+    --g: clamp(16px, 3vw, 32px);
+
+    /* ✅ sem corte nem zoom nas imagens desta fila */
+    --bg-size: contain;
+    --bg-zoom: 1;
+}
+
+.styling>* {
+    flex: 0 1 calc((100% - (1 * var(--g))) / 2);
+    max-width: calc((100% - (1 * var(--g))) / 2);
+}
+
+/* vídeo mantém coluna única */
+.video {
+    flex-direction: column;
+}
+
+/* ---------- filosofia ---------- */
+.filosofy {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: clamp(12px, 3vw, 24px);
+}
+
+.filosofy1 {
+    width: min(100%, 78rem);
+    height: auto;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(12px, 3vw, 24px);
+    padding-inline: clamp(12px, 4vw, 32px);
+    box-sizing: border-box;
+}
+
+.filosofy11 {
+    flex: 1 1 28rem;
+    min-width: 260px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 2vw, 16px);
+}
+
+.filosofy12 {
+    flex: 1 1 28rem;
+    min-width: 260px;
+    height: auto;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filosofy12>* {
+    flex: 0 0 auto;
+}
+
+.filosofy12> :nth-child(1),
+.filosofy12> :nth-child(2) {
+    width: clamp(220px, 40%, 360px);
+}
+
+.filosofy12> :nth-child(3) {
+    width: 100%;
+    text-align: center;
+}
+
+/* ===== MOBILE (<= 23.5rem) ===== */
+@media (max-width: 23.5rem) {
+    .space {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: 1rem;
+    }
+
+    .aboutText {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+        text-align: center;
+    }
+
+    .aboutText span {
+        width: 100%;
+        height: auto;
+        display: block;
+        text-align: left;
+    }
+
+    /* 1 coluna no mobile */
+    .relax,
+    .styling {
+        padding-inline: .75rem;
+        --card-min-h: auto;
+        /* não força altura */
+    }
+
+    .relax>*,
+    .styling>* {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+
+    .video {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: black;
+        padding-inline: .75rem;
+    }
+
+    .filosofy {
+        height: auto;
+        width: 100%;
+        background-color: transparent;
+        flex-direction: column;
+    }
+
+    .filosofy1 {
+        height: auto;
+        width: 100%;
+        flex-direction: column;
+        gap: 1rem;
+        padding-inline: .75rem;
+    }
+
+    .filosofy11 {
+        width: 100%;
+        height: auto;
+        background-color: transparent;
+        flex: unset;
+    }
+
+    .filosofy12 {
+        flex: unset;
+        min-width: unset;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: transparent;
+        justify-content: flex-start;
+    }
+
+    .filosofy12>* {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ====== TABLET & TEL. GRANDES (>= 376px e < 1024px) ====== */
+@media (min-width: 23.5625rem) and (max-width: 64rem) {
+
+    /* permite que os FacilityCards herdem um mínimo mais baixo */
+    .relax,
+    .styling {
+        --card-min-h: clamp(18rem, 32vw, 24rem);
+    }
+
+    /* mantém 2 colunas com gap fluido */
+    .relax>*,
+    .styling>* {
+        flex: 0 1 calc((100% - (1 * var(--g))) / 2);
+        max-width: calc((100% - (1 * var(--g))) / 2);
+    }
+}

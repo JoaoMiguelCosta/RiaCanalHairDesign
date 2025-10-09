@@ -1,0 +1,63 @@
+/* Base para todos os textos */
+.base {
+    color: #D1D5DB;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+
+    font-size: clamp(.9rem, 0.25vw + .9rem, 1rem);
+    line-height: 1.6;
+
+    margin: 0;
+    margin-bottom: clamp(8px, 1.5vw, 16px);
+    /* 👈 espaçamento consistente abaixo de cada bloco */
+    width: 100%;
+    box-sizing: border-box;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Alinhamentos por variante */
+.default {
+    text-align: center;
+}
+
+.highlight {
+    text-align: left;
+}
+
+.centerMobile {
+    text-align: center;
+}
+
+/* Mobile: o default e o highlight alinham à esquerda (como já usavas) */
+@media (max-width: 23.5rem) {
+    .default {
+        text-align: left;
+    }
+
+    .highlight {
+        text-align: left;
+    }
+
+    /* .centerMobile mantém center */
+}
+
+/* ===== Helpers opcionais (usar via className) ===== */
+
+/* limita largura de leitura e centra em containers grandes */
+.narrow {
+    max-width: 42rem;
+    margin-inline: auto;
+}
+
+/* versão “lead” um pouco maior */
+.lead {
+    font-size: clamp(1rem, 0.6vw + 1rem, 1.125rem);
+}
+
+/* cor atenuada (ex.: notas) */
+.muted {
+    color: #9CA3AF;
+}

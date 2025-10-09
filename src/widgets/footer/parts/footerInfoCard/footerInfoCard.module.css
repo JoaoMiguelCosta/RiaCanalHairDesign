@@ -1,0 +1,74 @@
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: min(100%, 22.4375rem);
+    height: auto;
+    background: #000;
+   
+}
+
+/* link do logo */
+.logoLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+}
+
+/* logo + tagline alinhados à esquerda */
+.logoTagline {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin: 0 0 0.75rem;
+    height: auto;
+}
+
+.logoWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.1875rem;
+    height: 4.1875rem;
+}
+
+.logoImg {
+    width: 3.5rem;
+    height: 3.5rem;
+    aspect-ratio: 1/1;
+}
+
+
+
+.text {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.textspan {
+    color: #d1d5db;
+    font: 500 0.875rem/1.6 "Montserrat", sans-serif;
+    text-align: left;
+}
+
+/* --- responsivo --- */
+@media (max-width: 23.5rem) {
+    .info {
+        width: 100%;
+        align-items: center;
+    }
+
+    .logoTagline {
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .text {
+        justify-content: center;
+    }
+
+    .textspan {
+        text-align: center;
+    }
+}

@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: black;
+    flex-wrap: wrap;
+    /* se faltar espaço, quebra em 2 linhas */
+}
+
+/* Wrapper do logo */
+.logoWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    max-width: 6.5rem;
+    /* antes: 6.5625rem fixo */
+    width: clamp(2.5rem, 10vw, 6.5rem);
+}
+
+/* Imagem */
+.logoImg {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+/* --- Mobile (≤ 375px) --- */
+@media (max-width: 23.5rem) {
+    .container {
+        justify-content: flex-start;
+        gap: 0.75rem;
+        width: 100%;
+        /* herda do pai */
+    }
+
+    .logoWrapper {
+        max-width: 3rem;
+        width: clamp(2rem, 15vw, 3rem);
+    }
+
+    .logoImg {
+        max-width: 100%;
+    }
+}

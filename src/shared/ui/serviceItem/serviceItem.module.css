@@ -1,0 +1,126 @@
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: .625rem;
+    /* 10px entre bullet e texto */
+    padding: .375rem .5rem .375rem .625rem;
+    /* altura via padding */
+    border: .0625rem solid #D59532;
+    /* 1px */
+    border-radius: 9999px;
+    /* pill */
+    background: transparent;
+    box-sizing: border-box;
+    min-width: 0;
+    /* permite truncar se precisar */
+    transition: background-color .3s ease, color .3s ease;
+    cursor: default;
+    /* não-clicável por padrão */
+    inline-size: auto;
+    /* permite encolher/crescer */
+}
+
+/* Hover/focus estados */
+.item:hover {
+    background-color: #D59532;
+    color: #F2F2F2;
+}
+
+.item:hover .text {
+    color: #F2F2F2;
+}
+
+.item:hover .bullet {
+    background-color: #F2F2F2;
+}
+
+.item:focus-visible {
+    outline: 2px solid rgba(213, 149, 50, .7);
+    outline-offset: 2px;
+    border-color: #D59532;
+}
+
+/* Variantes — mantêm a “largura alvo”, mas nunca forçam */
+.primary {
+    inline-size: min(100%, 17.34375rem);
+    /* 277.5px alvo */
+}
+
+.secondary {
+    inline-size: min(100%, 14.25rem);
+    /* 228px alvo */
+}
+
+/* Círculo (bullet) */
+.bullet {
+    inline-size: .375rem;
+    block-size: .375rem;
+    /* 6px */
+    border-radius: 50%;
+    background-color: #D59532;
+    flex: 0 0 auto;
+    transition: background-color .3s ease;
+}
+
+/* Texto */
+.text {
+    color: #D1D5DB;
+    font-family: Montserrat, sans-serif;
+    font-size: .875rem;
+    /* 14px */
+    font-weight: 500;
+    line-height: 1;
+    transition: color .3s ease;
+
+    /* quebra elegante por defeito (melhor para colunas estreitas) */
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* ===== Preferências de movimento reduzido ===== */
+@media (prefers-reduced-motion: reduce) {
+    .item {
+        transition: none;
+    }
+
+    .bullet,
+    .text {
+        transition: none;
+    }
+}
+
+/* ===== MOBILE (≤ 376px) ===== */
+@media (max-width: 23.5rem) {
+    .item {
+        padding: .3rem .5rem;
+        /* compacto */
+        gap: .5rem;
+        inline-size: 100%;
+        /* ocupa a coluna do pai */
+    }
+
+    .primary,
+    .secondary {
+        inline-size: 100%;
+        /* nunca travar no mobile */
+    }
+
+    .bullet {
+        inline-size: .3125rem;
+        block-size: .3125rem;
+        /* 5px */
+        flex-shrink: 0;
+    }
+
+    .text {
+        font-size: .75rem;
+        /* 12px */
+        line-height: 1.1;
+
+        /* Se preferires truncar em vez de quebrar, troca para as 3 linhas abaixo: */
+        /* white-space: nowrap;
+       overflow: hidden;
+       text-overflow: ellipsis; */
+    }
+}

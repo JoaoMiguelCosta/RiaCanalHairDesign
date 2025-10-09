@@ -1,0 +1,176 @@
+.instagram {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(12px, 3vw, 24px);
+}
+
+/* Texto central */
+.aboutText {
+    width: min(100%, 78rem);
+    /* antes: 100% (ok), mas sem limite */
+    height: auto;
+    /* antes: 7rem */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    padding: clamp(12px, 3vw, 24px) clamp(12px, 4vw, 32px);
+    box-sizing: border-box;
+}
+
+.aboutText span {
+    width: 100%;
+    max-width: 41.9375rem;
+    /* mantém o teu limite */
+    height: auto;
+    text-align: center;
+}
+
+/* Agrupamento dos botões */
+.buttoninsta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    background-color: black;
+    padding: 0.8125rem 0;
+    width: min(100%, 78rem);
+}
+
+/* Botões do Instagram */
+.instagramButton,
+.instagramFollowButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 3.125rem;
+    cursor: pointer;
+    transition: background-color .25s ease, color .25s ease;
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1;
+}
+
+/* Botão principal do Instagram */
+.instagramButton {
+    /* antes: width/height fixos */
+    width: auto;
+    min-width: clamp(10rem, 28vw, 18rem);
+    padding: clamp(8px, 1.6vw, 10px) clamp(14px, 3vw, 20px);
+
+    border: 1px solid #D59532;
+    color: #D59532;
+    background: transparent;
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+}
+
+.instagramButton:hover {
+    background-color: #D59532;
+    color: #fff;
+}
+
+/* Botão "Seguir no Instagram" */
+.instagramFollowButton {
+    /* antes: padding fixo (ok), sem largura */
+    width: auto;
+    min-width: clamp(12rem, 34vw, 20rem);
+    padding: clamp(10px, 2vw, 14px) clamp(16px, 3vw, 21px);
+
+    background-color: #D59532;
+    border: none;
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
+    font-weight: 600;
+    color: #F2F2F2;
+    letter-spacing: 0.125rem;
+}
+
+.instagramFollowButton:hover {
+    background-color: #b37c26;
+}
+
+/* Detalhes/estatísticas */
+.detalhes {
+    display: flex;
+    width: 100%;
+    min-height: 4.9375rem;
+    /* mantém altura alvo sem prender */
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    gap: clamp(8px, 2.5vw, 1rem);
+    flex-wrap: wrap;
+    /* ✅ permite quebrar */
+}
+
+/* Seguidores */
+.seguir {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    height: auto;
+    /* antes: 4.375rem */
+}
+
+/* Hashtags */
+.hashtags {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(8px, 2.5vw, 1.125rem);
+    color: #D59532;
+    background-color: black;
+    font-family: Montserrat, sans-serif;
+    font-size: clamp(0.7rem, 1.4vw, 0.75rem);
+    font-weight: 500;
+    letter-spacing: 0.09375rem;
+    flex-wrap: wrap;
+    /* ✅ quebra em linhas */
+    width: min(100%, 78rem);
+    margin: 0 auto;
+    padding: .5rem 0;
+}
+
+.hashtags span {
+    cursor: pointer;
+    transition: color .25s ease;
+}
+
+.hashtags span:hover {
+    color: #b37c26;
+}
+
+/* Responsivo */
+@media (max-width: 23.5rem) {
+    .instagram {
+        width: 100%;
+        height: auto;
+    }
+
+    .aboutText span {
+        width: 100%;
+        max-width: 20rem;
+    }
+
+    .detalhes {
+        gap: .5rem;
+        justify-content: center;
+        height: auto;
+    }
+
+    .hashtags {
+        gap: .5rem 1rem;
+        width: 100%;
+        max-width: 20.5rem;
+        margin: 0 auto;
+        padding: .5rem 0;
+        height: auto;
+    }
+}

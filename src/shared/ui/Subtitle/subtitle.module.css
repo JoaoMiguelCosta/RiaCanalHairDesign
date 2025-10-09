@@ -1,0 +1,59 @@
+.container,
+.containerHighlight {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    flex-shrink: 0;
+    background-color: black;
+
+    /* sem alturas fixas */
+    height: auto;
+    padding: clamp(8px, 2.4vw, 14px) 0;
+
+    /* ocupa a largura total */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* default: centra */
+.container {
+    justify-content: center;
+}
+
+/* highlight: alinha à esquerda dentro do content width */
+.containerHighlight {
+    justify-content: flex-start;
+    max-width: 78rem;
+    margin-inline: auto;
+    /* centra o content width */
+    
+    /* pequeno gutter à esquerda */
+}
+
+/* texto */
+.subtitle {
+    color: #D59532;
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: .125rem;
+    line-height: 1;
+
+    /* tamanho fluido */
+    font-size: clamp(.7rem, 0.7vw + .5rem, .8rem);
+
+    /* por padrão, centra; no highlight herdamos do container */
+    text-align: center;
+}
+
+/* no highlight, o texto fica alinhado à esquerda */
+.containerHighlight .subtitle {
+    text-align: left;
+}
+
+/* mobile: já está coberto pelo clamp; só garantimos gutters */
+@media (max-width: 23.5rem) {
+    .containerHighlight {
+        padding-left: .75rem;
+    }
+}

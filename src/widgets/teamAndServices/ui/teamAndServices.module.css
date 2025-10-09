@@ -1,0 +1,244 @@
+/* === BASE (Desktop / tablets) — PATCH MIN === */
+.teamandservices {
+    /* antes: width: 78rem; */
+    width: min(100%, 78rem);
+    height: auto;
+    margin-inline: auto;
+}
+
+/* --- topo / texto --- */
+.aboutText {
+    /* antes: height: 7rem; width: 78rem; */
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    padding-block: clamp(12px, 3vw, 24px);
+    padding-inline: clamp(12px, 4vw, 32px);
+    box-sizing: border-box;
+}
+
+.aboutText span {
+    /* antes: width/height fixos */
+    width: 100%;
+    max-width: 41.9375rem;
+    height: auto;
+}
+
+/* --- equipa --- */
+.HairDressers {
+    width: 100%;
+    height: auto;
+    display: flex;
+    padding: clamp(16px, 4vw, 34px) clamp(16px, 6vw, 6.40625rem);
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(20px, 6vw, 6.25rem);
+    background-color: black;
+
+    /* desktop: não quebrar */
+    flex-wrap: nowrap;
+}
+
+/* cada filho ocupa 1/3 no desktop */
+.HairDressers>* {
+    flex: 1 1 calc(33.333% - 2rem);
+    max-width: calc(33.333% - 2rem);
+}
+
+/* <= 866px: pode quebrar para 2 colunas */
+@media (max-width: 866px) {
+    .HairDressers {
+        flex-wrap: wrap;
+    }
+
+    .HairDressers>* {
+        flex: 1 1 calc(50% - 1rem);
+        max-width: calc(50% - 1rem);
+    }
+}
+
+/* mobile pequeno: 1 por linha */
+@media (max-width: 480px) {
+    .HairDressers>* {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+.HairDressersingle {
+    display: flex;
+    width: 17.5625rem;
+    max-width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* antes: height fixa */
+    height: auto;
+    gap: .75rem;
+}
+
+/* ====== FOTO DO PROFISSIONAL ====== */
+.myImageContainer {
+    border: 1px solid #D59532;
+    display: flex;
+    width: 17.5625rem;
+    max-width: 100%;
+    /* antes: aspect-ratio: 281 / 233 (paisagem) */
+    aspect-ratio: 3 / 4;
+    /* retrato: evita corte nas fotos verticais */
+    height: auto;
+    background: #0c0f14;
+    /* fundo para possíveis “letterboxes” */
+    overflow: hidden;
+}
+
+.myImage {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: scale-down;
+    /* não amplia, só reduz se precisar */
+    image-rendering: auto;
+}
+
+/* --- botão portfólio --- */
+.HairdresserBottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* antes: height: 2.625rem; width: 78rem; */
+    width: 100%;
+    height: auto;
+    background-color: black;
+    padding-block: clamp(12px, 2.6vw, 18px);
+}
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+
+    /* ✅ deixa a largura natural com um mínimo confortável */
+    width: auto;
+    /* antes: 12.625rem */
+    min-width: clamp(9rem, 24vw, 12.625rem);
+
+    /* altura controlada por padding */
+    height: auto;
+    /* antes: 2.625rem */
+    padding: clamp(10px, 1.8vw, 14px) clamp(14px, 3.2vw, 20px);
+
+    background: transparent;
+    color: #D59532;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
+    font-weight: 600;
+    letter-spacing: 0.125rem;
+    border: 0.0625rem solid #D59532;
+    transition: background-color .3s ease, color .3s ease;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #D59532;
+    color: #F2F2F2;
+}
+
+/* --- título + lista serviços --- */
+.HairdresserTitle {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    /* antes: width: 78rem; height: 18rem; */
+    width: 100%;
+    height: auto;
+    padding: clamp(12px, 3vw, 24px) clamp(12px, 4vw, 24px);
+    gap: clamp(10px, 2.5vw, 16px);
+    box-sizing: border-box;
+}
+
+.HairdresserServices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(12px, 2vw, 1.4375rem) clamp(10px, 3vw, 30px);
+
+    justify-content: center;
+    /* horizontal */
+    align-items: center;
+    /* vertical se sobrar altura */
+
+    width: 100%;
+    padding: 0 clamp(12px, 2.5vw, 1.5rem);
+    box-sizing: border-box;
+    height: auto;
+    background: transparent;
+}
+
+/* ===== Blocos reutilizáveis (foto + serviços) ===== */
+.others {
+    display: flex;
+    /* antes: height: 25rem; width: 78rem; */
+    width: 100%;
+    height: auto;
+    padding: 0 clamp(16px, 6vw, 3.75rem);
+    justify-content: center;
+    align-items: center;
+    gap: clamp(16px, 6vw, 3.75rem);
+    border-top: 0.5px solid #D59532;
+    background-color: black;
+    flex-wrap: wrap;
+    padding: 2rem 0;
+    gap: clamp(16px, 6vw, 3.75rem);
+}
+
+.others1 {
+    display: flex;
+    /* antes: width/height fixos */
+    flex: 1 1 24rem;
+    /* base ~384px */
+    min-width: 260px;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    background-color: black;
+}
+
+.others2 {
+    display: flex;
+    /* antes: width: 34.75rem; height fixa */
+    flex: 1 1 28rem;
+    /* base ~448px */
+    min-width: 260px;
+    padding-bottom: clamp(12px, 3vw, 2.375rem);
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: auto;
+    background-color: black;
+}
+
+/* lista em 2 colunas — torna o gap fluido e estável */
+.EsteticaAdvanced {
+    width: 100%;
+    /* antes: 34.75rem */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem clamp(24px, 6vw, 100px);
+    /* column-gap agora adapta */
+    align-items: flex-start;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+/* recalcula cada coluna com base no column-gap real */
+.EsteticaAdvanced>* {
+    flex: 0 0 calc((100% - clamp(24px, 6vw, 100px)) / 2);
+}

@@ -1,0 +1,100 @@
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: "Montserrat", sans-serif;
+    line-height: 1.6;
+    color: #f5f5f5;
+    /* texto claro para fundo escuro */
+}
+
+/* botão voltar */
+.backButton {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #d59532;
+    /* dourado */
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.backButton:hover {
+    text-decoration: underline;
+}
+
+/* título principal */
+.title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #ffffff;
+    /* branco */
+}
+
+/* subtítulos */
+.subtitle {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 2rem 0 0.5rem;
+    color: #d59532;
+    /* dourado */
+}
+
+/* parágrafos */
+.paragraph {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-align: justify;
+    color: #e5e7eb;
+    /* cinza mais suave */
+}
+
+/* links */
+.link {
+    color: #d59532;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 1rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .paragraph {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .paragraph {
+        font-size: 0.9rem;
+    }
+}

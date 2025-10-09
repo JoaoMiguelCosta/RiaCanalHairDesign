@@ -1,0 +1,47 @@
+/* contentor neutro: herda alinhamentos do pai */
+.wrapper {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+/* título */
+.title {
+    color: #D59532;
+    font-family: "Playfair Display", serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.2;
+
+    /* tamanho fluído: ~1.25rem (mob) → 1.5rem (desk) */
+    font-size: clamp(1.25rem, 1.2vw + 1rem, 1.5rem);
+
+    /* herda alinhamento do container pai */
+    text-align: inherit;
+
+    margin: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* legenda */
+.caption {
+    color: #D1D5DB;
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5;
+
+    /* tamanho fluído: ~0.8rem → 0.875rem */
+    font-size: clamp(0.8rem, 0.4vw + 0.7rem, 0.875rem);
+
+    text-align: inherit;
+    margin: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* espaçamento entre título e legenda */
+.title+.caption {
+    margin-top: .35rem;
+}
