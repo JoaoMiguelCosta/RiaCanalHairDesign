@@ -1,4 +1,5 @@
 // src/widgets/footer/ui/footer.jsx
+import { memo } from "react";
 import styles from "./footer.module.css";
 
 import Title from "@shared/ui/title/title.jsx";
@@ -9,10 +10,19 @@ import FooterLinksCard from "@widgets/footer/parts/footerLinksCard/footerLinksCa
 import FooterSocialCard from "@widgets/footer/parts/footerSocialCard/footerSocialCard.jsx";
 import FooterLegalBar from "@widgets/footer/parts/footerLegalBar/footerLegalBar.jsx";
 
+import { useOpenExternal } from "@widgets/footer/hook/useOpenExternal";
+
+const WHATSAPP_URL = "https://wa.me/351916887537";
+
+// Componente simples para o botão (mesma estrutura/markup)
+const TalkButton = ({ onClick }) => (
+  <button type="button" className={styles.talkButton} onClick={onClick}>
+    Fale Connosco
+  </button>
+);
+
 const Footer = () => {
-  const openWhatsApp = () => {
-    window.open("https://wa.me/351916887537", "_blank");
-  };
+  const openWhatsApp = useOpenExternal(WHATSAPP_URL);
 
   return (
     <div className={styles.footer}>
@@ -23,24 +33,21 @@ const Footer = () => {
           variant="highlight"
         />
       </div>
+
       <div className={styles.talk}>
-        <button
-          type="button"
-          className={styles.talkButton}
-          onClick={openWhatsApp}
-        >
-          Fale Connosco
-        </button>
+        <TalkButton onClick={openWhatsApp} />
       </div>
+
       <div className={styles.cards}>
         <FooterInfoCard />
         <FooterContactCard />
         <FooterLinksCard />
         <FooterSocialCard />
       </div>
+
       <FooterLegalBar />
     </div>
   );
 };
 
-export default Footer;
+export default memo(Footer);

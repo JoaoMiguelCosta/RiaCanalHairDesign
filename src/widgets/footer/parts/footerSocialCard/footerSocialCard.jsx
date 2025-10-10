@@ -1,30 +1,27 @@
 // src/widgets/footer/parts/footerSocialCard/footerSocialCard.jsx
+import { memo } from "react";
 import styles from "./footerSocialCard.module.css";
 import Icon from "@shared/ui/icons/icons.jsx";
-import FooterSocials from "@content/footer/footerSocials.json"; // ⬅️ dados via alias
+import FooterSocials from "@content/footer/footerSocials.json";
 
-const FooterSocialCard = () => {
-  return (
-    <div className={styles.info}>
-      <h3 className={styles.title}>Siga-nos</h3>
+const { info, title, icons, item, iconLink, icon } = styles;
 
-      <ul className={styles.icons}>
-        {FooterSocials.map((s) => (
-          <li key={s.name} className={styles.item}>
-            <a
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={s.label}
-              className={styles.iconLink}
-            >
-              <Icon name={s.name} className={styles.icon} />
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+const EXT_PROPS = { target: "_blank", rel: "noopener noreferrer" };
 
-export default FooterSocialCard;
+const FooterSocialCard = () => (
+  <div className={info}>
+    <h3 className={title}>Siga-nos</h3>
+
+    <ul className={icons}>
+      {FooterSocials.map(({ name, href, label }) => (
+        <li key={name} className={item}>
+          <a href={href} aria-label={label} className={iconLink} {...EXT_PROPS}>
+            <Icon name={name} className={icon} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+export default memo(FooterSocialCard);

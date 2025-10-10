@@ -1,8 +1,8 @@
 // src/widgets/space/parts/facilityCard/facilityCard.jsx
-import { useRef } from "react";
 import styles from "./facilityCard.module.css";
 import TitleCaption from "@shared/ui/titleCaption/titleCaption.jsx";
 import VideoBG from "@widgets/space/parts/videoBG/videoBG.jsx";
+import { useHoverVideo } from "@widgets/space/hook/useHoverVideo";
 
 const FacilityCard = ({
   variant = "variant1",
@@ -16,27 +16,15 @@ const FacilityCard = ({
 }) => {
   const containerClass = styles[variant] || "";
   const captionClass = styles[`${variant}Caption`] || "";
-  const videoRef = useRef(null);
 
-  const play = () => videoRef.current?.play().catch(() => {});
-  const stop = () => {
-    if (!videoRef.current) return;
-    videoRef.current.pause();
-    videoRef.current.currentTime = 0;
-  };
+  const { videoRef, handlers } = useHoverVideo();
 
   return (
     <div className={styles.Block}>
       <div
         className={`${styles.card} ${containerClass}`}
         tabIndex={0}
-        onMouseEnter={play}
-        onFocus={play}
-        onMouseLeave={stop}
-        onBlur={stop}
-        onTouchStart={play}
-        onTouchEnd={stop}
-        onTouchCancel={stop}
+        {...handlers}
       >
         {/* mídia de fundo: se tiver videoSrc usa vídeo, senão usa imagem */}
         {videoSrc ? (

@@ -1,3 +1,4 @@
+// src/widgets/testimonials/parts/testimonialcard/testimonialCard.jsx
 import styles from "./testimonialCard.module.css";
 
 const TestimonialCard = ({

@@ -8,35 +8,38 @@ const NavMenuDesktop = () => {
   return (
     <nav>
       <ul className={styles.menu}>
-        {NavItems.map((item, index) => (
-          <li
-            key={index}
-            className={`${styles.menuItemWrapper} ${
-              item.hasDropdown ? styles.hasDropdown : ""
-            }`}
-          >
-            {item.href ? (
-              <a
-                href={item.href}
-                className={`${styles.menuItem} ${styles.clickable}`}
-              >
-                {item.label}
-                {item.hasDropdown && (
-                  <Icon name="chevronDown" className={styles.arrowIcon} />
-                )}
-              </a>
-            ) : (
-              <span className={styles.menuItem} aria-disabled="true">
-                {item.label}
-                {item.hasDropdown && (
-                  <Icon name="chevronDown" className={styles.arrowIcon} />
-                )}
-              </span>
-            )}
+        {NavItems.map((item, index) => {
+          const { label, href, hasDropdown } = item;
+          const commonContent = (
+            <>
+              {label}
+              {hasDropdown && (
+                <Icon name="chevronDown" className={styles.arrowIcon} />
+              )}
+            </>
+          );
 
-            {item.hasDropdown && <SubMenu label={item.label} />}
-          </li>
-        ))}
+          const wrapperClass = `${styles.menuItemWrapper} ${hasDropdown ? styles.hasDropdown : ""}`;
+
+          return (
+            <li key={index} className={wrapperClass}>
+              {href ? (
+                <a
+                  href={href}
+                  className={`${styles.menuItem} ${styles.clickable}`}
+                >
+                  {commonContent}
+                </a>
+              ) : (
+                <span className={styles.menuItem} aria-disabled="true">
+                  {commonContent}
+                </span>
+              )}
+
+              {hasDropdown && <SubMenu label={label} />}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

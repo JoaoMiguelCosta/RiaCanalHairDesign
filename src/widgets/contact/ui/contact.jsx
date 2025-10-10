@@ -1,4 +1,5 @@
 // src/widgets/contact/ui/contact.jsx
+import { memo } from "react";
 import styles from "./contact.module.css";
 
 import Subtitle from "@shared/ui/subtitle/subtitle.jsx";
@@ -10,95 +11,106 @@ import InformationCard from "@widgets/contact/parts/informationCard/informationC
 import MetricCard from "@widgets/contact/parts/metricCard/metricCard.jsx";
 import Arrive from "@widgets/contact/parts/arrive/arrive.jsx";
 
+import data from "@content/contact/contact.json";
+
+// Desestrutura classes para cortar repetição de `styles.`
+const {
+  contact: contactCls,
+  aboutText,
+  CardsMetricMap: cardsMetricMap,
+  MapArrive: mapArrive,
+  Map: mapCls,
+  CardsMetric: cardsMetric,
+  Cards: cards,
+  MetricCard: metricCardWrap,
+} = styles;
+
+// Props reutilizáveis para links externos
+const EXT_PROPS = { target: "_blank", rel: "noreferrer" };
+
+// Constrói a descrição em JSX de acordo com o tipo vindo de content
+function renderDescription(card) {
+  switch (card.type) {
+    case "phone":
+      return (
+        <a href={`tel:${card.phone}`} aria-label={card.aria} rel="noreferrer">
+          {card.label ?? card.phone}
+        </a>
+      );
+    case "whatsapp":
+      return (
+        <a href={card.url} {...EXT_PROPS}>
+          {card.label ?? card.phone}
+        </a>
+      );
+    case "link":
+      return (
+        <a href={card.url} {...EXT_PROPS}>
+          {card.label}
+        </a>
+      );
+    case "location":
+      return card.text;
+    case "text":
+    default:
+      return card.text;
+  }
+}
+
 const Contact = () => {
+  const contactCards = Array.isArray(data.cards) ? data.cards : [];
+  const metrics = Array.isArray(data.metrics) ? data.metrics : [];
+
   return (
-    <div id="Location" className={styles.contact}>
+    <div id="Location" className={contactCls}>
       <Subtitle variant="default">ENTRE EM CONTACTO</Subtitle>
       <Title line1="Contactos &" line2="Localização" variant="highlight" />
-      <Text className={styles.aboutText} variant="centerMobile">
-        <span>Marque o seu momento de cuidado e elegância. Fale connosco.</span>
+      <Text className={aboutText} variant="centerMobile">
+        <span>{data.intro}</span>
       </Text>
-      <div className={styles.CardsMetricMap}>
-        <div className={styles.MapArrive}>
+
+      <div className={cardsMetricMap}>
+        <div className={mapArrive}>
           <Arrive />
-          <div className={styles.Map}>
+          <div className={mapCls}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d756.837798441559!2d-8.64660314662673!3d40.64418825438006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2399e20ebc758b%3A0xc664252753d9c1c5!2sRia%20Canal%20-%20Hair%20Design!5e0!3m2!1spt-PT!2spt!4v1755174991101!5m2!1spt-PT!2spt"
+              src={data.mapEmbedSrc}
               style={{ border: 0, width: "100%", height: "100%" }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            />
           </div>
         </div>
-        <div className={styles.CardsMetric}>
-          <div className={styles.Cards}>
-            <InformationCard
-              Letra="T"
-              Title="Telefone"
-              Description={
-                <a
-                  href="tel:+351234420471"
-                  aria-label="Ligar +351 234 420 471"
-                  rel="noreferrer"
-                >
-                  +351 234 420 471
-                </a>
-              }
-            />
-            <InformationCard
-              Letra="W"
-              Title="WhatsApp"
-              Description={
-                <a
-                  href="https://wa.me/351916887537"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  +351 916 887 537
-                </a>
-              }
-            />
 
-            <InformationCard
-              Letra="I"
-              Title="Instagram"
-              Description={
-                <a
-                  href="https://www.instagram.com/ria_canal_hairdesign/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  @ria_canal_hairdesign
-                </a>
-              }
-            />
-            <InformationCard
-              Letra="H"
-              Title="Horário"
-              Description="Terça a Sábado: 9h00 – 19h00"
-            />
-            <InformationCard
-              Letra="L"
-              Title="Localização"
-              Description="Praceta Dr. Alberto Souto 9, 3800-147 Aveiro"
-              button={
-                <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=40.64422,-8.64587&travelmode=driving"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Ver Google Maps
-                </a>
-              }
-            />
+        <div className={cardsMetric}>
+          <div className={cards}>
+            {contactCards.map((c) => (
+              <InformationCard
+                key={c.title}
+                Letra={c.letter}
+                Title={c.title}
+                Description={renderDescription(c)}
+                button={
+                  c.button ? (
+                    <a href={c.button.url} {...EXT_PROPS}>
+                      {c.button.label}
+                    </a>
+                  ) : undefined
+                }
+              />
+            ))}
           </div>
-          <div className={styles.MetricCard}>
-            <MetricCard value="24h" label="Resposta WhatsApp" />
-            <MetricCard value="100%" label="Satisfação" />
+
+          <div className={metricCardWrap}>
+            {metrics.map(({ value, label }) => (
+              <MetricCard key={label} value={value} label={label} />
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Mantém a prop original "variante" para não alterar nada do teu componente Quote */}
       <Quote variante="default">
         "Estamos aqui para transformar o seu momento de cuidado numa experiência
         única e memorável. Entre em contacto e descubra a diferença."
@@ -107,4 +119,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default memo(Contact);

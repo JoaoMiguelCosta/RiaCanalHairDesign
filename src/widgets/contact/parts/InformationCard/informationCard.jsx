@@ -1,20 +1,32 @@
+// src/widgets/.../informationCard.jsx
+import { memo } from "react";
 import styles from "./informationCard.module.css";
+
+const {
+  card,
+  Icone,
+  TitleDescription,
+  TitleRow,
+  Title: TitleCls,
+  ButtonWrapper,
+  Description: DescriptionCls,
+} = styles;
 
 const InformationCard = ({ Letra, Title, Description, button }) => {
   return (
-    <div className={styles.card}>
-      <div className={styles.Icone}>{Letra}</div>
+    <div className={card}>
+      <div className={Icone}>{Letra}</div>
 
-      <div className={styles.TitleDescription}>
-        <div className={styles.TitleRow}>
-          <div className={styles.Title}>{Title}</div>
-          {button && <div className={styles.ButtonWrapper}>{button}</div>}
+      <div className={TitleDescription}>
+        <div className={TitleRow}>
+          <div className={TitleCls}>{Title}</div>
+          {button && <div className={ButtonWrapper}>{button}</div>}
         </div>
 
-        <div className={styles.Description}>{Description}</div>
+        <div className={DescriptionCls}>{Description}</div>
       </div>
     </div>
   );
 };
 
-export default InformationCard;
+export default memo(InformationCard);

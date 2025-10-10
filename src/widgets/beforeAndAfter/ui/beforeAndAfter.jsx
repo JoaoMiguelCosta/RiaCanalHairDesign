@@ -1,5 +1,5 @@
 // src/widgets/beforeAndAfter/ui/beforeAndAfter.jsx
-import { useMemo, useState } from "react";
+import { memo } from "react";
 import styles from "./beforeAndAfter.module.css";
 
 import Subtitle from "@shared/ui/subtitle/subtitle.jsx";
@@ -9,40 +9,41 @@ import Icon from "@shared/ui/icons/icons.jsx";
 import Button from "@shared/ui/button/button.jsx";
 import Quote from "@shared/ui/quote/quote.jsx";
 
-// Card vive em parts/card (mantém esta estrutura para evitar conflitos)
 import Card from "@widgets/beforeAndAfter/parts/card/card.jsx";
-
-// ✅ caminho e case corretos
 import BeforeAfter from "@content/gallery/beforeAfter.js";
+import { usePagedSets } from "@widgets/beforeAndAfter/hook/usePagedSets";
+
+const {
+  beforeAfter, // was beforeandafter
+  introText, // was aboutText
+  controls, // was arrows
+  navButton, // was leftandright
+  arrowIcon, // unchanged
+  dotGroup, // was dots
+  dot, // unchanged
+  dotActive, // unchanged
+  cardGrid, // was beforeandafterphotos
+} = styles;
+
+const ITEMS_PER_PAGE = 3;
 
 const BeforeAndAfterSection = () => {
-  const totalItems = Array.isArray(BeforeAfter) ? BeforeAfter.length : 0;
-  const itemsPerPage = 3;
-  const totalSets = Math.ceil(totalItems / itemsPerPage);
-
-  const [activeSet, setActiveSet] = useState(0);
-  const hasPagination = totalSets > 1;
-
-  const next = () => {
-    if (!hasPagination) return;
-    setActiveSet((p) => (p + 1) % totalSets);
-  };
-
-  const prev = () => {
-    if (!hasPagination) return;
-    setActiveSet((p) => (p - 1 + totalSets) % totalSets);
-  };
-
-  const visible = useMemo(() => {
-    const start = activeSet * itemsPerPage;
-    return BeforeAfter.slice(start, start + itemsPerPage);
-  }, [activeSet]);
+  const {
+    totalItems,
+    totalSets,
+    hasPagination,
+    activeSet,
+    setActiveSet,
+    next,
+    prev,
+    visible,
+  } = usePagedSets(BeforeAfter, ITEMS_PER_PAGE);
 
   return (
-    <section id="Transformations" className={styles.beforeandafter}>
+    <section id="Transformations" className={beforeAfter}>
       <Subtitle>RESULTADOS REAIS</Subtitle>
       <Title line1="Transformações" line2="Reais" variant="highlight" />
-      <Text className={styles.aboutText} variant="centerMobile">
+      <Text className={introText} variant="centerMobile">
         <span>
           Antes e depois de clientes que confiaram no nosso olhar técnico e
           artístico.
@@ -50,37 +51,29 @@ const BeforeAndAfterSection = () => {
       </Text>
 
       {hasPagination && (
-        <div className={styles.arrows}>
-          <Button
-            className={styles.leftandright}
-            onClick={prev}
-            aria-label="Anterior"
-          >
-            <Icon name="arrowLeft" className={styles.arrowIcon} />
+        <div className={controls}>
+          <Button className={navButton} onClick={prev} aria-label="Anterior">
+            <Icon name="arrowLeft" className={arrowIcon} />
           </Button>
 
-          <div className={styles.dots}>
+          <div className={dotGroup}>
             {Array.from({ length: totalSets }).map((_, i) => (
               <Button
                 key={i}
-                className={`${styles.dot} ${i === activeSet ? styles.dotActive : ""}`}
+                className={`${dot} ${i === activeSet ? dotActive : ""}`}
                 onClick={() => setActiveSet(i)}
                 aria-label={`Mostrar conjunto ${i + 1}`}
               />
             ))}
           </div>
 
-          <Button
-            className={styles.leftandright}
-            onClick={next}
-            aria-label="Seguinte"
-          >
-            <Icon name="arrowRight" className={styles.arrowIcon} />
+          <Button className={navButton} onClick={next} aria-label="Seguinte">
+            <Icon name="arrowRight" className={arrowIcon} />
           </Button>
         </div>
       )}
 
-      <div className={styles.beforeandafterphotos}>
+      <div className={cardGrid}>
         {visible.map((c, idx) => (
           <Card
             key={`${activeSet}-${idx}-${c?.title ?? "item"}`}
@@ -105,4 +98,4 @@ const BeforeAndAfterSection = () => {
   );
 };
 
-export default BeforeAndAfterSection;
+export default memo(BeforeAndAfterSection);

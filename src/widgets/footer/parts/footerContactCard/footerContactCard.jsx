@@ -1,46 +1,35 @@
 // src/widgets/footer/parts/footerContactCard/footerContactCard.jsx
+import { memo } from "react";
 import styles from "./footerContactCard.module.css";
 import Icon from "@shared/ui/icons/icons.jsx";
+import data from "@content/footer/contact.json";
 
-const FooterContactCard = () => {
-  return (
-    <div className={styles.info}>
-      <h3 className={styles.title}>Contactos</h3>
-
-      <ul className={styles.list}>
-        <li className={styles.item}>
-          <Icon name="location" className={styles.icon} />
-          <span className={styles.text}>
-            Praceta Dr. Alberto Souto 9, 3800-147 Aveiro
-          </span>
-        </li>
-
-        <li className={styles.item}>
-          <Icon name="clock" className={styles.icon} />
-          <span className={styles.text}>Terç a Sáb – 09:00 às 19:00</span>
-        </li>
-
-        <li className={styles.item}>
-          <Icon name="phone" className={styles.icon} />
-          <a href="tel:+351234420471" className={styles.text}>
-            +351 234 420 471
-          </a>
-        </li>
-
-        <li className={styles.item}>
-          <Icon name="whatsapp" className={styles.icon} />
-          <a
-            href="https://wa.me/351916887537"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.text}
-          >
-            +351 916 887 537
-          </a>
-        </li>
-      </ul>
-    </div>
+const TextOrLink = ({ type, href, content, external }) =>
+  type === "link" ? (
+    <a
+      href={href}
+      className={styles.text}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {content}
+    </a>
+  ) : (
+    <span className={styles.text}>{content}</span>
   );
-};
 
-export default FooterContactCard;
+const FooterContactCard = () => (
+  <div className={styles.info}>
+    <h3 className={styles.title}>{data.title}</h3>
+
+    <ul className={styles.list}>
+      {(data.contacts ?? []).map(({ icon, ...rest }, idx) => (
+        <li key={idx} className={styles.item}>
+          <Icon name={icon} className={styles.icon} />
+          <TextOrLink {...rest} />
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+export default memo(FooterContactCard);

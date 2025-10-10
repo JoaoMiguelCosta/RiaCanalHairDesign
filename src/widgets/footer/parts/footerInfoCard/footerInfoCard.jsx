@@ -1,37 +1,34 @@
 // src/widgets/footer/parts/footerInfoCard/footerInfoCard.jsx
+import { memo } from "react";
 import styles from "./footerInfoCard.module.css";
 import LogoComponent from "@shared/ui/logo/logoComponent.jsx";
 import TagLine from "@shared/ui/tagLine/tagLine.jsx";
 
-const FooterInfoCard = () => {
-  return (
-    <div className={styles.info}>
-      <a
-        href="#Start"
-        className={styles.logoLink}
-        aria-label="Voltar ao início"
-      >
-        <div className={styles.logoTagline}>
-          <LogoComponent
-            className={styles.logoWrapper}
-            imgClassName={styles.logoImg}
-          />
-          <TagLine
-            taglineClass="taglineFooter"
-            brandClass="brandFooter"
-            serviceClass="serviceFooter"
-          />
-        </div>
-      </a>
+const { info, logoLink, logoTagline, logoWrapper, logoImg, text, textspan } =
+  styles;
 
-      <div className={styles.text}>
-        <span className={styles.textspan}>
-          No Ria Canal Hair Design, combinamos elegância e excelência para criar
-          experiências de beleza únicas e memoráveis.
-        </span>
-      </div>
-    </div>
-  );
+const TAGLINE_PROPS = {
+  taglineClass: "taglineFooter",
+  brandClass: "brandFooter",
+  serviceClass: "serviceFooter",
 };
 
-export default FooterInfoCard;
+const FooterInfoCard = () => (
+  <div className={info}>
+    <a href="#Start" className={logoLink} aria-label="Voltar ao início">
+      <div className={logoTagline}>
+        <LogoComponent className={logoWrapper} imgClassName={logoImg} />
+        <TagLine {...TAGLINE_PROPS} />
+      </div>
+    </a>
+
+    <div className={text}>
+      <span className={textspan}>
+        No Ria Canal Hair Design, combinamos elegância e excelência para criar
+        experiências de beleza únicas e memoráveis.
+      </span>
+    </div>
+  </div>
+);
+
+export default memo(FooterInfoCard);

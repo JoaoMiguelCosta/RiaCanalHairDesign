@@ -1,5 +1,6 @@
-/* src/widgets/beforeAndAfter/ui/beforeAndAfter.module.css */
-.beforeandafter {
+/* === Base (Desktop First) === */
+.beforeAfter {
+    /* was .beforeandafter */
     width: 100%;
     height: auto;
     background-color: black;
@@ -12,7 +13,8 @@
 }
 
 /* topo */
-.aboutText {
+.introText {
+    /* was .aboutText */
     width: min(100%, 78rem);
     height: auto;
     display: flex;
@@ -23,14 +25,16 @@
     box-sizing: border-box;
 }
 
-.aboutText span {
+.introText span {
+    /* was .aboutText span */
     width: 100%;
     max-width: 41.9375rem;
     height: auto;
 }
 
 /* setas + pontos */
-.arrows {
+.controls {
+    /* was .arrows */
     display: flex;
     width: min(100%, 78rem);
     height: auto;
@@ -42,7 +46,8 @@
     margin-top: clamp(16px, 3vw, 32px);
 }
 
-.leftandright {
+.navButton {
+    /* was .leftandright */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +67,8 @@
     color: #D59532;
 }
 
-.dots {
+.dotGroup {
+    /* was .dots */
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -92,8 +98,8 @@
 }
 
 /* =============== CARDS: FLEX =============== */
-.beforeandafterphotos {
-    /* ✅ nome correto (sem typo) */
+.cardGrid {
+    /* was .beforeandafterphotos */
     width: min(100%, 78rem);
     height: auto;
     background-color: black;
@@ -108,14 +114,16 @@
 }
 
 /* cada card */
-.beforeandafterphotos>* {
+.cardGrid>* {
+    /* was .beforeandafterphotos > * */
     flex: 1 1 calc(33.333% - clamp(16px, 3.5vw, 2rem));
     max-width: calc(33.333% - clamp(16px, 3.5vw, 2rem));
 }
 
 /* <= 866px → 2 em linha */
 @media (max-width: 866px) {
-    .beforeandafterphotos>* {
+    .cardGrid>* {
+        /* was .beforeandafterphotos > * */
         flex: 1 1 calc(50% - clamp(16px, 3.5vw, 2rem));
         max-width: calc(50% - clamp(16px, 3.5vw, 2rem));
     }
@@ -123,7 +131,8 @@
 
 /* <= 600px → 1 em linha */
 @media (max-width: 600px) {
-    .beforeandafterphotos>* {
+    .cardGrid>* {
+        /* was .beforeandafterphotos > * */
         flex: 1 1 100%;
         max-width: 100%;
     }
@@ -131,30 +140,35 @@
 
 /* ============ MOBILE (≤ 375px) ============ */
 @media (max-width: 23.5rem) {
-    .beforeandafter {
+    .beforeAfter {
+        /* was .beforeandafter */
         width: 100%;
         height: auto;
         margin: 0 auto;
     }
 
-    .aboutText {
+    .introText {
+        /* was .aboutText */
         width: 100%;
         text-align: center;
     }
 
-    .aboutText span {
+    .introText span {
+        /* was .aboutText span */
         width: 100%;
         height: auto;
     }
 
-    .arrows {
+    .controls {
+        /* was .arrows */
         width: 100%;
         gap: 1rem;
         padding-inline: 0.75rem;
         margin-top: 1.5rem;
     }
 
-    .leftandright {
+    .navButton {
+        /* was .leftandright */
         width: 2rem;
         height: 2rem;
     }
@@ -164,7 +178,8 @@
         height: 1.3rem;
     }
 
-    .beforeandafterphotos {
+    .cardGrid {
+        /* was .beforeandafterphotos */
         width: 100%;
         max-width: 21.4375rem;
         /* alinha com a largura do card */
@@ -172,7 +187,8 @@
         gap: 1.25rem;
     }
 
-    .beforeandafterphotos>* {
+    .cardGrid>* {
+        /* was .beforeandafterphotos > * */
         flex: 1 1 100%;
         max-width: 100%;
     }

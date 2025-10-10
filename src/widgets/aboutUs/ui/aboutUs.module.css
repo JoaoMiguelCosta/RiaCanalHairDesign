@@ -1,5 +1,5 @@
 /* === Base (Desktop First) === */
-.aboutus {
+.aboutSection {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -9,7 +9,7 @@
 }
 
 /* Bloco 1 (texto + foto) */
-.aboutus1 {
+.topSection {
     width: min(100%, 78rem);
     min-height: 26.125rem;
     display: flex;
@@ -23,7 +23,7 @@
 }
 
 /* Bloco 2 (cards Missão/Visão/Valores) */
-.aboutus2 {
+.valuesSection {
     background-color: black;
     width: min(100%, 78rem);
     padding: clamp(16px, 4vw, 28px) clamp(16px, 4vw, 32px);
@@ -36,7 +36,7 @@
     flex-wrap: wrap;
 }
 
-.aboutleft {
+.leftColumn {
     flex: 1 1 24rem;
     min-width: 260px;
     background-color: black;
@@ -45,7 +45,7 @@
     gap: clamp(8px, 2vw, 16px);
 }
 
-.aboutright {
+.rightColumn {
     flex: 1.25 1 clamp(22rem, 38vw, 44rem);
     min-width: 260px;
     padding: 0 clamp(12px, 2.4vw, 38px);
@@ -57,7 +57,7 @@
     background-color: black;
 }
 
-.aboutText {
+.bodyText {
     width: 100%;
     max-width: 40.3125rem;
     min-width: 0;
@@ -66,7 +66,7 @@
     gap: 0.625rem;
 }
 
-.statCards {
+.statsRow {
     display: flex;
     height: auto;
     justify-content: center;
@@ -76,7 +76,7 @@
     flex-wrap: wrap;
 }
 
-.aboutright1 {
+.rightInner {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -89,7 +89,7 @@
 }
 
 /* ====== Imagem maior + realce visual ====== */
-.myImageContainer {
+.imageContainer {
     position: relative;
     display: flex;
     width: 100%;
@@ -102,25 +102,25 @@
     overflow: clip;
 }
 
-.myImageContainer::before,
-.myImageContainer::after {
+.imageContainer::before,
+.imageContainer::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
 }
 
-.myImageContainer::before {
+.imageContainer::before {
     background: radial-gradient(120% 90% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .18) 100%);
     mix-blend-mode: multiply;
     opacity: .55;
 }
 
-.myImageContainer::after {
+.imageContainer::after {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .28) 100%);
 }
 
-.myImage {
+.image {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -132,25 +132,25 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .myImageContainer:hover .myImage {
+    .imageContainer:hover .image {
         transform: scale(1.035);
         filter: brightness(1.10) contrast(1.12) saturate(1.14);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .myImage {
+    .image {
         transition: none;
     }
 }
 
 @media (prefers-color-scheme: dark) {
-    .myImageContainer {
+    .imageContainer {
         box-shadow: 0 14px 34px rgba(0, 0, 0, .5), 0 3px 10px rgba(0, 0, 0, .35);
     }
 }
 
-.customCaptionContainer {
+.captionContainer {
     display: flex;
     min-height: 2.5rem;
     justify-content: center;
@@ -163,45 +163,45 @@
 /* === Mobile Styles (≤ 23.5rem ≈ 376px) === */
 @media (max-width: 23.5rem) {
 
-    .aboutus,
-    .aboutus1,
-    .aboutleft,
-    .aboutright,
-    .aboutright1,
-    .aboutus2,
-    .aboutText,
-    .statCards,
-    .customCaptionContainer {
+    .aboutSection,
+    .topSection,
+    .leftColumn,
+    .rightColumn,
+    .rightInner,
+    .valuesSection,
+    .bodyText,
+    .statsRow,
+    .captionContainer {
         width: 100%;
         height: auto;
     }
 
-    .aboutus {
+    .aboutSection {
         align-items: center;
     }
 
-    .aboutus1 {
+    .topSection {
         flex-direction: column;
         gap: clamp(12px, 4vw, 20px);
         padding-inline: clamp(12px, 5vw, 16px);
         padding-block: clamp(12px, 5vw, 20px);
     }
 
-    .aboutleft {
+    .leftColumn {
         align-items: flex-start;
     }
 
-    .aboutright {
+    .rightColumn {
         padding: 0;
         gap: 0.625rem;
     }
 
-    .aboutright1 {
+    .rightInner {
         width: 100%;
         max-width: 21.4375rem;
     }
 
-    .myImageContainer {
+    .imageContainer {
         width: 100%;
         max-width: 21.4375rem;
         aspect-ratio: 281 / 233;
@@ -211,29 +211,29 @@
         overflow: hidden;
     }
 
-    .myImage {
+    .image {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
     }
 
-    .customCaptionContainer {
+    .captionContainer {
         padding: 0.5rem 1rem;
         text-align: center;
     }
 
-    .aboutus2 {
+    .valuesSection {
         border-top: none;
         padding: 1rem 0;
         gap: 1rem;
     }
 
-    .aboutText {
+    .bodyText {
         padding: 0.5rem 0;
     }
 
-    .statCards {
+    .statsRow {
         flex-direction: row;
         gap: 1rem;
     }

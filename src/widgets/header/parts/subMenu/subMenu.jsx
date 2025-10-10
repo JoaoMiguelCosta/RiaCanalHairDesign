@@ -1,18 +1,6 @@
 // src/widgets/header/parts/subMenu/subMenu.jsx
 import styles from "./subMenu.module.css";
-
-const submenuData = {
-  "SOBRE NÓS": [
-    { text: "QUEM SOMOS", href: "#AboutUs" },
-    { text: "EQUIPA & SERVIÇOS", href: "#TeamAndServices" },
-  ],
-  PORTFÓLIO: [
-    { text: "TRABALHOS", href: "#Works" },
-    { text: "TRANSFORMAÇÕES", href: "#Transformations" },
-  ],
-  CLIENTES: [{ text: "TESTEMUNHOS", href: "#Testimonials" }],
-  CONTACTOS: [{ text: "LOCALIZAÇÃO", href: "#Location" }],
-};
+import submenuData from "@content/navigation/submenu.json";
 
 const SubMenu = ({ label }) => {
   const items = submenuData[label];
@@ -20,10 +8,10 @@ const SubMenu = ({ label }) => {
 
   return (
     <ul className={styles.submenu}>
-      {items.map((item, index) => (
-        <li key={index} className={styles.submenuItem}>
-          <a href={item.href} className={styles.submenuLink}>
-            {item.text}
+      {items.map(({ text, href }) => (
+        <li key={text} className={styles.submenuItem}>
+          <a href={href} className={styles.submenuLink}>
+            {text}
           </a>
         </li>
       ))}

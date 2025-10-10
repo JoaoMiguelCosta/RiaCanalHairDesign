@@ -1,5 +1,7 @@
-
+// src/widgets/aboutUs/ui/aboutUs.jsx
+import { memo } from "react";
 import styles from "./aboutUs.module.css";
+
 import Title from "@shared/ui/title/title.jsx";
 import Text from "@shared/ui/text/text.jsx";
 import Quote from "@shared/ui/quote/quote.jsx";
@@ -7,41 +9,46 @@ import StatCard from "@shared/ui/statCard/statCard.jsx";
 import TitleCaption from "@shared/ui/titleCaption/titleCaption.jsx";
 import ProfessionalPhoto from "@shared/ui/professionalPhoto/professionalPhoto.jsx";
 import InfoCard from "@widgets/aboutUs/parts/infoCard/infoCard.jsx";
+import { useRotatingImage } from "@widgets/aboutUs/hook/useRotatingImage";
 
-// imagens (equivalentes às antigas Entrada.jpg / Entrada2.jpg)
-import Entrada from "@media/entrance/entranceExterior.jpg";
-import entrada2 from "@media/entrance/entranceInterior.jpg";
+import entranceExterior from "@media/entrance/entranceExterior.jpg";
+import entranceInterior from "@media/entrance/entranceInterior.jpg";
 
-import { useState, useEffect } from "react";
+const {
+  aboutSection,
+  topSection,
+  leftColumn,
+  bodyText,
+  statsRow,
+  rightColumn,
+  rightInner,
+  imageContainer,
+  image,
+  captionContainer,
+  valuesSection,
+} = styles;
+
+const IMAGES = [entranceExterior, entranceInterior];
 
 const AboutUs = () => {
-  const [currentImage, setCurrentImage] = useState(Entrada);
-
-  useEffect(() => {
-    const images = [Entrada, entrada2];
-    let index = 0;
-
-    const interval = setInterval(() => {
-      index = (index + 1) % images.length;
-      setCurrentImage(images[index]);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const { currentImage } = useRotatingImage(IMAGES, {
+    intervalMs: 3000,
+    startIndex: 0,
+  });
 
   return (
-    <div id="AboutUs" className={styles.aboutus}>
-      <div className={styles.aboutus1}>
-        <div className={styles.aboutleft}>
+    <div id="AboutUs" className={aboutSection}>
+      <div className={topSection}>
+        <div className={leftColumn}>
           <Title line1="Quem" line2="Somos" variant="default" />
 
-          <Text className={styles.aboutText} variant="highlight">
+          <Text className={bodyText} variant="highlight">
             Somos um espaço de beleza e identidade no coração de Aveiro. No Ria
             Canal Hair Design, acreditamos que cada mulher merece sentir-se
             única, confiante e elegante.
           </Text>
 
-          <Text className={styles.aboutText} variant="highlight">
+          <Text className={bodyText} variant="highlight">
             A nossa equipa combina experiência, paixão e atenção ao detalhe para
             criar resultados personalizados e naturais. Mais do que um salão,
             somos uma extensão da sua expressão.
@@ -51,30 +58,30 @@ const AboutUs = () => {
             A beleza começa no momento em que decides ser tu mesma.
           </Quote>
 
-          <div className={styles.statCards}>
+          <div className={statsRow}>
             <StatCard number="30+" label="Anos de Experiência" />
             <StatCard number="100%" label="Personalizado" />
           </div>
         </div>
 
-        <div className={styles.aboutright}>
-          <div className={styles.aboutright1}>
+        <div className={rightColumn}>
+          <div className={rightInner}>
             <ProfessionalPhoto
-              ContainerImg={styles.myImageContainer}
-              imageClass={styles.myImage}
+              ContainerImg={imageContainer}
+              imageClass={image}
               src={currentImage}
               alt="Entrada do Salão"
             />
 
             <TitleCaption
               caption='"Um ambiente pensado para a sua experiência única"'
-              className={styles.customCaptionContainer}
+              className={captionContainer}
             />
           </div>
         </div>
       </div>
 
-      <div className={styles.aboutus2}>
+      <div className={valuesSection}>
         <InfoCard title="Missão">
           Realçar a beleza natural de cada cliente através de técnicas
           personalizadas e cuidado individualizado.
@@ -92,4 +99,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default memo(AboutUs);

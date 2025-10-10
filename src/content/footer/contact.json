@@ -1,0 +1,28 @@
+{
+  "title": "Contactos",
+  "contacts": [
+    {
+      "icon": "location",
+      "type": "text",
+      "content": "Praceta Dr. Alberto Souto 9, 3800-147 Aveiro"
+    },
+    {
+      "icon": "clock",
+      "type": "text",
+      "content": "Terç a Sáb – 09:00 às 19:00"
+    },
+    {
+      "icon": "phone",
+      "type": "link",
+      "href": "tel:+351234420471",
+      "content": "+351 234 420 471"
+    },
+    {
+      "icon": "whatsapp",
+      "type": "link",
+      "href": "https://wa.me/351916887537",
+      "external": true,
+      "content": "+351 916 887 537"
+    }
+  ]
+}

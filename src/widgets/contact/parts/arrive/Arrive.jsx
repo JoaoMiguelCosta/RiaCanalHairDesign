@@ -1,29 +1,24 @@
+// src/widgets/contact/parts/arrive/Arrive.jsx
+import { memo } from "react";
 import styles from "./arrive.module.css";
+import data from "@content/contact/arrive.json";
 
-export default function Arrive() {
-  return (
-    <section className={styles.Arrive}>
-      <h2 className={styles.title}>Como Chegar</h2>
+const { Arrive: arrive, title, intro, row, label, value } = styles;
 
-      <p className={styles.intro}>
-        Localizado no coração de Aveiro, junto aos famosos canais da cidade.
-        Facilmente acessível a pé ou de transporte público.
-      </p>
+const Row = ({ l, v }) => (
+  <p className={row}>
+    <span className={label}>{l}</span> <span className={value}>{v}</span>
+  </p>
+);
 
-      <p className={styles.row}>
-        <span className={styles.label}>Estacionamento:</span>{" "}
-        <span className={styles.value}>Disponível na rua.</span>
-      </p>
+const Arrive = () => (
+  <section className={arrive}>
+    <h2 className={title}>{data.title}</h2>
+    <p className={intro}>{data.intro}</p>
+    {data.infoRows.map(({ label: l, value: v }) => (
+      <Row key={l} l={l} v={v} />
+    ))}
+  </section>
+);
 
-      <p className={styles.row}>
-        <span className={styles.label}>Transportes:</span>{" "}
-        <span className={styles.value}>Paragem de autocarro a 2 min.</span>
-      </p>
-
-      <p className={styles.row}>
-        <span className={styles.label}>Centro:</span>{" "}
-        <span className={styles.value}>5 min a pé do centro histórico.</span>
-      </p>
-    </section>
-  );
-}
+export default memo(Arrive);

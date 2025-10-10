@@ -1,5 +1,5 @@
 // src/widgets/testimonials/ui/testimonials.jsx
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import styles from "./testimonials.module.css";
 
 import Title from "@shared/ui/title/title.jsx";
@@ -7,43 +7,24 @@ import Subtitle from "@shared/ui/subtitle/subtitle.jsx";
 import Text from "@shared/ui/text/text.jsx";
 import TestimonialCard from "@widgets/testimonials/parts/testimonialcard/testimonialCard.jsx";
 import TestimonialData from "@content/testimonials/testimonials.json";
+import { useAutoCarousel } from "@widgets/testimonials/hook/useAutoCarousel";
+
 
 const DURATION_MS = 3000; // 3s por card (0 → 100%)
 const TICK_MS = 100;
 
 const Testimonials = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [progress, setProgress] = useState(0); // 0–100
-  const timerRef = useRef(null);
+  const total = TestimonialData.length;
+
+  const { activeIndex, progress } = useAutoCarousel(total, {
+    durationMs: DURATION_MS,
+    tickMs: TICK_MS,
+  });
 
   const active = useMemo(
     () => TestimonialData[activeIndex] || {},
     [activeIndex]
   );
-
-  // autoplay + progresso
-  useEffect(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    setProgress(0);
-
-    const steps = Math.ceil(DURATION_MS / TICK_MS);
-    const inc = 100 / steps;
-
-    timerRef.current = setInterval(() => {
-      setProgress((p) => {
-        if (p + inc >= 100) {
-          const next = (activeIndex + 1) % TestimonialData.length;
-          setActiveIndex(next);
-          return 0;
-        }
-        return p + inc;
-      });
-    }, TICK_MS);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [activeIndex]);
 
   return (
     <div id="Testimonials" className={styles.testemunhos}>
@@ -76,7 +57,9 @@ const Testimonials = () => {
         {TestimonialData.map((_, idx) => (
           <span
             key={idx}
-            className={`${styles.dot} ${idx === activeIndex ? styles.activeDot : ""}`}
+            className={`${styles.dot} ${
+              idx === activeIndex ? styles.activeDot : ""
+            }`}
             aria-selected={idx === activeIndex}
           >
             •

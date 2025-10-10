@@ -1,0 +1,9 @@
+{
+  "title": "Como Chegar",
+  "intro": "Localizado no coração de Aveiro, junto aos famosos canais da cidade. Facilmente acessível a pé ou de transporte público.",
+  "infoRows": [
+    { "label": "Estacionamento:", "value": "Disponível na rua." },
+    { "label": "Transportes:", "value": "Paragem de autocarro a 2 min." },
+    { "label": "Centro:", "value": "5 min a pé do centro histórico." }
+  ]
+}

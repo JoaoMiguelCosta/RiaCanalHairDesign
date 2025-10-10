@@ -1,11 +1,21 @@
 // src/widgets/hero/ui/hero.jsx
-import styles from "./hero.module.css"; // CSS Module
+import styles from "./hero.module.css";
 
 import LogoComponent from "@shared/ui/logo/logoComponent.jsx";
 import Button from "@shared/ui/button/button.jsx";
 import Icon from "@shared/ui/icons/icons.jsx";
+import heroData from "@content/hero/hero.json";
+
+// mapeia ícone → classe do botão (mantém as mesmas classes visuais)
+const BTN_CLASS_BY_ICON = {
+  comment: styles.whatsappBtn,
+  instagram: styles.instagramBtn,
+  location: styles.locationBtn,
+};
 
 const Hero = () => {
+  const { title1, title2, phrase, links = [] } = heroData;
+
   return (
     <div id="Start" className={styles.hero}>
       <div className={styles.logoWrapper}>
@@ -13,53 +23,32 @@ const Hero = () => {
       </div>
 
       <div className={styles.Title1}>
-        <span>Ria Canal</span>
+        <span>{title1}</span>
       </div>
 
       <div className={styles.Title2}>
-        <span>HAIRDESIGN</span>
+        <span>{title2}</span>
       </div>
 
       <div className={styles.phrase}>
-        <p>"Beleza com identidade, no coração de Aveiro"</p>
+        <p>{phrase}</p>
       </div>
 
       <div className={styles.buttons}>
-        <a
-          href="https://wa.me/351916887537"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-        >
-          <Button button={styles.whatsappBtn}>
-            <Icon name="comment" />
-            <span>Whatsapp</span>
-          </Button>
-        </a>
-
-        <a
-          href="https://www.instagram.com/ria_canal_hairdesign"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-        >
-          <Button button={styles.instagramBtn}>
-            <Icon name="instagram" />
-            <span>Instagram</span>
-          </Button>
-        </a>
-
-        <a
-          href="https://www.google.com/maps/dir/?api=1&destination=40.64422,-8.64587&travelmode=driving"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Localização"
-        >
-          <Button button={styles.locationBtn}>
-            <Icon name="location" />
-            <span>Localização</span>
-          </Button>
-        </a>
+        {links.map(({ href, ariaLabel, icon, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={ariaLabel}
+          >
+            <Button button={BTN_CLASS_BY_ICON[icon]}>
+              <Icon name={icon} />
+              <span>{label}</span>
+            </Button>
+          </a>
+        ))}
       </div>
     </div>
   );

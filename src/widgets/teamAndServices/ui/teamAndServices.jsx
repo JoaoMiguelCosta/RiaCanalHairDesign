@@ -1,4 +1,5 @@
 // src/widgets/teamAndServices/ui/teamAndServices.jsx
+import { memo } from "react";
 import styles from "./teamAndServices.module.css";
 
 import Subtitle from "@shared/ui/subtitle/subtitle.jsx";
@@ -16,30 +17,116 @@ import Quote from "@shared/ui/quote/quote.jsx";
 import TeamMembers from "@content/teamMembers/teamMembers.js";
 import Hero from "@media/hero/hero.png";
 
-const TeamAndServices = () => {
-  const getPhoto = (photo) => photo || Hero;
+// ⬇️ Hook extraído
+import { useGoToPortfolio } from "@widgets/teamAndServices/hook/useGoToPortfolio";
 
-  // dispara um evento global e rola até a secção do portfólio
-  const goToPortfolio = (service) => {
-    window.dispatchEvent(
-      new CustomEvent("activate-portfolio-service", { detail: service })
-    );
-    try {
-      const id = "Works";
-      const el = document.getElementById(id);
-      if (el) {
-        if (location.hash !== `#${id}`)
-          history.replaceState(null, "", `#${id}`);
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    } catch {}
-  };
+const {
+  teamandservices,
+  aboutText,
+  HairDressers,
+  HairDressersingle,
+  myImageContainer,
+  myImage,
+  HairdresserBottom,
+  button: buttonCls,
+  HairdresserTitle,
+  HairdresserServices,
+  others,
+  others1,
+  others2,
+  EsteticaAdvanced,
+  isSabrina,
+  isMary,
+} = styles;
+
+const getPhoto = (photo) => photo || Hero;
+
+// itens de serviço em grade (mantém markup)
+const ServicesList = ({ items, className }) => (
+  <div className={className}>
+    {items.map((label) => (
+      <ServiceItem key={label} label={label} />
+    ))}
+  </div>
+);
+
+// bloco de pessoa (foto + títulos)
+const PersonBlock = ({ name, legend, legend1, photo }) => (
+  <>
+    <ProfessionalPhoto
+      ContainerImg={myImageContainer}
+      imageClass={myImage}
+      src={getPhoto(photo)}
+      alt={`Foto ${name}`}
+    />
+    <TitleDescription title={name} legend={legend} legend1={legend1} />
+  </>
+);
+
+// secção “others” reutilizável (ordem controlada para manter o mesmo layout)
+const OthersSection = ({
+  person,
+  services,
+  servicesModClass, // isSabrina | isMary
+  portfolioKey, // "Estética" | "Unhas"
+  inverted = false, // Mary é invertida
+  onPortfolio,
+}) => (
+  <div className={others}>
+    {inverted ? (
+      <>
+        <div className={others2}>
+          <Button onClick={() => onPortfolio(portfolioKey)} button={buttonCls}>
+            VER PORTFÓLIO
+          </Button>
+          <TitleServices variant="highlight">Serviços</TitleServices>
+          <ServicesList
+            items={services}
+            className={`${EsteticaAdvanced} ${servicesModClass}`}
+          />
+        </div>
+        <div className={others1}>
+          <PersonBlock
+            name={person.name}
+            legend={person.legend}
+            legend1={person.legend1}
+            photo={person.photo}
+          />
+        </div>
+      </>
+    ) : (
+      <>
+        <div className={others1}>
+          <PersonBlock
+            name={person.name}
+            legend={person.legend}
+            legend1={person.legend1}
+            photo={person.photo}
+          />
+        </div>
+        <div className={others2}>
+          <Button onClick={() => onPortfolio(portfolioKey)} button={buttonCls}>
+            VER PORTFÓLIO
+          </Button>
+          <TitleServices variant="highlight">Serviços</TitleServices>
+          <ServicesList
+            items={services}
+            className={`${EsteticaAdvanced} ${servicesModClass}`}
+          />
+        </div>
+      </>
+    )}
+  </div>
+);
+
+const TeamAndServices = () => {
+  const goToPortfolio = useGoToPortfolio();
 
   return (
-    <div id="TeamAndServices" className={styles.teamandservices}>
+    <div id="TeamAndServices" className={teamandservices}>
       <Subtitle>A NOSSA EQUIPA</Subtitle>
       <Title line1="Equipa &" line2="Serviços" variant="highlight" />
-      <Text className={styles.aboutText} variant="centerMobile">
+      <Text className={aboutText} variant="centerMobile">
         <span>
           Profissionais especializadas, dedicadas a realçar a sua beleza natural
           com técnicas personalizadas e cuidado individualizado.
@@ -47,12 +134,12 @@ const TeamAndServices = () => {
       </Text>
 
       {/* Cabeleireiras */}
-      <div className={styles.HairDressers}>
+      <div className={HairDressers}>
         {TeamMembers.hairdressers.map(({ name, legend, legend1, photo }, i) => (
-          <div className={styles.HairDressersingle} key={name + i}>
+          <div className={HairDressersingle} key={name + i}>
             <ProfessionalPhoto
-              ContainerImg={styles.myImageContainer}
-              imageClass={styles.myImage}
+              ContainerImg={myImageContainer}
+              imageClass={myImage}
               src={getPhoto(photo)}
               alt={`Foto ${name}`}
             />
@@ -62,81 +149,42 @@ const TeamAndServices = () => {
       </div>
 
       {/* Botão -> Cabeleireiro */}
-      <div className={styles.HairdresserBottom}>
+      <div className={HairdresserBottom}>
         <Button
           onClick={() => goToPortfolio("Cabeleireiro")}
-          button={styles.button}
+          button={buttonCls}
         >
           VER PORTFÓLIO
         </Button>
       </div>
 
       {/* Serviços Cabeleireiro */}
-      <div className={styles.HairdresserTitle}>
+      <div className={HairdresserTitle}>
         <TitleServices>Serviços</TitleServices>
-        <div className={styles.HairdresserServices}>
-          {servicesData.hair.map((label) => (
-            <ServiceItem key={label} label={label} />
-          ))}
-        </div>
+        <ServicesList
+          items={servicesData.hair}
+          className={HairdresserServices}
+        />
       </div>
 
       {/* Sabrina -> Estética */}
-      <div className={styles.others}>
-        <div className={styles.others1}>
-          <ProfessionalPhoto
-            ContainerImg={styles.myImageContainer}
-            imageClass={styles.myImage}
-            src={getPhoto(TeamMembers.sabrina.photo)}
-            alt={`Foto ${TeamMembers.sabrina.name}`}
-          />
-          <TitleDescription
-            title={TeamMembers.sabrina.name}
-            legend={TeamMembers.sabrina.legend}
-          />
-        </div>
-        <div className={styles.others2}>
-          <Button
-            onClick={() => goToPortfolio("Estética")}
-            button={styles.button}
-          >
-            VER PORTFÓLIO
-          </Button>
-          <TitleServices variant="highlight">Serviços</TitleServices>
-          <div className={`${styles.EsteticaAdvanced} ${styles.isSabrina}`}>
-            {servicesData.estetica.map((label) => (
-              <ServiceItem key={label} label={label} />
-            ))}
-          </div>
-        </div>
-      </div>
+      <OthersSection
+        person={TeamMembers.sabrina}
+        services={servicesData.estetica}
+        servicesModClass={isSabrina}
+        portfolioKey="Estética"
+        onPortfolio={goToPortfolio}
+      />
 
       {/* Mary -> Unhas (invertida) */}
-      <div className={styles.others}>
-        <div className={styles.others2}>
-          <Button onClick={() => goToPortfolio("Unhas")} button={styles.button}>
-            VER PORTFÓLIO
-          </Button>
-          <TitleServices variant="highlight">Serviços</TitleServices>
-          <div className={`${styles.EsteticaAdvanced} ${styles.isMary}`}>
-            {servicesData.mary.map((label) => (
-              <ServiceItem key={label} label={label} />
-            ))}
-          </div>
-        </div>
-        <div className={styles.others1}>
-          <ProfessionalPhoto
-            ContainerImg={styles.myImageContainer}
-            imageClass={styles.myImage}
-            src={getPhoto(TeamMembers.mary.photo)}
-            alt={`Foto ${TeamMembers.mary.name}`}
-          />
-          <TitleDescription
-            title={TeamMembers.mary.name}
-            legend={TeamMembers.mary.legend}
-          />
-        </div>
-      </div>
+      <OthersSection
+        person={TeamMembers.mary}
+        services={servicesData.mary}
+        servicesModClass={isMary}
+        portfolioKey="Unhas"
+        inverted
+        onPortfolio={goToPortfolio}
+      />
 
       <Quote variante="default">
         “Cada profissional da nossa equipa é escolhida pela sua paixão, técnica
@@ -146,4 +194,4 @@ const TeamAndServices = () => {
   );
 };
 
-export default TeamAndServices;
+export default memo(TeamAndServices);

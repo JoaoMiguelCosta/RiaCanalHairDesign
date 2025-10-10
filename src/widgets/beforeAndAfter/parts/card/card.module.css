@@ -36,7 +36,8 @@
     z-index: 0;
 }
 
-.sliderImg {
+.sliderImage {
+    /* was .sliderImg */
     position: absolute;
     inset: 0;
     width: 100%;
@@ -113,7 +114,8 @@
     color: #f2f2f2;
 }
 
-.customTitleBlock {
+.titleBlock {
+    /* was .customTitleBlock */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -124,17 +126,17 @@
 }
 
 /* espaço total título+legenda */
-.customTitleBlock>h3,
-.customTitleBlock .title {
+.titleBlock>h3,
+.titleBlock .title {
     min-height: 2.5rem;
 }
 
-.customTitleBlock>p,
-.customTitleBlock .caption {
+.titleBlock>p,
+.titleBlock .caption {
     min-height: 3rem;
 }
 
-.slider:hover .sliderImg {
+.slider:hover .sliderImage {
     transition: filter .4s ease;
     filter: brightness(.95);
 }

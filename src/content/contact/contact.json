@@ -1,0 +1,49 @@
+{
+  "intro": "Marque o seu momento de cuidado e elegância. Fale connosco.",
+  "cards": [
+    {
+      "letter": "T",
+      "title": "Telefone",
+      "type": "phone",
+      "phone": "+351234420471",
+      "aria": "Ligar +351 234 420 471",
+      "label": "+351 234 420 471"
+    },
+    {
+      "letter": "W",
+      "title": "WhatsApp",
+      "type": "whatsapp",
+      "phone": "+351916887537",
+      "url": "https://wa.me/351916887537",
+      "label": "+351 916 887 537"
+    },
+    {
+      "letter": "I",
+      "title": "Instagram",
+      "type": "link",
+      "url": "https://www.instagram.com/ria_canal_hairdesign/",
+      "label": "@ria_canal_hairdesign"
+    },
+    {
+      "letter": "H",
+      "title": "Horário",
+      "type": "text",
+      "text": "Terça a Sábado: 9h00 – 19h00"
+    },
+    {
+      "letter": "L",
+      "title": "Localização",
+      "type": "location",
+      "text": "Praceta Dr. Alberto Souto 9, 3800-147 Aveiro",
+      "button": {
+        "url": "https://www.google.com/maps/dir/?api=1&destination=40.64422,-8.64587&travelmode=driving",
+        "label": "Ver Google Maps"
+      }
+    }
+  ],
+  "metrics": [
+    { "value": "24h", "label": "Resposta WhatsApp" },
+    { "value": "100%", "label": "Satisfação" }
+  ],
+  "mapEmbedSrc": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d756.837798441559!2d-8.64660314662673!3d40.64418825438006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2399e20ebc758b%3A0xc664252753d9c1c5!2sRia%20Canal%20-%20Hair%20Design!5e0!3m2!1spt-PT!2spt!4v1755174991101!5m2!1spt-PT!2spt"
+}

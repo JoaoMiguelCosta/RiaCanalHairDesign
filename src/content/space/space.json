@@ -1,0 +1,83 @@
+{
+  "subtitle": "NOSSO AMBIENTE",
+  "title1": "O Espaço",
+  "intro": "Um ambiente criado para refletir a beleza em todas as formas — luz natural, texturas suaves e uma atmosfera pensada para o seu bem-estar. Aqui, cada detalhe convida à tranquilidade e ao cuidado.",
+  "relaxCards": [
+    {
+      "variant": "variant2",
+      "title": "ESTÉTICA",
+      "subtitle": "Sala de Estética",
+      "description": "Estética e Bem Estar",
+      "subtitle1": "Estética",
+      "description1": "Privacidade e serenidade.",
+      "imageKey": "treatmentRoom"
+    },
+    {
+      "variant": "variant2",
+      "title": "Unhas",
+      "subtitle": "Mesa de Unhas",
+      "description": "Arte e Precisão",
+      "subtitle1": "Estação de Unhas",
+      "description1": "Detalhes que fazem a diferença.",
+      "imageKey": "nailsArea"
+    },
+    {
+      "variant": "variant2",
+      "title": "Relax",
+      "subtitle": "Zona de Espera",
+      "description": "Momentos de Pausa",
+      "subtitle1": "Área de Relaxamento",
+      "description1": "Conforto enquanto aguarda.",
+      "imageKey": "relaxLounge"
+    },
+    {
+      "variant": "variant2",
+      "title": "ESTÉTICA",
+      "subtitle": "Sala de Estética Avançada",
+      "description": "Tratamentos Avançados",
+      "subtitle1": "Estética Avançada",
+      "description1": "Tecnologia de Precisão",
+      "imageKey": "advancedRoom"
+    }
+  ],
+  "stylingCards": [
+    {
+      "variant": "variant1",
+      "title": "STYLING",
+      "subtitle": "Zona de Styling",
+      "description": "Transformação",
+      "subtitle1": "Cadeiras Styling",
+      "description1": "Conforto durante a sua transformação.",
+      "imageKey": "stylingArea"
+    },
+    {
+      "variant": "variant1",
+      "title": "LAVAGEM",
+      "subtitle": "Zona de Lavagem",
+      "description": "Ritual de Cuidado Capilar",
+      "subtitle1": "Lavagem Relaxante",
+      "description1": "Cadeiras ergonómicas para uma experiência única de cuidado capilar.",
+      "imageKey": "washStation"
+    }
+  ],
+  "videoCard": {
+    "variant": "variant1",
+    "title": "EM AÇÃO",
+    "subtitle1": "Bastidores da Beleza",
+    "description1": "Instantes autênticos que revelam a dedicação, o cuidado e a paixão por trás de cada transformação.",
+    "videoKey": "moments"
+  },
+  "philosophy": {
+    "title": "Filosofia do Espaço",
+    "paragraphs": [
+      "Acreditamos que o ambiente é parte fundamental da experiência de beleza. Cada elemento foi cuidadosamente escolhido para criar harmonia entre funcionalidade e estética.",
+      "Luz natural, cores suaves e texturas que convidam ao toque criam um refúgio urbano onde pode desconectar do exterior e conectar-se consigo mesma."
+    ],
+    "stats": [
+      { "number": "6", "label": "Áreas Distintas" },
+      { "number": "Premium", "label": "Equipamentos" },
+      { "number": "Único", "label": "Design" }
+    ],
+    "quote": "Mais do que um salão, criámos um santuário onde a beleza encontra o bem-estar, e cada visita se torna uma experiência memorável."
+  }
+}

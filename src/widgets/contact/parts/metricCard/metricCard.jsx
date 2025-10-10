@@ -1,12 +1,14 @@
+// src/widgets/.../metricCard.jsx
+import { memo } from "react";
 import Styles from "./metricCard.module.css";
 
-const MetricCard = ({ value, label }) => {
-  return (
-    <div className={Styles.Metric}>
-      <div className={Styles.value}>{value}</div>
-      <div className={Styles.label}>{label}</div>
-    </div>
-  );
-};
+const { Metric, value, label } = Styles;
 
-export default MetricCard;
+const MetricCard = ({ value: val, label: lab }) => (
+  <div className={Metric}>
+    <div className={value}>{val}</div>
+    <div className={label}>{lab}</div>
+  </div>
+);
+
+export default memo(MetricCard);

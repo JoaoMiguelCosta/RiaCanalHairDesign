@@ -1,54 +1,34 @@
 // src/widgets/header/parts/navMenuMobile/navMenuMobile.jsx
-import { useState, useEffect } from "react";
 import styles from "./navMenuMobile.module.css";
 import Icon from "@shared/ui/icons/icons.jsx";
 import Button from "@shared/ui/button/button.jsx";
 import NavItemsMobile from "@content/navigation/navItemsMobile.json";
+import SocialLinks from "@content/navigation/socialLinks.json";
+import { useMobileMenu } from "@widgets/header/hook/useMobileMenu";
+
+// label acessível a partir da chave do ícone
+const toLabel = (key) => key.charAt(0).toUpperCase() + key.slice(1);
 
 const NavMenuMobile = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const handleClose = () => setMenuOpen(false);
-
-  // Fecha o menu quando passa de 1024px (64rem)
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 1024 && menuOpen) setMenuOpen(false);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [menuOpen]);
-
-  // 🚫 Bloqueia o scroll da página enquanto o overlay estiver aberto
-  useEffect(() => {
-    if (!menuOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev || "";
-    };
-  }, [menuOpen]);
+  const { menuOpen, toggleMenu, handleClose } = useMobileMenu();
 
   return (
     <div className={styles.mobileContainer}>
       <div className={styles.topIcons}>
-        {["instagram", "facebook", "whatsapp"].map((platform) => (
+        {Object.entries(SocialLinks).map(([platform, href]) => (
           <a
             key={platform}
-            href={
-              platform === "whatsapp"
-                ? "https://wa.me/351912345678"
-                : `https://www.${platform}.com`
-            }
+            href={href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={platform.charAt(0).toUpperCase() + platform.slice(1)}
+            aria-label={toLabel(platform)}
           >
             <Icon name={platform} className={styles.icon} />
           </a>
         ))}
 
         <Button
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={toggleMenu}
           button={styles.menuButton}
           aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
         >
