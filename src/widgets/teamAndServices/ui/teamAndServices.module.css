@@ -242,3 +242,28 @@
 .EsteticaAdvanced>* {
     flex: 0 0 calc((100% - clamp(24px, 6vw, 100px)) / 2);
 }
+
+/* >=377px: não partir palavras nos chips (ex.: Microagulhamento) */
+@media (min-width: 377px) {
+
+    /* ServiceItem vem de outro CSS module ⇒ usar :global */
+    :global(.serviceItem) {
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
+        hyphens: none !important;
+    }
+
+    /* Evita que a coluna fixe esmague o chip e o obrigue a quebrar */
+    .EsteticaAdvanced>* {
+        flex: 0 0 auto;
+        /* largura pelo conteúdo do chip */
+        max-width: 100%;
+    }
+
+    /* idem para a lista de Cabeleireiro */
+    .HairdresserServices>* {
+        flex: 0 0 auto;
+        max-width: 100%;
+    }
+}
