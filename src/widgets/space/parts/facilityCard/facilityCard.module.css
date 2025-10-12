@@ -21,16 +21,17 @@
     box-sizing: border-box;
 }
 
-/* mídia como background */
+/* mídia como IMG de fundo (não background-image) */
 .bg {
     position: absolute;
     inset: 0;
-    background-position: center;
-    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
 
-    /* 🔧 controlado por variáveis */
-    background-size: var(--bg-size, cover);
+    /* 🔧 usamos object-fit com variável para mapear cover/contain */
+    object-fit: var(--bg-size, cover);
     /* cover | contain */
+
     opacity: 0;
     transform: scale(var(--bg-zoom, 1.05));
     /* 1.05 por defeito */
@@ -51,8 +52,8 @@
     pointer-events: none;
 }
 
-/* Hover desktop */
-@media (hover:hover) {
+/* Hover desktop (funciona em qualquer largura) */
+@media (hover:hover) and (pointer:fine) {
 
     .card:hover .bg,
     .card:focus-visible .bg,
@@ -63,7 +64,7 @@
     }
 }
 
-/* Touch */
+/* Touch (abre só enquanto está activo — se quiseres toggle permanente, digo como fazer) */
 @media (hover:none) {
 
     .card .bg,
@@ -183,6 +184,7 @@
 
     /* defaults de imagem */
     --bg-size: cover;
+    /* <- agora mapeia object-fit */
     --bg-zoom: 1.05;
 }
 
@@ -211,6 +213,7 @@
 
     /* defaults de imagem */
     --bg-size: cover;
+    /* <- agora mapeia object-fit */
     --bg-zoom: 1.05;
 }
 
