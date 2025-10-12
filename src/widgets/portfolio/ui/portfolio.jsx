@@ -1,7 +1,7 @@
 // src/widgets/portfolio/ui/portfolio.jsx
 import styles from "./portfolio.module.css";
 
-import Subtitle from "../../../shared/ui/subtitle/subtitle.jsx";
+import Subtitle from "@shared/ui/subtitle/subtitle.jsx";
 import Title from "@shared/ui/title/title.jsx";
 import Text from "@shared/ui/text/text.jsx";
 import Button from "@shared/ui/button/button.jsx";
