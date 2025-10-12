@@ -1,4 +1,7 @@
 .bar {
+    --dot-size: 6px;
+    /* tamanho único da bolinha */
+
     display: flex;
     width: 100%;
     height: auto;
@@ -38,14 +41,16 @@
     display: inline-flex;
     align-items: center;
     gap: .6875rem;
+    /* texto e bolinha lado a lado por defeito */
 }
 
-/* bolinha separadora */
+/* bolinha separadora – tamanho fixo em todo o lado */
 .dot {
-    width: .125rem;
-    height: .125rem;
-    border-radius: 9999px;
+    width: var(--dot-size);
+    height: var(--dot-size);
+    border-radius: 50%;
     background-color: #D59532;
+    flex: 0 0 var(--dot-size);
 }
 
 /* estilo único para links */
@@ -58,7 +63,6 @@
 
 .link:hover {
     color: #D59532;
-    /* hover laranja */
 }
 
 /* textos sem link */
@@ -67,7 +71,7 @@
     font: inherit;
 }
 
-/* responsividade */
+/* ===== mobile muito pequeno (<= 376px) ===== */
 @media (max-width: 23.5rem) {
     .bar {
         flex-direction: column;
@@ -83,5 +87,27 @@
     .right {
         order: 1;
         width: 100%;
+    }
+}
+
+/* ===== 377px–569px: bolinha centrada por baixo de cada item ===== */
+@media (min-width: 377px) and (max-width: 569px) {
+    .right {
+        justify-content: center;
+    }
+
+    .itemWrap {
+        flex-direction: column;
+        /* texto em cima, bolinha em baixo */
+        align-items: center;
+        gap: .4rem;
+        /* espaço entre texto e bolinha */
+    }
+
+    .itemWrap .dot {
+        width: var(--dot-size);
+        height: var(--dot-size);
+        margin-top: 0.05rem;
+        /* opcional: pequeno ajuste */
     }
 }

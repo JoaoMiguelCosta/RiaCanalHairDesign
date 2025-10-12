@@ -41,15 +41,6 @@ a {
   color: inherit;
 }
 
-/* Inputs/botões base (não remover outline) */
-input,
-button,
-textarea,
-select {
-  font: inherit;
-  border: none;
-  background: none;
-}
 
 /* Cursor para botões */
 button {
