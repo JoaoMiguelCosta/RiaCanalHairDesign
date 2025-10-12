@@ -150,6 +150,7 @@
     }
 }
 
+/* ====== LEGENDA ====== */
 .captionContainer {
     display: flex;
     min-height: 2.5rem;
@@ -158,6 +159,15 @@
     gap: 0.625rem;
     padding-inline: clamp(8px, 2vw, 16px);
     text-align: center;
+
+    /* força cor única para todo o conteúdo da legenda */
+    color: #F2F2F2 !important;
+    /* ajusta se quiseres outra cor */
+}
+
+/* herda a cor para qualquer filho (spans/strong/etc.) */
+.captionContainer * {
+    color: inherit !important;
 }
 
 /* === Mobile Styles (≤ 23.5rem ≈ 376px) === */
