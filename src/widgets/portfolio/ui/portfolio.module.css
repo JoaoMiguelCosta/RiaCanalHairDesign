@@ -65,7 +65,7 @@
 /* cards/imagens */
 .myImageContainer {
   position: relative;
-  /* -> base para a imagem absoluta */
+  /* base para a imagem absoluta */
   width: min(100%, 23.875rem);
   height: 15rem;
   /* altura fixa do card */
@@ -101,7 +101,9 @@
   /* o blur também é cortado pelos cantos do card */
 }
 
-/* fundo camuflado com blur da própria imagem */
+/* classe vazia para toggle com CSS Modules */
+.open {}
+
 .imageHoverCard::before {
   content: "";
   position: absolute;
@@ -119,11 +121,6 @@
   transition: transform .5s ease, filter .5s ease;
 }
 
-.imageHoverCard:hover .myImage {
-  transform: translate(-50%, -50%) scale(1.05);
-  filter: brightness(0.9);
-}
-
 /* overlay */
 .imageOverlay {
   position: absolute;
@@ -138,11 +135,6 @@
   transition: opacity .35s ease, transform .35s ease;
   z-index: 3;
   /* acima da imagem e do blur */
-}
-
-.imageHoverCard:hover .imageOverlay {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .overlayTitle {
@@ -205,7 +197,7 @@
   height: auto;
 }
 
-/* estado ativo */
+/* estado ativo botões */
 .serviceBtn:not([data-active="true"]):hover {
   background-color: #D59532;
   color: #1A1F2D;
@@ -221,6 +213,44 @@
 .serviceBtn[data-active="true"]:hover {
   background-color: #D59532;
   color: #1A1F2D;
+}
+
+/* === INTERAÇÃO === */
+
+/* Hover só em dispositivos com rato/trackpad */
+@media (hover: hover) and (pointer: fine) {
+  .imageHoverCard:hover .imageOverlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .imageHoverCard:hover .myImage {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: brightness(0.9);
+  }
+}
+
+/* Em dispositivos touch: escondido por defeito; mostra quando .open */
+@media (hover: none) {
+  .imageHoverCard .imageOverlay {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  .imageHoverCard.open .imageOverlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .imageHoverCard {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .imageHoverCard.open .myImage {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: brightness(0.9);
+  }
 }
 
 /* === MOBILE (≤ 376px) === */
@@ -249,19 +279,16 @@
     font-weight: 500;
   }
 
-.myImageContainer {
-  width: 100%;
-  max-width: 21.4375rem;
-  height: clamp(11rem, 55vw, 15rem);
-  /* reserva altura no mobile */
-  border: 1px solid #D59532;
-  background: #1C2431;
-  
-}
+  .myImageContainer {
+    width: 100%;
+    max-width: 21.4375rem;
+    height: clamp(11rem, 55vw, 15rem);
+    border: 1px solid #D59532;
+    background: #1C2431;
+  }
 
+  /* só o padding — sem forçar visibilidade */
   .imageOverlay {
-    opacity: 1;
-    transform: translateY(0);
     padding: 1.25rem 1rem 1rem;
   }
 
