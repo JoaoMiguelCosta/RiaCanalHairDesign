@@ -13,6 +13,7 @@
 html,
 body {
   height: 100%;
+  overflow-x: hidden;
 }
 
 /* Remover margem padrão do body */
