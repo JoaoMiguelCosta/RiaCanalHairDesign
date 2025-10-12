@@ -27,11 +27,8 @@
     inset: 0;
     width: 100%;
     height: 100%;
-
-    /* 🔧 usamos object-fit com variável para mapear cover/contain */
     object-fit: var(--bg-size, cover);
     /* cover | contain */
-
     opacity: 0;
     transform: scale(var(--bg-zoom, 1.05));
     /* 1.05 por defeito */
@@ -64,25 +61,26 @@
     }
 }
 
-/* Touch (abre só enquanto está activo — se quiseres toggle permanente, digo como fazer) */
+/* Touch: toggle fixo com classe .open */
 @media (hover:none) {
+    .card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
 
     .card .bg,
     .card .bgVideo {
         opacity: 0;
         transform: none;
+        /* evita “salto” ao abrir */
     }
 
-    .card:active .bg,
-    .card:active .bgVideo {
+    /* <<< FIXO no toque >>> */
+    .card.open .bg,
+    .card.open .bgVideo {
         opacity: 1;
         transform: none;
-    }
-
-    .card {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-        cursor: pointer;
     }
 }
 
@@ -184,7 +182,7 @@
 
     /* defaults de imagem */
     --bg-size: cover;
-    /* <- agora mapeia object-fit */
+    /* mapeia object-fit */
     --bg-zoom: 1.05;
 }
 
@@ -213,7 +211,7 @@
 
     /* defaults de imagem */
     --bg-size: cover;
-    /* <- agora mapeia object-fit */
+    /* mapeia object-fit */
     --bg-zoom: 1.05;
 }
 
