@@ -17,14 +17,12 @@ export function usePortfolioTabs(
   const SERVICE_SET = useMemo(() => new Set(services), [services]);
   const isValid = useCallback((s) => s && SERVICE_SET.has(s), [SERVICE_SET]);
 
-  const getInitialService = useCallback(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const s = params.get("service");
-      if (isValid(s)) return s;
-    } catch {}
-    return "Cabeleireiro";
-  }, [isValid]);
+ const getInitialService = useCallback(() => {
+  const params = new URLSearchParams(window.location.search);
+   const s = params.get("service");
+  if (isValid(s)) return s;
+   return "Cabeleireiro";
+ }, [isValid]);
 
   const [activeService, setActiveService] = useState(getInitialService);
 
@@ -62,7 +60,10 @@ export function usePortfolioTabs(
     }
   }, [scrollToWorks]);
 
-  const works = worksMap[activeService] ?? [];
+  const works = useMemo(() => {
+    return worksMap?.[activeService] ?? [];
+  }, [worksMap, activeService]);
+
 
   // Agrupa em linhas, evitando 1 card isolado na última
   const groupWorks = useCallback((arr, size = 3) => {

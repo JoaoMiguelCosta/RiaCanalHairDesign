@@ -6,13 +6,15 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import pluginImport from "eslint-plugin-import";
 
 export default [
-  {
-    // Ignora a pasta de build
-    ignores: ["dist"],
-  },
+  // Ignorar build
+  { ignores: ["dist"] },
+
+  // Base recomendada do ESLint (flat config: sem "extends")
+  js.configs.recommended,
+
+  // Regras do projeto
   {
     files: ["**/*.{js,jsx}"],
-    extends: [js.configs.recommended],
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
@@ -21,12 +23,9 @@ export default [
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
-      globals: globals.browser,
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
+      globals: { ...globals.browser },
+      parserOptions: { ecmaFeatures: { jsx: true } },
     },
-    // 🔧 Aqui entram os aliases do Vite para o plugin import/resolver
     settings: {
       "import/resolver": {
         alias: {

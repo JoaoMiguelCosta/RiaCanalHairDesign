@@ -13,23 +13,24 @@ import Testimonials from "@widgets/testimonials/ui/testimonials.jsx";
 import Contact from "@widgets/contact/ui/contact.jsx";
 import Footer from "@widgets/footer/ui/footer.jsx";
 
-import styles from "./home.module.css";
-
 function Home() {
   return (
-    <div className={styles.container}>
+    <>
       <Header />
-      <Hero />
-      <AboutUs />
-      <TeamAndServices />
-      <Portfolio />
-      <BeforeAndAfterSection />
-      <Space />
-      <Instagram />
-      <Testimonials />
-      <Contact />
+      {/* ✅ usa o container global */}
+      <main id="main" className="container">
+        <Hero />
+        <AboutUs />
+        <TeamAndServices />
+        <Portfolio />
+        <BeforeAndAfterSection />
+        <Space />
+        <Instagram />
+        <Testimonials />
+        <Contact />
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }
 

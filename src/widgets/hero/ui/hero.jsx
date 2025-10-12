@@ -1,4 +1,3 @@
-// src/widgets/hero/ui/hero.jsx
 import styles from "./hero.module.css";
 
 import LogoComponent from "@shared/ui/logo/logoComponent.jsx";
@@ -6,7 +5,6 @@ import Button from "@shared/ui/button/button.jsx";
 import Icon from "@shared/ui/icons/icons.jsx";
 import heroData from "@content/hero/hero.json";
 
-// mapeia ícone → classe do botão (mantém as mesmas classes visuais)
 const BTN_CLASS_BY_ICON = {
   comment: styles.whatsappBtn,
   instagram: styles.instagramBtn,
@@ -19,16 +17,11 @@ const Hero = () => {
   return (
     <div id="Start" className={styles.hero}>
       <div className={styles.logoWrapper}>
-        <LogoComponent imgClassName={styles.logoImg} />
+        <LogoComponent imgClassName={styles.logoImg} alt="" ariaHidden />
       </div>
 
-      <div className={styles.Title1}>
-        <span>{title1}</span>
-      </div>
-
-      <div className={styles.Title2}>
-        <span>{title2}</span>
-      </div>
+      <div className={styles.Title1}><span>{title1}</span></div>
+      <div className={styles.Title2}><span>{title2}</span></div>
 
       <div className={styles.phrase}>
         <p>{phrase}</p>
@@ -36,18 +29,17 @@ const Hero = () => {
 
       <div className={styles.buttons}>
         {links.map(({ href, ariaLabel, icon, label }) => (
-          <a
+          <Button
             key={label}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={ariaLabel}
+            ariaLabel={ariaLabel}
+            className={BTN_CLASS_BY_ICON[icon]}   
           >
-            <Button button={BTN_CLASS_BY_ICON[icon]}>
-              <Icon name={icon} />
-              <span>{label}</span>
-            </Button>
-          </a>
+            <Icon name={icon} aria-hidden="true" />
+            <span>{label}</span>
+          </Button>
         ))}
       </div>
     </div>

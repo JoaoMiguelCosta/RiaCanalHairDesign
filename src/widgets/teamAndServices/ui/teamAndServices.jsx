@@ -57,7 +57,9 @@ const PersonBlock = ({ name, legend, legend1, photo }) => (
       ContainerImg={myImageContainer}
       imageClass={myImage}
       src={getPhoto(photo)}
-      alt={`Foto ${name}`}
+      alt={`${name} — ${legend || "Profissional"}`}
+      loading="lazy"
+      decoding="async"
     />
     <TitleDescription title={name} legend={legend} legend1={legend1} />
   </>
@@ -141,7 +143,9 @@ const TeamAndServices = () => {
               ContainerImg={myImageContainer}
               imageClass={myImage}
               src={getPhoto(photo)}
-              alt={`Foto ${name}`}
+              alt={`${name} — ${legend || "Profissional"}`}
+              loading="lazy"
+              decoding="async"
             />
             <TitleDescription title={name} legend={legend} legend1={legend1} />
           </div>

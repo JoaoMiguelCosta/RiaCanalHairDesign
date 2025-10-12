@@ -4,15 +4,22 @@
     align-items: center;
     justify-content: center;
 
-    /* antes: height: 15.625rem */
     height: auto;
     padding: clamp(16px, 4vw, 44px) 0;
     gap: clamp(8px, 2vw, 14px);
 
-    /* limita a largura do conteúdo ao “content width” do site */
+    /* content width */
     width: min(100%, 78rem);
     margin-inline: auto;
     box-sizing: border-box;
+}
+
+/* ✅ respiro extra abaixo da secção em <= 377px (para separar do mapa) */
+@media (max-width: 23.6rem) {
+    .Arrive {
+        margin-bottom: 12px;
+        
+    }
 }
 
 /* Título */
@@ -34,7 +41,6 @@
     align-items: center;
     gap: .625rem;
     align-self: stretch;
-    /* antes: height fixa */
     height: auto;
     margin: 0;
 
@@ -51,7 +57,6 @@
     align-items: center;
     gap: .625rem;
     align-self: stretch;
-    /* antes: height fixa */
     height: auto;
     margin: 0;
     flex-wrap: wrap;

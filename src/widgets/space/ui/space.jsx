@@ -31,6 +31,16 @@ const VIDEO_BY_KEY = {
   moments: RawVideos.moments,
 };
 
+// 🔎 Alt curto e descritivo (A11y). Mantém saídas/markup.
+const ALT_BY_KEY = {
+  treatmentRoom: "Sala de Estética",
+  nailsArea: "Mesa de Unhas",
+  relaxLounge: "Zona de Espera",
+  advancedRoom: "Sala de Estética Avançada",
+  stylingArea: "Zona de Styling",
+  washStation: "Zona de Lavagem",
+};
+
 const Space = () => {
   const {
     subtitle,
@@ -57,6 +67,13 @@ const Space = () => {
             key={`${c.title}-${c.subtitle}-${idx}`}
             {...c}
             imageSrc={IMAGE_BY_KEY[c.imageKey]}
+            /* A11y: alt explícito (fallback para título/subtítulo) */
+            imageAlt={
+              ALT_BY_KEY[c.imageKey] || c.subtitle || c.title || "Área do salão"
+            }
+            /* Performance explícita (mantém defaults do componente) */
+            imgLoading="lazy"
+            imgDecoding="async"
           />
         ))}
       </div>
@@ -68,6 +85,11 @@ const Space = () => {
             key={`${c.title}-${c.subtitle}-${idx}`}
             {...c}
             imageSrc={IMAGE_BY_KEY[c.imageKey]}
+            imageAlt={
+              ALT_BY_KEY[c.imageKey] || c.subtitle || c.title || "Área do salão"
+            }
+            imgLoading="lazy"
+            imgDecoding="async"
           />
         ))}
       </div>

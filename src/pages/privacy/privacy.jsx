@@ -5,12 +5,22 @@ import styles from "./privacy.module.css";
 
 function Privacy() {
   return (
-    <main className={styles.container}>
-      <Link to="/" className={styles.backButton}>
+    <main
+      id="main"
+      aria-labelledby="privacy-title"
+      className={styles.container}
+    >
+      <Link
+        to="/"
+        className={styles.backButton}
+        aria-label="Voltar à página inicial"
+      >
         ← Voltar
       </Link>
 
-      <h1 className={styles.title}>Política de Privacidade</h1>
+      <h1 id="privacy-title" className={styles.title}>
+        Política de Privacidade
+      </h1>
 
       <p className={styles.paragraph}>
         No <strong>Ria Canal Hair Design</strong> valorizamos a transparência e

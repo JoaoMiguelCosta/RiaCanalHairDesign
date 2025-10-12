@@ -1,4 +1,3 @@
-// src/widgets/contact/parts/arrive/Arrive.jsx
 import { memo } from "react";
 import styles from "./arrive.module.css";
 import data from "@content/contact/arrive.json";
@@ -12,8 +11,10 @@ const Row = ({ l, v }) => (
 );
 
 const Arrive = () => (
-  <section className={arrive}>
-    <h2 className={title}>{data.title}</h2>
+  <section className={arrive} aria-labelledby="arrive-title">
+    <h2 id="arrive-title" className={title}>
+      {data.title}
+    </h2>
     <p className={intro}>{data.intro}</p>
     {data.infoRows.map(({ label: l, value: v }) => (
       <Row key={l} l={l} v={v} />

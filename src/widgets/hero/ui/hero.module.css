@@ -12,7 +12,6 @@
     width: 100%;
     padding-block: clamp(24px, 8vw, 96px);
     min-height: min(75vh, 920px);
-    /* altura mais enxuta no geral */
     min-width: 0;
 }
 
@@ -124,14 +123,13 @@
     padding: clamp(10px, 1.8vw, 14px) clamp(14px, 3.2vw, 20px);
     border-radius: 3.125rem;
     color: #f2f2f2;
-    background-color: transparent;
-    font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-    font-size: clamp(0.85rem, 1.6vw, 1.125rem);
-    font-weight: 600;
+    background: rgba(0, 0, 0, 0.28);
+    /* contraste suave sobre o hero */
+    border: 1px solid #d59532;
+    font: 600 clamp(0.85rem, 1.6vw, 1.125rem)/1 Montserrat, sans-serif;
     text-align: center;
-    border: 0.0625rem solid #d59532;
-    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     line-height: 1;
+    transition: transform .2s ease, background-color .2s ease, border-color .2s ease, opacity .2s ease;
 }
 
 .whatsappBtn:hover,
@@ -139,6 +137,21 @@
 .locationBtn:hover {
     background-color: #d59532;
     transform: scale(1.03);
+}
+
+/* ✅ SVGs herdam a cor do texto do botão */
+.buttons svg {
+    width: clamp(18px, 2.2vw, 22px);
+    height: clamp(18px, 2.2vw, 22px);
+    fill: currentColor;
+}
+
+/* Acessibilidade foco */
+.whatsappBtn:focus-visible,
+.instagramBtn:focus-visible,
+.locationBtn:focus-visible {
+    outline: 2px solid #d59532;
+    outline-offset: 2px;
 }
 
 /* === RESPONSIVO: imagem de fundo e altura === */
@@ -150,7 +163,6 @@
         background-size: cover;
         background-position: top center;
         min-height: 70vh;
-        /* menos alto que desktop */
     }
 }
 

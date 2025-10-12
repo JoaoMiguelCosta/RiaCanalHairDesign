@@ -78,6 +78,8 @@ const Portfolio = () => {
                     imageClass={styles.myImage}
                     src={trabalho.foto || Hero}
                     alt={trabalho.titulo}
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className={styles.imageOverlay}>
                     <h3 className={styles.overlayTitle}>{trabalho.titulo}</h3>

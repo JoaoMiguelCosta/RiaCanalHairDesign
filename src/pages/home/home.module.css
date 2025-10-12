@@ -1,20 +1,20 @@
+/* src/pages/home/home.module.css */
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
 
-  /* ✅ largura fluida, mas com limite superior */
+  /* largura fluida, com limite superior */
   width: min(90%, 78rem);
 
-  /* ✅ centra o conteúdo sem margens fixas */
+  /* centra o conteúdo */
   margin-inline: auto;
 
-  /* ✅ respiro lateral que se adapta ao ecrã */
+  /* respiro lateral adaptativo */
   padding-inline: clamp(16px, 4vw, 48px);
 
-  /* ✅ evita overflow de filhos flex/grid */
+  /* evita overflow de filhos flex/grid */
   min-width: 0;
 }
 
@@ -22,11 +22,6 @@
 
   /* 376px */
   .container {
-    /* mantém o mesmo modelo, só afinamos o padding */
     padding-inline: clamp(12px, 4vw, 16px);
-
-    /* ❌ remove o fundo preto se era só para debug
-       (se quiseres manter, deixa esta linha) */
-    /* background-color: black; */
   }
 }

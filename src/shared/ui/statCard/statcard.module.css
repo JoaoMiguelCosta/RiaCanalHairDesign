@@ -39,7 +39,7 @@
     /* tamanho fluído */
     font-size: clamp(0.7rem, 0.6vw + 0.55rem, 0.75rem);
 
-    margin-top: .15rem;
+    margin-top: .12rem;
 
     /* permite quebrar em colunas estreitas */
     width: auto;

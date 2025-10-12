@@ -1,14 +1,12 @@
 .footer {
     width: 100%;
-    height: auto;
-    background-color: black;
+    background: #000;
+    box-sizing: border-box;
 }
 
 /* título */
 .title {
-    /* antes: height fixa */
-    height: auto;
-    padding: clamp(12px, 3vw, 24px) 0;
+    padding-block: clamp(12px, 3vw, 24px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,81 +14,72 @@
 
 /* CTA */
 .talk {
-    width: 100%;
-    height: auto;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: clamp(10px, 2.5vw, 20px) 0;
+    padding-block: clamp(10px, 2.5vw, 20px);
 }
 
 .talkButton {
-    /* deixa largura natural com mínimo */
     width: auto;
     min-width: clamp(12rem, 30vw, 17rem);
-    height: auto;
     padding: clamp(10px, 2vw, 14px) clamp(16px, 3vw, 20px);
     background: #D59532;
     color: #F2F2F2;
-    border: none;
+    border: 0;
     border-radius: .25rem;
-    text-align: center;
     font: 600 1.25rem/1 Montserrat, sans-serif;
     letter-spacing: .125rem;
     cursor: pointer;
-    transition: background .3s, transform .2s;
+    transition: background .2s, transform .15s;
 }
 
 .talkButton:hover {
     background: #c17f28;
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 /* cartões */
 .cards {
     display: flex;
-    width: 100%;
-    max-width: 78rem;
-    /* content width */
-    margin-inline: auto;
-    height: auto;
-    /* antes: height fixa */
     justify-content: center;
     align-items: flex-start;
     gap: clamp(16px, 5vw, 3.75rem);
-    padding: clamp(14px, 3vw, 24px) 0;
-    background-color: black;
+    padding-block: clamp(14px, 3vw, 24px);
     border-top: .5px solid #D59532;
     flex-wrap: wrap;
-    /* ✅ quebra em tablets */
 }
 
+/* barra legal com separador a 100% e conteúdo alinhado ao main */
+.legalWrapper {
+   
+    padding-block: clamp(8px, 2vw, 12px);
+}
+
+/* 376–414px */
 @media (max-width: 414px) and (min-width: 376px) {
     .cards {
         flex-direction: column;
         align-items: flex-start;
-        /* 👈 força alinhamento à esquerda */
         gap: 1.5rem;
-        padding: 1.25rem 0;
     }
 
     .cards>* {
         width: 100% !important;
         text-align: left;
-        /* 👈 garante que os textos/links ficam alinhados à esquerda */
     }
 }
 
+/* <= 376px */
 @media (max-width: 23.5rem) {
     .title {
-        padding: .75rem 0;
+        padding-block: .75rem;
         text-align: center;
     }
 
     .talk {
         gap: .5rem;
-        padding: .5rem 0 1rem;
+        padding-block: .5rem 1rem;
     }
 
     .talkButton {
@@ -103,7 +92,7 @@
     .cards {
         flex-direction: column;
         gap: 1.5rem;
-        padding: 1.25rem 0;
+        padding-block: 1.25rem;
     }
 
     .cards>* {

@@ -12,6 +12,10 @@
     min-height: var(--header-h);
 }
 
+
+
+
+
 .headerContent {
     display: flex;
     align-items: center;

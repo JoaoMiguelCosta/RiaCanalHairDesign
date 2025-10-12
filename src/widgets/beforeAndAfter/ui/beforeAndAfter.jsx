@@ -40,7 +40,11 @@ const BeforeAndAfterSection = () => {
   } = usePagedSets(BeforeAfter, ITEMS_PER_PAGE);
 
   return (
-    <section id="Transformations" className={beforeAfter}>
+    <section
+      id="Transformations"
+      className={beforeAfter}
+      aria-labelledby="ba-title"
+    >
       <Subtitle>RESULTADOS REAIS</Subtitle>
       <Title line1="Transformações" line2="Reais" variant="highlight" />
       <Text className={introText} variant="centerMobile">
@@ -81,6 +85,11 @@ const BeforeAndAfterSection = () => {
             afterSrc={c.after}
             title={c.title}
             caption={c.caption}
+            /* A11y + performance, sem alterar UI/fluxo */
+            beforeAlt={c.title ? `Antes — ${c.title}` : "Antes"}
+            afterAlt={c.title ? `Depois — ${c.title}` : "Depois"}
+            imgLoading="lazy"
+            imgDecoding="async"
           />
         ))}
 

@@ -38,7 +38,18 @@
         width: 100%;
     }
 
+         .linksGrid {
+             justify-content: center;
+             /* centra o grid no container */
+             justify-items: center;
+             /* centra cada célula */
+             column-gap: 6rem;
+             /* opcional: aperta o espaçamento */
+         }
+
     .title {
-        text-align: left;
+        text-align: center;
     }
+
+    
 }

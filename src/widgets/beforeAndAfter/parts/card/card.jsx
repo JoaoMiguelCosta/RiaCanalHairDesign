@@ -20,8 +20,14 @@ const {
 function BeforeAfterSlider({
   beforeSrc,
   afterSrc,
-  altBefore = "Antes",
-  altAfter = "Depois",
+  // Aceita ambos: altBefore/altAfter e beforeAlt/afterAlt (aliases)
+  altBefore,
+  altAfter,
+  beforeAlt,
+  afterAlt,
+  // atributos de performance das imagens
+  imgLoading = "lazy",
+  imgDecoding = "async",
   auto = true,
   speed = 20, // intervalo do setInterval (ms)
   pauseOnHover = true,
@@ -37,6 +43,10 @@ function BeforeAfterSlider({
     hoverHandlers,
   } = useBeforeAfterSlider({ auto, speed, pauseOnHover, startPercent });
 
+  // Resolve alias de alt sem quebrar compatibilidade
+  const resolvedAltBefore = beforeAlt ?? altBefore ?? "Antes";
+  const resolvedAltAfter = afterAlt ?? altAfter ?? "Depois";
+
   return (
     <div
       ref={containerRef}
@@ -49,11 +59,23 @@ function BeforeAfterSlider({
       {...hoverHandlers}
     >
       {/* Base: imagem "antes" */}
-      <img src={beforeSrc} alt={altBefore} className={sliderImage} />
+      <img
+        src={beforeSrc}
+        alt={resolvedAltBefore}
+        className={sliderImage}
+        loading={imgLoading}
+        decoding={imgDecoding}
+      />
 
       {/* Clip revelado: imagem "depois" + badge que a acompanha */}
       <div className={afterClip} style={{ width: `${percent}%` }}>
-        <img src={afterSrc} alt={altAfter} className={sliderImage} />
+        <img
+          src={afterSrc}
+          alt={resolvedAltAfter}
+          className={sliderImage}
+          loading={imgLoading}
+          decoding={imgDecoding}
+        />
         <span className={afterBadge}>Depois</span>
       </div>
 
@@ -82,8 +104,14 @@ function Card({
   afterSrc,
   title,
   caption,
-  altBefore = "Antes",
-  altAfter = "Depois",
+  // Compat: props antigos e novos
+  altBefore,
+  altAfter,
+  beforeAlt,
+  afterAlt,
+  // Performance das imagens (padrões seguros)
+  imgLoading = "lazy",
+  imgDecoding = "async",
   auto = true,
   speed = 20, // pode ser ajustado via prop
   pauseOnHover = true,
@@ -97,6 +125,10 @@ function Card({
           afterSrc={afterSrc}
           altBefore={altBefore}
           altAfter={altAfter}
+          beforeAlt={beforeAlt}
+          afterAlt={afterAlt}
+          imgLoading={imgLoading}
+          imgDecoding={imgDecoding}
           auto={auto}
           speed={speed}
           pauseOnHover={pauseOnHover}

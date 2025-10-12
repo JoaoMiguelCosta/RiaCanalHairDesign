@@ -12,6 +12,9 @@ const toLabel = (key) => key.charAt(0).toUpperCase() + key.slice(1);
 const NavMenuMobile = () => {
   const { menuOpen, toggleMenu, handleClose } = useMobileMenu();
 
+  // A11y: identificar item ativo por hash atual (não altera UI)
+  const currentHash = typeof window !== "undefined" ? window.location.hash : "";
+
   return (
     <div className={styles.mobileContainer}>
       <div className={styles.topIcons}>
@@ -23,7 +26,12 @@ const NavMenuMobile = () => {
             rel="noopener noreferrer"
             aria-label={toLabel(platform)}
           >
-            <Icon name={platform} className={styles.icon} />
+            <Icon
+              name={platform}
+              className={styles.icon}
+              aria-hidden="true"
+              focusable="false"
+            />
           </a>
         ))}
 
@@ -32,12 +40,25 @@ const NavMenuMobile = () => {
           button={styles.menuButton}
           aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
         >
-          <Icon name={menuOpen ? "close" : "menu"} className={styles.icon} />
+          <Icon
+            name={menuOpen ? "close" : "menu"}
+            className={styles.icon}
+            aria-hidden="true"
+            focusable="false"
+          />
         </Button>
       </div>
 
       {menuOpen && (
-        <div className={styles.menuOverlay} role="dialog" aria-modal="true">
+        <div
+          className={styles.menuOverlay}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu de navegação"
+          onKeyDown={(e) => {
+            if (e.key === "Escape") handleClose();
+          }}
+        >
           <ul className={styles.menuList}>
             {NavItemsMobile.map((item) => (
               <li key={item.label}>
@@ -45,6 +66,8 @@ const NavMenuMobile = () => {
                   href={item.href}
                   className={styles.menuItem}
                   onClick={handleClose}
+                  // A11y: marca link ativo quando hash coincide
+                  aria-current={item.href === currentHash ? "true" : undefined}
                 >
                   {item.label}
                 </a>

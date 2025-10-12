@@ -16,6 +16,7 @@
 /* Wrapper para suportar dropdown */
 .menuItemWrapper {
     position: relative;
+    color: #f2f2f2;
 }
 
 /* Link/Span base */
@@ -36,6 +37,10 @@
     white-space: nowrap;
     /* evita quebra tipo “SOBRE NÓS” */
 }
+.menuItem[aria-current="true"] {
+    color: #f2f2f2;
+}
+
 
 .menuItem:visited {
     color: #f2f2f2;

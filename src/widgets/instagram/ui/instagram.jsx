@@ -31,7 +31,12 @@ const Instagram = () => {
       </Text>
 
       <div className={styles.buttoninsta}>
-        <Button button={styles.instagramButton} onClick={handleInstagramClick}>
+        {/* A11y: nome da ação claro para leitores de ecrã */}
+        <Button
+          button={styles.instagramButton}
+          onClick={handleInstagramClick}
+          aria-label="Abrir Instagram: perfil @ria_canal_hairdesign"
+        >
           {handle}
         </Button>
 
@@ -47,9 +52,11 @@ const Instagram = () => {
         </div>
 
         <div className={styles.seguir}>
+          {/* A11y: ação explícita */}
           <Button
             button={styles.instagramFollowButton}
             onClick={handleInstagramClick}
+            aria-label="Seguir no Instagram"
           >
             SEGUIR NO INSTAGRAM
           </Button>

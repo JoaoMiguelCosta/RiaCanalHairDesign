@@ -5,12 +5,18 @@ import styles from "./terms.module.css";
 
 function Terms() {
   return (
-    <main className={styles.container}>
-      <Link to="/" className={styles.backButton}>
+    <main id="main" aria-labelledby="terms-title" className={styles.container}>
+      <Link
+        to="/"
+        className={styles.backButton}
+        aria-label="Voltar à página inicial"
+      >
         ← Voltar
       </Link>
 
-      <h1 className={styles.title}>Termos & Condições</h1>
+      <h1 id="terms-title" className={styles.title}>
+        Termos & Condições
+      </h1>
 
       <h2 className={styles.subtitle}>1. Informações do Site</h2>
       <p className={styles.paragraph}>

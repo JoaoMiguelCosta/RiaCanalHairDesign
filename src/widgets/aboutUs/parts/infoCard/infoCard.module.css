@@ -45,6 +45,16 @@
     /* altura fixa removida (mantém o mesmo resultado visual, mas responsivo) */
 }
 
+:root {
+    --brand-accent: #D59532;
+    /* laranja da marca */
+}
+
+.accent {
+    color: var(--brand-accent);
+}
+
+
 /* texto */
 .text {
     color: var(--text-color);

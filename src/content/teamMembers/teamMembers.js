@@ -1,8 +1,8 @@
-import fernanda from "@media/Team/hairdressers/fernanda.jpg";
-import vanessa from "@media/Team/hairdressers/vanessa.jpg";
-import sabrina from "@media/Team/aesthetics/sabrina.jpg";
-import cristina from "@media/Team/hairdressers/cristina.jpg";
-import mary from "@media/Team/nails/mary.jpg";
+import fernanda from "@media/team/hairdressers/fernanda.jpg";
+import vanessa from "@media/team/hairdressers/vanessa.jpg";
+import sabrina from "@media/team/aesthetics/sabrina.jpg";
+import cristina from "@media/team/hairdressers/cristina.jpg";
+import mary from "@media/team/nails/mary.jpg";
 
 const TeamMembers = {
   hairdressers: [

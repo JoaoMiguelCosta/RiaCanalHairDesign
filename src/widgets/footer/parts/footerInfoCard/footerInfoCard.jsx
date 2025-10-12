@@ -17,7 +17,13 @@ const FooterInfoCard = () => (
   <div className={info}>
     <a href="#Start" className={logoLink} aria-label="Voltar ao início">
       <div className={logoTagline}>
-        <LogoComponent className={logoWrapper} imgClassName={logoImg} />
+        {/* Logo decorativo porque o link já tem aria-label e a TagLine tem texto */}
+        <LogoComponent
+          className={logoWrapper}
+          imgClassName={logoImg}
+          alt=""
+          ariaHidden
+        />
         <TagLine {...TAGLINE_PROPS} />
       </div>
     </a>

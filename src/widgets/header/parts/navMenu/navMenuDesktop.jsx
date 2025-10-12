@@ -5,11 +5,15 @@ import SubMenu from "@widgets/header/parts/subMenu/subMenu.jsx";
 import NavItems from "@content/navigation/navItemsDesktop.json"; // ⬅️ dados via alias
 
 const NavMenuDesktop = () => {
+  // A11y: identificar o item ativo por hash atual (não altera UI)
+  const currentHash = typeof window !== "undefined" ? window.location.hash : "";
+
   return (
-    <nav>
+    <nav aria-label="Navegação principal">
       <ul className={styles.menu}>
         {NavItems.map((item, index) => {
           const { label, href, hasDropdown } = item;
+
           const commonContent = (
             <>
               {label}
@@ -19,7 +23,9 @@ const NavMenuDesktop = () => {
             </>
           );
 
-          const wrapperClass = `${styles.menuItemWrapper} ${hasDropdown ? styles.hasDropdown : ""}`;
+          const wrapperClass = `${styles.menuItemWrapper} ${
+            hasDropdown ? styles.hasDropdown : ""
+          }`;
 
           return (
             <li key={index} className={wrapperClass}>
@@ -27,6 +33,8 @@ const NavMenuDesktop = () => {
                 <a
                   href={href}
                   className={`${styles.menuItem} ${styles.clickable}`}
+                  // Marca o link ativo quando o hash coincide (ex.: #Works)
+                  aria-current={href === currentHash ? "true" : undefined}
                 >
                   {commonContent}
                 </a>
