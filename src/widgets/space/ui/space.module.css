@@ -1,3 +1,4 @@
+/* ======= LAYOUT GERAL ======= */
 .space {
     width: 100%;
     display: flex;
@@ -28,69 +29,52 @@
     max-width: none;
 }
 
-/* ===== blocos ===== */
+/* ====== GRELHAS (relax / styling / video) ====== */
 .relax,
 .styling,
 .video {
     width: min(100%, 78rem);
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    /* permite quebrar linha */
-    justify-content: center;
-    align-items: stretch;
     background-color: black;
-    gap: var(--g, clamp(16px, 3vw, 32px));
-    padding-inline: clamp(12px, 4vw, 32px);
     box-sizing: border-box;
+    padding-inline: clamp(12px, 4vw, 32px);
+    --g: clamp(16px, 3vw, 32px);
+    display: grid;
+    align-items: stretch;
+    gap: var(--g);
 
-    /* aumenta a área dos cards (herdado pelos FacilityCard) */
+    /* defaults herdados pelo FacilityCard */
     --card-w: 100%;
     --card-min-h: clamp(22rem, 34vw, 28rem);
-}
 
-/* ----- 1ª fila (relax) ----- */
-.relax {
-    --g: clamp(16px, 3vw, 32px);
-
-    /* ✅ sem corte nem zoom nas imagens desta fila */
+    /* imagens destas filas sem zoom */
     --bg-size: contain;
     --bg-zoom: 1;
 }
 
-/* 2 colunas por defeito (médio) */
-.relax>* {
-    flex: 0 1 calc((100% - (1 * var(--g))) / 2);
-    max-width: calc((100% - (1 * var(--g))) / 2);
-}
+/* ===== MOBILE (<= 376px): 1 coluna ===== */
+@media (max-width: 23.5rem) {
 
-/* 4 colunas no desktop */
-@media (min-width: 64rem) {
-
-    /* ~1024px */
-    .relax>* {
-        flex-basis: calc((100% - (3 * var(--g))) / 4);
-        max-width: calc((100% - (3 * var(--g))) / 4);
+    .relax,
+    .styling,
+    .video {
+        grid-template-columns: 1fr;
+        --card-min-h: auto;
+        padding-inline: .75rem;
     }
 }
 
-/* ----- 2ª fila (styling) ----- */
-.styling {
-    --g: clamp(16px, 3vw, 32px);
+/* ===== >= 376px (tablet e desktop): 2 colunas fixas (vídeo a 1 coluna) ===== */
+@media (min-width: 23.5625rem) {
 
-    /* ✅ sem corte nem zoom nas imagens desta fila */
-    --bg-size: contain;
-    --bg-zoom: 1;
-}
+    .relax,
+    .styling {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        --card-min-h: clamp(18rem, 32vw, 24rem);
+    }
 
-.styling>* {
-    flex: 0 1 calc((100% - (1 * var(--g))) / 2);
-    max-width: calc((100% - (1 * var(--g))) / 2);
-}
-
-/* vídeo mantém coluna única */
-.video {
-    flex-direction: column;
+    .video {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ---------- filosofia ---------- */
@@ -149,13 +133,9 @@
     text-align: center;
 }
 
-/* ===== MOBILE (<= 23.5rem) ===== */
+/* ===== MOBILE ajustes ===== */
 @media (max-width: 23.5rem) {
     .space {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        height: auto;
         gap: 1rem;
     }
 
@@ -171,29 +151,13 @@
 
     .aboutText span {
         width: 100%;
-        height: auto;
         display: block;
         text-align: left;
-    }
-
-    /* 1 coluna no mobile */
-    .relax,
-    .styling {
-        padding-inline: .75rem;
-        --card-min-h: auto;
-        /* não força altura */
-    }
-
-    .relax>*,
-    .styling>* {
-        flex-basis: 100%;
-        max-width: 100%;
     }
 
     .video {
         width: 100%;
         height: auto;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
         background-color: black;
@@ -228,7 +192,7 @@
         width: 100%;
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: .5rem;
         background-color: transparent;
         justify-content: flex-start;
     }
@@ -239,19 +203,53 @@
     }
 }
 
-/* ====== TABLET & TEL. GRANDES (>= 376px e < 1024px) ====== */
-@media (min-width: 23.5625rem) and (max-width: 64rem) {
+/* ===== VARS PARA ALINHAMENTO INTERNO DOS CARDS ===== */
+.fcVars {
+    --firstin-size: clamp(6.25rem, 6vw, 7.25rem);
+    --first-min-h: clamp(11rem, 14vw, 12.75rem);
+    --second-min-h: 3.5rem;
+    --third-min-h: 3.25rem;
+}
 
-    /* permite que os FacilityCards herdem um mínimo mais baixo */
-    .relax,
-    .styling {
-        --card-min-h: clamp(18rem, 32vw, 24rem);
+/* Tablet fino extra */
+@media (min-width: 41.5rem) and (max-width: 64rem) {
+    .fcVars {
+        --firstin-size: clamp(5.25rem, 9vw, 6.25rem);
+        --first-min-h: clamp(9.5rem, 24vw, 11rem);
+        --second-min-h: 3rem;
+        --third-min-h: 3rem;
     }
+}
 
-    /* mantém 2 colunas com gap fluido */
-    .relax>*,
-    .styling>* {
-        flex: 0 1 calc((100% - (1 * var(--g))) / 2);
-        max-width: calc((100% - (1 * var(--g))) / 2);
+/* ≤ 663px */
+@media (max-width: 41.4rem) {
+    .fcVars {
+        --firstin-size: clamp(4.75rem, 26vw, 5.5rem);
+        --first-min-h: clamp(8.75rem, 28vw, 10rem);
+        --second-min-h: 2.8rem;
+        --third-min-h: 3rem;
     }
+}
+
+/* ≤ 376px */
+@media (max-width: 23.5rem) {
+    .fcVars {
+        --firstin-size: clamp(3.9rem, 28vw, 5rem);
+        --first-min-h: clamp(7.75rem, 28vw, 9rem);
+        --second-min-h: 2.6rem;
+        --third-min-h: 2.8rem;
+    }
+}
+
+/* ===== Altura extra só para cards com imagem/vídeo em ≤375px ===== */
+@media (max-width: 23.5rem) {
+    .tallerMobile {
+        /* aumenta ligeiramente a área do card para mostrar mais da imagem/vídeo */
+        --card-min-h: clamp(16rem, 62vw, 22rem);
+    }
+}
+
+/* ===== Desativar "toque para ver" apenas no Space ===== */
+:global(#Space .tapHint) {
+    display: none !important;
 }

@@ -315,3 +315,37 @@
     margin-bottom: 0.25rem;
   }
 }
+
+/* Hint subtil no mobile (apenas touch) */
+.tapHint {
+  position: absolute;
+  left: 50%;
+  bottom: .5rem;
+  transform: translateX(-50%);
+  padding: .25rem .6rem;
+  border-radius: 9999px;
+  border: 1px solid #D59532;
+  background: rgba(0, 0, 0, .55);
+  color: #D1D5DB;
+  font-family: Montserrat, sans-serif;
+  font-size: .75rem;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: 4;
+}
+
+@media (hover:none) {
+
+  /* mostra o hint enquanto a card NÃO está aberta */
+  .imageHoverCard:not(.open) .tapHint {
+    opacity: 1;
+  }
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .tapHint {
+    display: none;
+  }
+}

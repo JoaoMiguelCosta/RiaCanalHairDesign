@@ -24,7 +24,7 @@
     /* não quebrar (números/curtas palavras) */
     white-space: nowrap;
 
-    /* não forces largura: deixa herdar do card */
+    /* deixa herdar do card */
     width: auto;
     max-width: 100%;
 }
@@ -64,7 +64,7 @@
     }
 }
 
-/* mobile ≤ 376px: já fica bom com clamp; só garantimos largura total quando necessário */
+/* mobile ≤ 376px: largura total quando necessário */
 @media (max-width: 23.5rem) {
     .card {
         width: 100%;

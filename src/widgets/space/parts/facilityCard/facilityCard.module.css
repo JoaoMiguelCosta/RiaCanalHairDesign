@@ -1,395 +1,326 @@
 /* ====== BASES (iguais para todas as variantes) ====== */
 .Block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* GRID interno para nivelar ícone/título/descrição */
 .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #D59532;
-    background: #1C2431;
-    position: relative;
-    overflow: hidden;
+  display: grid;
+  grid-template-rows:
+    var(--first-min-h, 12.6875rem)  /* linha do quadrado */
+    var(--second-min-h, 3.5rem)     /* linha do título */
+    var(--third-min-h, 1fr);        /* linha da descrição (flexível) */
+  justify-items: center;
+  align-items: start;
+  gap: .625rem;
 
-    /* largura/altura fluídas controladas por variáveis de cada variante */
-    width: min(100%, var(--card-w, 39rem));
-    min-height: var(--card-min-h, 25.375rem);
-    box-sizing: border-box;
+  border: 1px solid #D59532;
+  background: #1C2431;
+  position: relative;
+  overflow: hidden;
+
+  width: min(100%, var(--card-w, 39rem));
+  min-height: var(--card-min-h, 25.375rem);
+  box-sizing: border-box;
 }
 
 /* mídia como IMG de fundo (não background-image) */
 .bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: var(--bg-size, cover);
-    /* cover | contain */
-    opacity: 0;
-    transform: scale(var(--bg-zoom, 1.05));
-    /* 1.05 por defeito */
-    transition: opacity 300ms ease, transform 300ms ease;
-    pointer-events: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--bg-size, cover);
+  opacity: 0;
+  transform: scale(var(--bg-zoom, 1.05));
+  transition: opacity 300ms ease, transform 300ms ease;
+  pointer-events: none;
 }
 
 /* Vídeo de fundo */
 .bgVideo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transform: scale(1.05);
-    transition: opacity 300ms ease, transform 300ms ease;
-    pointer-events: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 300ms ease, transform 300ms ease;
+  pointer-events: none;
 }
 
 /* Hover desktop (funciona em qualquer largura) */
 @media (hover:hover) and (pointer:fine) {
-
-    .card:hover .bg,
-    .card:focus-visible .bg,
-    .card:hover .bgVideo,
-    .card:focus-visible .bgVideo {
-        opacity: 1;
-        transform: scale(1);
-    }
+  .card:hover .bg,
+  .card:focus-visible .bg,
+  .card:hover .bgVideo,
+  .card:focus-visible .bgVideo {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Touch: toggle fixo com classe .open */
 @media (hover:none) {
-    .card {
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-    }
+  .card { cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 
-    .card .bg,
-    .card .bgVideo {
-        opacity: 0;
-        transform: none;
-        /* evita “salto” ao abrir */
-    }
+  .card .bg,
+  .card .bgVideo {
+    opacity: 0;
+    transform: none; /* evita “salto” ao abrir */
+  }
 
-    /* <<< FIXO no toque >>> */
-    .card.open .bg,
-    .card.open .bgVideo {
-        opacity: 1;
-        transform: none;
-    }
+  .card.open .bg,
+  .card.open .bgVideo {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* bloco superior */
 .first {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    gap: .625rem;
-    /* alturas/padding por variante */
-    min-height: var(--first-min-h, 12.6875rem);
-    padding: var(--first-pad-y, 1rem) var(--first-pad-x, 3rem) 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: end center;
+  padding: var(--first-pad-y, 1rem) var(--first-pad-x, 3rem) 0;
+  box-sizing: border-box;
 }
 
 .firstin {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #D59532;
-    width: var(--firstin-size, 7.375rem);
-    aspect-ratio: 1 / 1;
-    box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  border: 1px solid #D59532;
+  width: var(--firstin-size, 7.375rem);
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
 }
 
 .firstinspan {
-    color: #D59532;
-    font-family: Montserrat;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: .125rem;
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: anywhere;
+  color: #D59532;
+  font-family: Montserrat;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: .125rem;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .second {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .625rem;
-    color: #F2F2F2;
-    font-family: "Playfair Display";
-    font-size: 1.125rem;
-    font-weight: 600;
-    text-align: center;
-    padding: .5rem 1rem;
-    box-sizing: border-box;
-    height: auto;
-    min-height: var(--second-min-h, 0);
-    white-space: normal;
-    overflow-wrap: anywhere;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .625rem;
+  color: #F2F2F2;
+  font-family: "Playfair Display";
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: center;
+  padding: .5rem 1rem;
+  box-sizing: border-box;
 
-    /* ✅ clamp padrão + compatibilidade */
-    line-clamp: 2;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .third {
-    display: flex;
-    justify-content: center;
-    gap: .625rem;
-    color: #D1D5DB;
-    font-family: Montserrat;
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    padding: .5rem 1rem;
-    box-sizing: border-box;
-    height: auto;
-    min-height: var(--third-min-h, 0);
-    white-space: normal;
-    overflow-wrap: anywhere;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: .625rem;
+  color: #D1D5DB;
+  font-family: Montserrat;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  padding: .5rem 1rem 1rem;
+  box-sizing: border-box;
 
-    /* ✅ clamp padrão + compatibilidade */
-    line-clamp: 2;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ====== VARIANTES ====== */
 .variant1 {
-    --card-w: 39rem;
-    --card-min-h: 25.375rem;
-    --firstin-size: 7.375rem;
-    --first-min-h: 12.6875rem;
-    --second-min-h: 3.5rem;
-    --third-min-h: 9.1875rem;
-    --first-pad-x: clamp(16px, 6vw, 4.5rem);
-    --first-pad-y: 1rem;
+  --card-w: 39rem;
+  --card-min-h: 25.375rem;
+  --firstin-size: 7.375rem;
+  --first-min-h: 12.6875rem;
+  --second-min-h: 3.5rem;
+  --third-min-h: 9.1875rem;
+  --first-pad-x: clamp(16px, 6vw, 4.5rem);
+  --first-pad-y: 1rem;
 
-    /* defaults de imagem */
-    --bg-size: cover;
-    /* mapeia object-fit */
-    --bg-zoom: 1.05;
+  --bg-size: cover; /* mapeia object-fit */
+  --bg-zoom: 1.05;
 }
 
 .variant1Caption {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    width: 100%;
-    max-width: 39rem;
-    height: auto;
-    gap: .5rem;
-    background-color: black;
-    padding-top: .25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  width: 100%;
+  max-width: 39rem;
+  gap: .5rem;
+  background-color: black;
+  padding-top: .25rem;
 }
 
 .variant2 {
-    --card-w: 21.25rem;
-    --card-min-h: 25.375rem;
-    --firstin-size: 7.375rem;
-    --first-min-h: 14.65625rem;
-    --second-min-h: 3.5rem;
-    --third-min-h: 7.1875rem;
-    --first-pad-x: clamp(12px, 4vw, 2.75rem);
-    --first-pad-y: .8125rem;
+  --card-w: 21.25rem;
+  --card-min-h: 25.375rem;
+  --firstin-size: 7.375rem;
+  --first-min-h: 14.65625rem;
+  --second-min-h: 3.5rem;
+  --third-min-h: 7.1875rem;
+  --first-pad-x: clamp(12px, 4vw, 2.75rem);
+  --first-pad-y: .8125rem;
 
-    /* defaults de imagem */
-    --bg-size: cover;
-    /* mapeia object-fit */
-    --bg-zoom: 1.05;
+  --bg-size: cover;
+  --bg-zoom: 1.05;
 }
 
-.variant2 .second {
-    padding: .5rem 1rem;
-}
-
-.variant2 .third {
-    padding: .5rem 1rem;
-}
+.variant2 .second { padding: .5rem 1rem; }
+.variant2 .third  { padding: .5rem 1rem 1rem; }
 
 .variant2Caption {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    width: 100%;
-    max-width: 21.25rem;
-    height: auto;
-    gap: .5rem;
-    background-color: black;
-    padding-top: .25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  width: 100%;
+  max-width: 21.25rem;
+  gap: .5rem;
+  background-color: black;
+  padding-top: .25rem;
 }
 
 /* ================== MOBILE (<= 23.5rem) ================== */
 @media (max-width: 23.5rem) {
-    .Block {
-        width: 100%;
-    }
+  .Block { width: 100%; }
+  .card  { width: 100%; min-height: auto; }
 
-    .card {
-        width: 100%;
-        min-height: auto;
-        /* não força altura */
-    }
+  .variant1,
+  .variant2 {
+    --firstin-size: clamp(3.75rem, 28vw, 5rem);
+    --first-min-h: clamp(6rem, 28vw, 8rem);
+    --second-min-h: 2.25rem;
+    --third-min-h: 2.25rem;
+    --card-min-h: auto;
+  }
 
-    /* ⚡️ encolhe o topo do card (quadrado e área superior) */
-    .variant1,
-    .variant2 {
-        --firstin-size: clamp(3.75rem, 28vw, 5rem);
-        /* antes ~7.375rem */
-        --first-min-h: clamp(6rem, 28vw, 8rem);
-        /* antes ~12–14rem */
-        --second-min-h: 2.25rem;
-        /* título compacto */
-        --third-min-h: 2.25rem;
-        /* descrição 1 linha */
-        --card-min-h: auto;
-    }
+  .first        { padding: clamp(8px, 2.5vw, 12px) clamp(12px, 5vw, 20px) 0; }
+  .firstinspan  { font-size: .9rem; letter-spacing: .1rem; }
+  .second       { font-size: 1rem; padding: .375rem .75rem; }
+  .third        { font-size: .95rem; padding: .375rem .75rem 1rem; }
 
-    .first {
-        min-height: var(--first-min-h);
-        padding: clamp(8px, 2.5vw, 12px) clamp(12px, 5vw, 20px) 0;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .firstinspan {
-        font-size: .9rem;
-        letter-spacing: .1rem;
-    }
-
-    .second {
-        font-size: 1rem;
-        /* antes 1.125rem */
-        padding: .375rem .75rem;
-    }
-
-    .third {
-        font-size: .95rem;
-        /* antes 1rem */
-        padding: .375rem .75rem;
-    }
-
-    /* captions abaixo do card viram “cartão” alinhado */
-    .variant1Caption,
-    .variant2Caption {
-        width: 100%;
-        height: auto;
-        gap: .35rem;
-        border: 1px solid #D59532;
-        background: #1C2431;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-        padding: .5rem .75rem;
-    }
+  .variant1Caption,
+  .variant2Caption {
+    width: 100%;
+    gap: .35rem;
+    border: 1px solid #D59532;
+    background: #1C2431;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem .75rem;
+  }
 }
 
-/* ====== TABLET & TEL. GRANDES (>= 376px e < 1024px) ====== */
+/* ====== TABLET (>= 376px e < 1024px) ====== */
 @media (min-width: 23.5625rem) and (max-width: 64rem) {
-
-    /* encolhe alturas mínimas e o quadrado superior */
-    .variant1,
-    .variant2 {
-        --card-min-h: clamp(18rem, 32vw, 24rem);
-        --firstin-size: clamp(4.5rem, 14vw, 6rem);
-        --first-min-h: clamp(8rem, 28vw, 10.5rem);
-        --second-min-h: 2.5rem;
-        --third-min-h: 2.5rem;
-    }
-
-    .first {
-        padding: clamp(10px, 2vw, 14px) clamp(16px, 4vw, 28px) 0;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .firstinspan {
-        font-size: 0.95rem;
-        letter-spacing: 0.1rem;
-    }
-
-    .second {
-        font-size: 1.05rem;
-        padding: .4rem .9rem;
-
-        /* ✅ clamp padrão + compatibilidade */
-        line-clamp: 2;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .third {
-        font-size: 0.98rem;
-        padding: .4rem .9rem;
-
-        /* ✅ clamp padrão + compatibilidade */
-        line-clamp: 2;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .variant1Caption,
-    .variant2Caption {
-        padding-top: .2rem;
-        gap: .4rem;
-    }
+  .variant1,
+  .variant2 {
+    --card-min-h: clamp(18rem, 32vw, 24rem);
+    --firstin-size: clamp(4.5rem, 14vw, 6rem);
+    --first-min-h: clamp(8rem, 28vw, 10.5rem);
+    --second-min-h: 2.5rem;
+    --third-min-h: 2.5rem;
+  }
+  .first        { padding: clamp(10px, 2vw, 14px) clamp(16px, 4vw, 28px) 0; }
+  .firstinspan  { font-size: 0.95rem; letter-spacing: 0.1rem; }
+  .second       { font-size: 1.05rem; }
+  .third        { font-size: 0.98rem; }
 }
 
 /* ====== FIX: até 640px a palavra no quadrado não quebra ====== */
 @media (max-width: 40rem) {
+  .variant1, .variant2 { --firstin-size: clamp(4rem, 26vw, 5.5rem); }
 
-    .variant1,
-    .variant2 {
-        --firstin-size: clamp(4rem, 26vw, 5.5rem);
-    }
+  .firstinspan {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    hyphens: manual;
+    font-size: 0.95rem;
+    letter-spacing: 0.12rem;
+  }
 
-    .firstinspan {
-        white-space: nowrap;
-        /* não quebrar linhas */
-        overflow-wrap: normal;
-        /* não dividir palavras */
-        word-break: keep-all;
-        /* mantém a palavra inteira */
-        hyphens: manual;
-        font-size: 0.95rem;
-        letter-spacing: 0.12rem;
-    }
+  .second, .third {
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: manual;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 
-    /* 👉 também limitamos subtítulo/descrição a 2 linhas até 640px */
-    .second,
-    .third {
-        overflow-wrap: normal;
-        word-break: normal;
-        hyphens: manual;
+/* ===== HINT touch ===== */
+.tapHint {
+  position: absolute;
+  left: 50%;
+  bottom: .5rem;
+  transform: translateX(-50%);
+  padding: .25rem .6rem;
+  border-radius: 9999px;
+  border: 1px solid #D59532;
+  background: rgba(0, 0, 0, .55);
+  color: #D1D5DB;
+  font-family: Montserrat, sans-serif;
+  font-size: .75rem;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: 3;
+}
+@media (hover:none) { .card:not(.open) .tapHint { opacity: 1; } }
+@media (hover:hover) and (pointer:fine) { .tapHint { display: none; } }
 
-        line-clamp: 2;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+/* ===== Animação de esconder conteúdos + mídia full-card em <=375px ===== */
+.first, .second, .third {
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+@media (max-width: 23.5rem) {
+  .card.open .bg,
+  .card.open .bgVideo {
+    opacity: 1;
+    transform: none;
+    object-fit: cover; /* ocupa o cartão todo */
+  }
+  .card.open .first,
+  .card.open .second,
+  .card.open .third {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+  }
 }

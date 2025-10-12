@@ -1,4 +1,3 @@
-// src/widgets/space/ui/space.jsx
 import styles from "./space.module.css";
 
 import Subtitle from "@shared/ui/subtitle/subtitle.jsx";
@@ -27,11 +26,9 @@ const IMAGE_BY_KEY = {
   washStation: RawImages.washStation,
 };
 
-const VIDEO_BY_KEY = {
-  moments: RawVideos.moments,
-};
+const VIDEO_BY_KEY = { moments: RawVideos.moments };
 
-// 🔎 Alt curto e descritivo (A11y). Mantém saídas/markup.
+// 🔎 Alt curto e descritivo (A11y)
 const ALT_BY_KEY = {
   treatmentRoom: "Sala de Estética",
   nailsArea: "Mesa de Unhas",
@@ -60,51 +57,72 @@ const Space = () => {
         <span>{intro}</span>
       </Text>
 
-      {/* ÁREAS DE RELAX */}
+      {/* ===== ÁREAS DE RELAX ===== */}
       <div className={styles.relax}>
         {relaxCards.map((c, idx) => (
-          <FacilityCard
+          <div
             key={`${c.title}-${c.subtitle}-${idx}`}
-            {...c}
-            imageSrc={IMAGE_BY_KEY[c.imageKey]}
-            /* A11y: alt explícito (fallback para título/subtítulo) */
-            imageAlt={
-              ALT_BY_KEY[c.imageKey] || c.subtitle || c.title || "Área do salão"
-            }
-            /* Performance explícita (mantém defaults do componente) */
-            imgLoading="lazy"
-            imgDecoding="async"
-          />
+            className={`${styles.fcVars} ${
+              c.imageKey || c.videoKey ? styles.tallerMobile : ""
+            }`}
+          >
+            <FacilityCard
+              {...c}
+              imageSrc={IMAGE_BY_KEY[c.imageKey]}
+              imageAlt={
+                ALT_BY_KEY[c.imageKey] ||
+                c.subtitle ||
+                c.title ||
+                "Área do salão"
+              }
+              imgLoading="lazy"
+              imgDecoding="async"
+              showHint={false}
+            />
+          </div>
         ))}
       </div>
 
-      {/* STYLING E LAVAGEM */}
+      {/* ===== STYLING E LAVAGEM ===== */}
       <div className={styles.styling}>
         {stylingCards.map((c, idx) => (
-          <FacilityCard
+          <div
             key={`${c.title}-${c.subtitle}-${idx}`}
-            {...c}
-            imageSrc={IMAGE_BY_KEY[c.imageKey]}
-            imageAlt={
-              ALT_BY_KEY[c.imageKey] || c.subtitle || c.title || "Área do salão"
-            }
-            imgLoading="lazy"
-            imgDecoding="async"
-          />
+            className={`${styles.fcVars} ${
+              c.imageKey || c.videoKey ? styles.tallerMobile : ""
+            }`}
+          >
+            <FacilityCard
+              {...c}
+              imageSrc={IMAGE_BY_KEY[c.imageKey]}
+              imageAlt={
+                ALT_BY_KEY[c.imageKey] ||
+                c.subtitle ||
+                c.title ||
+                "Área do salão"
+              }
+              imgLoading="lazy"
+              imgDecoding="async"
+              showHint={false}
+            />
+          </div>
         ))}
       </div>
 
-      {/* VÍDEO */}
+      {/* ===== VÍDEO ===== */}
       <div className={styles.video}>
         {videoCard && (
-          <FacilityCard
-            {...videoCard}
-            videoSrc={VIDEO_BY_KEY[videoCard.videoKey]}
-          />
+          <div className={`${styles.fcVars} ${styles.tallerMobile}`}>
+            <FacilityCard
+              {...videoCard}
+              videoSrc={VIDEO_BY_KEY[videoCard.videoKey]}
+              showHint={false}
+            />
+          </div>
         )}
       </div>
 
-      {/* FILOSOFIA */}
+      {/* ===== FILOSOFIA ===== */}
       {philosophy && (
         <div className={styles.filosofy}>
           <div className={styles.filosofy1}>

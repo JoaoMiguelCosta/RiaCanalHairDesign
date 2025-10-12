@@ -6,9 +6,11 @@ import { useHoverVideo } from "@widgets/space/hook/useHoverVideo";
 
 /**
  * FacilityCard
- * - Desktop (hover/pointer:fine): imagem/vídeo aparece no :hover/:focus-visible
- * - Touch (hover:none): 1º toque abre e fica (classe .open), 2º toque fecha. Tocar fora fecha.
- * - Mantém a mesma API/markup externo.
+ * - Desktop: mídia aparece no :hover / :focus-visible
+ * - Touch/SmallMobile: 1º toque abre (classe .open), 2º toque fecha; tocar fora fecha.
+ *
+ * Props extra:
+ *  - showHint (boolean) => mostra o “toque para ver” (default: true)
  */
 const FacilityCard = ({
   variant = "variant1",
@@ -22,12 +24,13 @@ const FacilityCard = ({
   imageAlt,
   imgLoading = "lazy",
   imgDecoding = "async",
+  showHint = true,
 }) => {
   const containerClass = styles[variant] || "";
   const captionClass = styles[`${variant}Caption`] || "";
   const { videoRef, handlers } = useHoverVideo();
 
-  // Detecta ambiente touch
+  // Ambiente touch?
   const isTouch = useMemo(() => {
     if (typeof window === "undefined") return false;
     const mm = window.matchMedia?.("(hover: none)");
@@ -38,20 +41,32 @@ const FacilityCard = ({
     );
   }, []);
 
-  // Toggle fixo em touch
+  // Força modo "tap" em ecrãs <= 375px (mesmo que não haja touch real — útil no emulador)
+  const [isSmallMobile, setIsSmallMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(max-width: 23.5rem)"); // <= 376px
+    const update = () => setIsSmallMobile(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
+
+  const tapMode = isTouch || isSmallMobile;
+
   const [open, setOpen] = useState(false);
   const cardRef = useRef(null);
 
-  // Fechar ao tocar fora (apenas em touch)
+  // Fechar ao tocar fora (quando tapMode)
   useEffect(() => {
-    if (!isTouch) return;
+    if (!tapMode) return;
     const onDocClick = (e) => {
       if (!cardRef.current) return;
       if (!cardRef.current.contains(e.target)) setOpen(false);
     };
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
-  }, [isTouch]);
+  }, [tapMode]);
 
   const resolvedAlt = imageAlt || title || subtitle || "Área do salão";
 
@@ -62,27 +77,20 @@ const FacilityCard = ({
         className={`${styles.card} ${containerClass} ${open ? styles.open : ""}`}
         tabIndex={0}
         {...handlers}
-        // Em touch: toggle no toque; em desktop, não altera
-        onClick={
-          isTouch
-            ? (e) => {
-                e.stopPropagation();
-                setOpen((v) => !v);
-              }
-            : undefined
-        }
-        onKeyDown={
-          isTouch
-            ? (e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setOpen((v) => !v);
-                }
-              }
-            : undefined
-        }
+        onClick={(e) => {
+          if (!tapMode) return;
+          e.stopPropagation();
+          setOpen((v) => !v);
+        }}
+        onKeyDown={(e) => {
+          if (!tapMode) return;
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen((v) => !v);
+          }
+        }}
       >
-        {/* Mídia de fundo: vídeo tem prioridade; caso contrário, imagem acessível */}
+        {/* Mídia de fundo */}
         {videoSrc ? (
           <VideoBG ref={videoRef} src={videoSrc} className={styles.bgVideo} />
         ) : (
@@ -97,6 +105,7 @@ const FacilityCard = ({
           )
         )}
 
+        {/* Grelha interna nivelada */}
         <div className={styles.first}>
           <div className={styles.firstin}>
             {title && <span className={styles.firstinspan}>{title}</span>}
@@ -105,6 +114,11 @@ const FacilityCard = ({
 
         {subtitle && <div className={styles.second}>{subtitle}</div>}
         {description && <div className={styles.third}>{description}</div>}
+
+        {/* Hint touch — só se showHint=true e quando não está aberto */}
+        {showHint && tapMode && !open && (
+          <div className={styles.tapHint}>toque para ver</div>
+        )}
       </div>
 
       {(subtitle1 || description1) && (

@@ -139,11 +139,17 @@ const Portfolio = () => {
                       loading="lazy"
                       decoding="async"
                     />
+
                     <div className={styles.imageOverlay}>
                       <h3 className={styles.overlayTitle}>{trabalho.titulo}</h3>
                       <p className={styles.overlayLegend}>
                         {trabalho.descricao}
                       </p>
+                    </div>
+
+                    {/* Hint mobile: aparece só em touch e desaparece quando o card abre */}
+                    <div className={styles.tapHint} aria-hidden="true">
+                      Toque para ver
                     </div>
                   </div>
                 </div>
