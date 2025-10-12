@@ -1,5 +1,5 @@
 // src/widgets/beforeAndAfter/ui/beforeAndAfter.jsx
-import { memo } from "react";
+import { memo, useRef } from "react";
 import styles from "./beforeAndAfter.module.css";
 
 import Subtitle from "@shared/ui/subtitle/subtitle.jsx";
@@ -12,6 +12,7 @@ import Quote from "@shared/ui/quote/quote.jsx";
 import Card from "@widgets/beforeAndAfter/parts/card/card.jsx";
 import BeforeAfter from "@content/gallery/beforeAfter.js";
 import { usePagedSets } from "@widgets/beforeAndAfter/hook/usePagedSets";
+import { useAutoRotateSets } from "@widgets/beforeAndAfter/hook/useAutoRotateSets";
 
 const {
   beforeAfter, // was beforeandafter
@@ -28,6 +29,8 @@ const {
 const ITEMS_PER_PAGE = 3;
 
 const BeforeAndAfterSection = () => {
+  const sectionRef = useRef(null);
+
   const {
     totalItems,
     totalSets,
@@ -39,11 +42,21 @@ const BeforeAndAfterSection = () => {
     visible,
   } = usePagedSets(BeforeAfter, ITEMS_PER_PAGE);
 
+  // Auto-rotação entre conjuntos (6s). Pausa em hover/focus e quando não está visível.
+  const { hoverHandlers } = useAutoRotateSets({
+    enabled: hasPagination,
+    next,
+    delay: 6000,
+    rootRef: sectionRef,
+  });
+
   return (
     <section
+      ref={sectionRef}
       id="Transformations"
       className={beforeAfter}
       aria-labelledby="ba-title"
+      {...hoverHandlers}
     >
       <Subtitle>RESULTADOS REAIS</Subtitle>
       <Title line1="Transformações" line2="Reais" variant="highlight" />
