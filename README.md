@@ -15,3 +15,17 @@
 - **Output Directory:** `dist`
 - **Previews automáticos** em cada PR/push.
 - **Produção** na branch principal (ex.: `main`).
+
+## 2) Stack e Configuração
+
+- **Node:** 20.x (definido em `"engines"`)
+- **Vite + React**
+- **ESLint** configurado
+- **Scripts npm:**
+  ```json
+  {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  }
