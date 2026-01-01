@@ -9,7 +9,7 @@ import treatmentRoom from "@media/space/treatmentRoom.jpg";
 import advancedRoom from "@media/space/advancedEquipment.jpg";
 
 // VÍDEOS (src/content/media/videos)
-import moments from "@media/videos/moments.mp4";
+import moments from "@media/videos/ria-canal-video.mp4";
 
 // Export no mesmo formato (objetos)
 export const Images = {

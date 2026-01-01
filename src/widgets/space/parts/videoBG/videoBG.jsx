@@ -5,19 +5,18 @@ const VideoBG = forwardRef(function VideoBG(
   {
     src,
     className,
-    // novos opcionais (não obrigatórios)
-    poster, // imagem de poster (reduz flash/preload)
-    autoPlay = false, // por defeito não auto-reproduz (hover/JS controla)
-    preload = "metadata", // equilibrado para performance
-    muted = true, // bg video deve ser mudo
+    poster,
+    autoPlay = false,
+    preload = "metadata",
+    muted = true,
     loop = true,
     playsInline = true,
-    ariaHidden = true, // é decorativo no fundo
-    onError, // callback opcional
+    ariaHidden = true,
+    onError,
   },
   ref
 ) {
-  if (!src) return null; // segurança: não renderiza sem src
+  if (!src) return null;
 
   return (
     <video

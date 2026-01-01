@@ -2,16 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./facilityCard.module.css";
 import TitleCaption from "@shared/ui/titleCaption/titleCaption.jsx";
 import VideoBG from "@widgets/space/parts/videoBG/videoBG.jsx";
-import { useHoverVideo } from "@widgets/space/hook/useHoverVideo";
 
-/**
- * FacilityCard
- * - Desktop: mídia aparece no :hover / :focus-visible
- * - Touch/SmallMobile: 1º toque abre (classe .open), 2º toque fecha; tocar fora fecha.
- *
- * Props extra:
- *  - showHint (boolean) => mostra o “toque para ver” (default: true)
- */
+const AUDIO_SRC = "/audio/IlyaSound_-_Inspiring_Background_Music.mp3";
+
 const FacilityCard = ({
   variant = "variant1",
   title,
@@ -25,10 +18,12 @@ const FacilityCard = ({
   imgLoading = "lazy",
   imgDecoding = "async",
   showHint = true,
+  poster,
+  audioSrc = AUDIO_SRC,
+  audioVolume = 0.22,
 }) => {
   const containerClass = styles[variant] || "";
   const captionClass = styles[`${variant}Caption`] || "";
-  const { videoRef, handlers } = useHoverVideo();
 
   // Ambiente touch?
   const isTouch = useMemo(() => {
@@ -41,7 +36,7 @@ const FacilityCard = ({
     );
   }, []);
 
-  // Força modo "tap" em ecrãs <= 375px (mesmo que não haja touch real — útil no emulador)
+  // Força modo "tap" em ecrãs <= 375px
   const [isSmallMobile, setIsSmallMobile] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
@@ -57,7 +52,57 @@ const FacilityCard = ({
   const [open, setOpen] = useState(false);
   const cardRef = useRef(null);
 
-  // Fechar ao tocar fora (quando tapMode)
+  // vídeo (2 camadas) + áudio
+  const blurRef = useRef(null);
+  const mainRef = useRef(null);
+  const audioRef = useRef(null);
+
+  const playMedia = async () => {
+    const vids = [blurRef.current, mainRef.current].filter(Boolean);
+
+    // vídeo sempre mudo (evita bloqueios)
+    for (const v of vids) {
+      try {
+        v.muted = true;
+        await v.play?.();
+      } catch {
+        // ignore
+      }
+    }
+
+    // áudio por cima (precisa de interação do user)
+    if (audioRef.current) {
+      try {
+        audioRef.current.volume = audioVolume;
+        await audioRef.current.play?.();
+      } catch {
+        // ignore (bloqueado pelo browser)
+      }
+    }
+  };
+
+  const stopMedia = () => {
+    const vids = [blurRef.current, mainRef.current].filter(Boolean);
+    for (const v of vids) {
+      try {
+        v.pause?.();
+        v.currentTime = 0;
+      } catch {
+        // ignore
+      }
+    }
+
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause?.();
+        audioRef.current.currentTime = 0;
+      } catch {
+        // ignore
+      }
+    }
+  };
+
+  // Fechar ao tocar fora (tapMode)
   useEffect(() => {
     if (!tapMode) return;
     const onDocClick = (e) => {
@@ -68,6 +113,34 @@ const FacilityCard = ({
     return () => document.removeEventListener("click", onDocClick);
   }, [tapMode]);
 
+  // Em tapMode, open => play, close => stop
+  useEffect(() => {
+    if (!tapMode) return;
+    if (open) playMedia();
+    else stopMedia();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, tapMode]);
+
+  // Desktop: hover/focus controla
+  const handlersDesktop = {
+    onMouseEnter: () => {
+      if (tapMode) return;
+      playMedia();
+    },
+    onMouseLeave: () => {
+      if (tapMode) return;
+      stopMedia();
+    },
+    onFocus: () => {
+      if (tapMode) return;
+      playMedia();
+    },
+    onBlur: () => {
+      if (tapMode) return;
+      stopMedia();
+    },
+  };
+
   const resolvedAlt = imageAlt || title || subtitle || "Área do salão";
 
   return (
@@ -76,7 +149,7 @@ const FacilityCard = ({
         ref={cardRef}
         className={`${styles.card} ${containerClass} ${open ? styles.open : ""}`}
         tabIndex={0}
-        {...handlers}
+        {...handlersDesktop}
         onClick={(e) => {
           if (!tapMode) return;
           e.stopPropagation();
@@ -90,9 +163,43 @@ const FacilityCard = ({
           }
         }}
       >
-        {/* Mídia de fundo */}
+        {/* Indicador subtil (opção 2) */}
+        <span className={styles.hoverIcon} aria-hidden="true">
+          ↗
+        </span>
+
+        {/* Mídia */}
         {videoSrc ? (
-          <VideoBG ref={videoRef} src={videoSrc} className={styles.bgVideo} />
+          <div className={styles.media}>
+            {/* fundo preenchido */}
+            <VideoBG
+              ref={blurRef}
+              src={videoSrc}
+              poster={poster}
+              className={styles.bgVideoBlur}
+              preload="metadata"
+              autoPlay={false}
+              muted
+              loop
+              playsInline
+            />
+
+            {/* vídeo principal sem distorcer */}
+            <VideoBG
+              ref={mainRef}
+              src={videoSrc}
+              poster={poster}
+              className={styles.bgVideoMain}
+              preload="metadata"
+              autoPlay={false}
+              muted
+              loop
+              playsInline
+            />
+
+            {/* áudio por cima */}
+            <audio ref={audioRef} src={audioSrc} preload="auto" />
+          </div>
         ) : (
           imageSrc && (
             <img
@@ -105,7 +212,7 @@ const FacilityCard = ({
           )
         )}
 
-        {/* Grelha interna nivelada */}
+        {/* Conteúdo */}
         <div className={styles.first}>
           <div className={styles.firstin}>
             {title && <span className={styles.firstinspan}>{title}</span>}
@@ -115,7 +222,6 @@ const FacilityCard = ({
         {subtitle && <div className={styles.second}>{subtitle}</div>}
         {description && <div className={styles.third}>{description}</div>}
 
-        {/* Hint touch — só se showHint=true e quando não está aberto */}
         {showHint && tapMode && !open && (
           <div className={styles.tapHint}>toque para ver</div>
         )}

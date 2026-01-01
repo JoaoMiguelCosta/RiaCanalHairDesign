@@ -1,6 +1,13 @@
-/* === BASE (Desktop / tablets) — PATCH MIN === */
+/* =========================================
+   TEAM & SERVICES — teamAndServices.module.css
+   Objetivos:
+   - Layout estável em todas as larguras
+   - <=630px: bloco de serviços centrado
+   - >=968px: conjunto (foto+serviços) centrado no miolo
+   ========================================= */
+
+/* === BASE (wrapper) === */
 .teamandservices {
-    /* antes: width: 78rem; */
     width: min(100%, 78rem);
     height: auto;
     margin-inline: auto;
@@ -8,7 +15,6 @@
 
 /* --- topo / texto --- */
 .aboutText {
-    /* antes: height: 7rem; width: 78rem; */
     width: 100%;
     height: auto;
     display: flex;
@@ -21,13 +27,12 @@
 }
 
 .aboutText span {
-    /* antes: width/height fixos */
     width: 100%;
     max-width: 41.9375rem;
     height: auto;
 }
 
-/* --- equipa --- */
+/* --- equipa (cabeleireiras) --- */
 .HairDressers {
     width: 100%;
     height: auto;
@@ -37,18 +42,14 @@
     align-items: flex-start;
     gap: clamp(20px, 6vw, 6.25rem);
     background-color: black;
-
-    /* desktop: não quebrar */
     flex-wrap: nowrap;
 }
 
-/* cada filho ocupa 1/3 no desktop */
 .HairDressers>* {
     flex: 1 1 calc(33.333% - 2rem);
     max-width: calc(33.333% - 2rem);
 }
 
-/* <= 866px: pode quebrar para 2 colunas */
 @media (max-width: 866px) {
     .HairDressers {
         flex-wrap: wrap;
@@ -60,7 +61,6 @@
     }
 }
 
-/* mobile pequeno: 1 por linha */
 @media (max-width: 480px) {
     .HairDressers>* {
         flex: 1 1 100%;
@@ -75,9 +75,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* antes: height fixa */
     height: auto;
-    gap: .75rem;
+    gap: 0.75rem;
 }
 
 /* ====== FOTO DO PROFISSIONAL ====== */
@@ -86,12 +85,10 @@
     display: flex;
     width: 17.5625rem;
     max-width: 100%;
-    /* antes: aspect-ratio: 281 / 233 (paisagem) */
     aspect-ratio: 3 / 4;
-    /* retrato: evita corte nas fotos verticais */
+    /* retrato: evita corte em fotos verticais */
     height: auto;
     background: #0c0f14;
-    /* fundo para possíveis “letterboxes” */
     overflow: hidden;
 }
 
@@ -101,7 +98,7 @@
     width: auto;
     height: auto;
     object-fit: scale-down;
-    /* não amplia, só reduz se precisar */
+    /* não amplia */
     image-rendering: auto;
 }
 
@@ -110,7 +107,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* antes: height: 2.625rem; width: 78rem; */
     width: 100%;
     height: auto;
     background-color: black;
@@ -123,25 +119,20 @@
     align-items: center;
     gap: 0.625rem;
 
-    /* ✅ deixa a largura natural com um mínimo confortável */
     width: auto;
-    /* antes: 12.625rem */
     min-width: clamp(9rem, 24vw, 12.625rem);
-
-    /* altura controlada por padding */
     height: auto;
-    /* antes: 2.625rem */
     padding: clamp(10px, 1.8vw, 14px) clamp(14px, 3.2vw, 20px);
 
     background: transparent;
     color: #D59532;
     text-align: center;
-    font-family: Montserrat;
+    font-family: Montserrat, sans-serif;
     font-size: clamp(1rem, 1.6vw, 1.125rem);
     font-weight: 600;
     letter-spacing: 0.125rem;
     border: 0.0625rem solid #D59532;
-    transition: background-color .3s ease, color .3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
 }
 
@@ -150,12 +141,11 @@
     color: #F2F2F2;
 }
 
-/* --- título + lista serviços --- */
+/* --- título + lista serviços cabeleireiro --- */
 .HairdresserTitle {
     background-color: black;
     display: flex;
     flex-direction: column;
-    /* antes: width: 78rem; height: 18rem; */
     width: 100%;
     height: auto;
     padding: clamp(12px, 3vw, 24px) clamp(12px, 4vw, 24px);
@@ -167,12 +157,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: clamp(12px, 2vw, 1.4375rem) clamp(10px, 3vw, 30px);
-
     justify-content: center;
-    /* horizontal */
     align-items: center;
-    /* vertical se sobrar altura */
-
     width: 100%;
     padding: 0 clamp(12px, 2.5vw, 1.5rem);
     box-sizing: border-box;
@@ -180,73 +166,83 @@
     background: transparent;
 }
 
-/* ===== Blocos reutilizáveis (foto + serviços) ===== */
+/* =========================================
+   BLOCO REUTILIZÁVEL: others (Sabrina/Mary)
+   ========================================= */
+
+/* ✅ Base como GRID (é o que tens no DevTools) */
 .others {
-    display: flex;
-    /* antes: height: 25rem; width: 78rem; */
+    display: grid;
     width: 100%;
     height: auto;
-    padding: 0 clamp(16px, 6vw, 3.75rem);
+
+    /* por defeito tenta 2 colunas, mas adapta */
+    grid-template-columns: minmax(260px, 24rem) minmax(260px, 34.75rem);
+
     justify-content: center;
+    /* ✅ centra o conjunto no miolo */
+    justify-items: center;
+    /* centra itens dentro das colunas */
     align-items: center;
-    gap: clamp(16px, 6vw, 3.75rem);
+
+    column-gap: clamp(16px, 6vw, 3.75rem);
+    row-gap: clamp(16px, 4vw, 2rem);
+
     border-top: 0.5px solid #D59532;
     background-color: black;
-    flex-wrap: wrap;
-    padding: 2rem 0;
-    gap: clamp(16px, 6vw, 3.75rem);
+
+    padding-block: 2rem;
+    padding-inline: clamp(16px, 6vw, 3.75rem);
+    box-sizing: border-box;
 }
 
 .others1 {
     display: flex;
-    /* antes: width/height fixos */
-    flex: 1 1 24rem;
-    /* base ~384px */
-    min-width: 260px;
-    height: auto;
+    width: 100%;
+    max-width: 24rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
     background-color: black;
+
+    justify-self: center;
 }
 
 .others2 {
     display: flex;
-    /* antes: width: 34.75rem; height fixa */
-    flex: 1 1 28rem;
-    /* base ~448px */
-    min-width: 260px;
-    padding-bottom: clamp(12px, 3vw, 2.375rem);
+    width: 100%;
+    max-width: 34.75rem;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     height: auto;
     background-color: black;
+
+    padding-bottom: clamp(12px, 3vw, 2.375rem);
+    justify-self: center;
 }
 
-/* lista em 2 colunas — torna o gap fluido e estável */
+/* lista de serviços (2 colunas) */
 .EsteticaAdvanced {
     width: 100%;
-    /* antes: 34.75rem */
     display: flex;
     flex-wrap: wrap;
     gap: 1.25rem clamp(24px, 6vw, 100px);
-    /* column-gap agora adapta */
     align-items: flex-start;
     background: transparent;
     box-sizing: border-box;
+
+    /* extra: centra o “bloco” dentro do container */
+    justify-content: center;
 }
 
-/* recalcula cada coluna com base no column-gap real */
 .EsteticaAdvanced>* {
     flex: 0 0 calc((100% - clamp(24px, 6vw, 100px)) / 2);
 }
 
-/* >=377px: não partir palavras nos chips (ex.: Microagulhamento) */
+/* >=377px: não partir palavras nos chips */
 @media (min-width: 377px) {
-
-    /* ServiceItem vem de outro CSS module ⇒ usar :global */
     :global(.serviceItem) {
         white-space: nowrap !important;
         word-break: keep-all !important;
@@ -254,16 +250,87 @@
         hyphens: none !important;
     }
 
-    /* Evita que a coluna fixe esmague o chip e o obrigue a quebrar */
     .EsteticaAdvanced>* {
         flex: 0 0 auto;
-        /* largura pelo conteúdo do chip */
         max-width: 100%;
     }
 
-    /* idem para a lista de Cabeleireiro */
     .HairdresserServices>* {
         flex: 0 0 auto;
         max-width: 100%;
+    }
+}
+
+/* =========================
+   <= 968px: empilha em 1 coluna (mais limpo)
+   ========================= */
+@media (max-width: 967.98px) {
+    .others {
+        grid-template-columns: 1fr;
+    }
+
+    .others1,
+    .others2 {
+        max-width: 34.75rem;
+    }
+}
+
+/* =========================
+   <= 630px: centra o bloco de serviços e controla largura
+   ========================= */
+@media (max-width: 630px) {
+    .others {
+        padding-inline: 1rem;
+        justify-items: center;
+    }
+
+    .others1,
+    .others2 {
+        width: 100%;
+        max-width: 34.75rem;
+        margin-inline: auto;
+        align-items: center;
+    }
+
+    .others2 .button {
+        margin-inline: auto;
+    }
+
+    .EsteticaAdvanced {
+        width: min(100%, 34.75rem);
+        margin-inline: auto;
+        justify-content: center;
+    }
+}
+
+/* =========================
+   >= 968px: força o conjunto centrado (foto + serviços)
+   (reforço extra para o caso da Mary “invertida”)
+   ========================= */
+@media (min-width: 968px) {
+    .others {
+        grid-template-columns: 24rem 34.75rem;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+    }
+
+    .others1 {
+        width: 24rem;
+        max-width: 24rem;
+        justify-self: center;
+    }
+
+    .others2 {
+        width: 34.75rem;
+        max-width: 34.75rem;
+        justify-self: center;
+        align-items: center;
+    }
+
+    .EsteticaAdvanced {
+        width: 100%;
+        justify-content: center;
+        margin-inline: auto;
     }
 }
