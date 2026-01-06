@@ -2,8 +2,9 @@
 
 Site institucional do salão **Ria Canal Hair Design**.
 
-- **Live**: [https://ria-canal-hair-design.vercel.app/](https://ria-canal-hair-design.vercel.app/)
-- **Repo**: [https://github.com/JoaoMiguelCosta/RiaCanalHairDesign](https://github.com/JoaoMiguelCosta/RiaCanalHairDesign)
+- **Live (principal):** https://www.riacanalhairdesign.pt/
+- **Live (alternativo):** https://riacanalhairdesign.pt
+- **Repo:** https://github.com/JoaoMiguelCosta/RiaCanalHairDesign
 
 ---
 
