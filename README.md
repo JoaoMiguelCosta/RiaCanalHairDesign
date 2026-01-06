@@ -5,6 +5,19 @@ Site institucional do salão **Ria Canal Hair Design**.
 - **Live**: [https://ria-canal-hair-design.vercel.app/](https://ria-canal-hair-design.vercel.app/)
 - **Repo**: [https://github.com/JoaoMiguelCosta/RiaCanalHairDesign](https://github.com/JoaoMiguelCosta/RiaCanalHairDesign)
 
+## 📸 Screenshots
+
+### Homepage
+![Homepage](screenshots/home.png)
+
+### Portfólio
+![Portfólio](screenshots/portfolio.png)
+
+### O Espaço
+![O Espaço](screenshots/space.png)
+
+### Before & After
+![Before & After](screenshots/before-and-after.png)
 ---
 
 ## 📦 Stack
