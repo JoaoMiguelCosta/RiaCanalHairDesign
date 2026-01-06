@@ -228,12 +228,6 @@ SPA simples por secções/âncoras. Pode integrar **React Router** sem impacto n
 - Output: `dist/`
 - Deploy automático em push para `main`
 
-## ✅ Checklist antes de publicar
-
-- [ ] `npm run build` sem erros
-- [ ] Navegação mobile/desktop OK
-- [ ] JSONs de conteúdos atualizados
-- [ ] Imagens otimizadas
 
 ## 🤝 Contribuição
 
@@ -241,11 +235,6 @@ SPA simples por secções/âncoras. Pode integrar **React Router** sem impacto n
 - Commits curtos e claros
 - PR para `main`
 
-## 📌 Roadmap (curto prazo)
-
-- [ ] Melhorar contrastes e testes de acessibilidade (ARIA extras)
-- [ ] Testes unitários básicos para hooks principais
-- [ ] Lazy-load de media pesada no **Space**
 
 ---
 
