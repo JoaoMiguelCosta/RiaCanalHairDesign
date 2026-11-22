@@ -93,3 +93,14 @@ tests/
   compara os nomes de forma exata para reproduzir o comportamento em Linux.
 - O `axe` deteta parte das falhas WCAG; não substitui testes manuais com
   teclado e leitor de ecrã.
+- **Fragmentos e histórico** (`anchors.spec.js`). Localmente o chunk lazy da
+  Home chega antes de o browser desistir do fragmento, o que escondia o
+  defeito de `/#Location`: os testes de links diretos atrasam esse chunk.
+  Em Back/Forward entre rotas o Chromium decide o destino (repõe a posição
+  guardada ou resolve o fragmento); o teste aceita os dois, desde que estável.
+- **Zoom** (`responsive.spec.js`) é aproximado pela largura CSS equivalente
+  (ex.: 1280×1024 a 400 % ≈ 320×256); não reproduz o zoom do browser nem o
+  aumento só do tamanho do texto.
+- **Capturas por elemento** de blocos mais altos do que o viewport eram
+  instáveis enquanto o `<body>` fazia scroll (até à Fase 9); com o documento
+  como scroll container ficam completas.

@@ -66,27 +66,33 @@
         padding: 0;
     }
 
-    /* Overlay ocupa toda a viewport e CENTRA os itens */
+    /* Overlay ocupa o viewport abaixo do header e CENTRA os itens.
+       - top: altura real do header (--header-offset, medida em header.jsx);
+         o header pode exceder --header-h (ex.: landscape, logótipo maior).
+       - bottom:0 em vez de 100vh: acompanha a área visível em mobile.
+       - Se a lista não couber (landscape, zoom, texto ampliado), o overlay
+         faz scroll; a lista centra-se por margin:auto, que nunca empurra
+         itens para fora da área de scroll (ao contrário de
+         justify-content:center). pan-y permite esse scroll; o scroll da
+         página está bloqueado no <html> e o overscroll não passa para ela. */
     .menuOverlay {
         position: fixed;
-        top: var(--header-h);
+        top: var(--header-offset, var(--header-h));
         left: 0;
-        width: 100vw;
-        height: calc(100vh - var(--header-h));
+        right: 0;
+        bottom: 0;
         background-color: rgb(20, 16, 16);
         z-index: 999;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        /* ⬅ centra verticalmente */
         align-items: center;
         /* ⬅ centra horizontalmente */
         padding: 2rem 1rem;
         box-sizing: border-box;
+        overflow-y: auto;
 
-        /* reforços anti-scroll dentro do overlay */
         overscroll-behavior: contain;
-        touch-action: none;
+        touch-action: pan-y;
     }
 
     /* O display:flex acima sobrepõe-se ao [hidden] nativo */
@@ -97,7 +103,8 @@
     .menuList {
         list-style: none;
         padding: 0;
-        margin: 0;
+        /* centra verticalmente quando cabe; alinha ao topo quando não cabe */
+        margin: auto 0;
         width: 100%;
         max-width: 24rem;
         /* coluna mais estreita e centrada */

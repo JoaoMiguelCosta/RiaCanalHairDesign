@@ -85,13 +85,13 @@ describe("NavMenuMobile", () => {
     expect(footer.inert).toBe(false);
   });
 
-  test("bloqueia o scroll do body enquanto aberto e repõe ao fechar", async () => {
+  test("bloqueia o scroll da página (<html>) enquanto aberto e repõe ao fechar", async () => {
     const { button, user } = setup();
-    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
     await user.click(button);
-    expect(document.body.style.overflow).toBe("hidden");
+    expect(document.documentElement.style.overflow).toBe("hidden");
     await user.keyboard("{Escape}");
-    expect(document.body.style.overflow).toBe("auto");
+    expect(document.documentElement.style.overflow).toBe("auto");
   });
 
   test("passar a desktop (>1024px) fecha o menu e move o foco para o <main>", async () => {
@@ -106,7 +106,7 @@ describe("NavMenuMobile", () => {
     act(() => vi.advanceTimersToNextFrame());
     expect(button).toHaveAttribute("aria-expanded", "false");
     expect(document.getElementById("main")).toHaveFocus();
-    expect(document.body.style.overflow).toBe("");
+    expect(document.documentElement.style.overflow).toBe("");
   });
 
   test("redimensionar dentro do intervalo mobile não fecha", async () => {

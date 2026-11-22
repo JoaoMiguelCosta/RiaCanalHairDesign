@@ -2,7 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.875rem;
+    /* Entre 1025px e ~1150px os itens + logótipo + redes sociais não cabiam
+       com 30px fixos (os ícones sociais ficavam fora do ecrã): o espaço
+       desce linearmente até 12px em 1025px; ≥1150px mantém 1.875rem. */
+    gap: clamp(0.75rem, 14.4vw - 135.6px, 1.875rem);
     height: 6.6875rem;
     flex-shrink: 0;
 

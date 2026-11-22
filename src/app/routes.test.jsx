@@ -1,8 +1,8 @@
 // Integração do routing (jsdom): páginas lazy, títulos, metadados por rota e
 // gestão do foco. O comportamento no browser real (histórico, scroll, HTML
 // servido) é verificado em tests/e2e/routes.spec.js.
-import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
-import { MemoryRouter } from "react-router-dom";
+import { beforeEach, describe, expect, test, vi } from "vitest";
+import { MemoryRouter, useNavigate } from "react-router-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AppRoutes from "./routes";
@@ -22,7 +22,11 @@ const renderAt = (path) =>
 // A 1.ª importação do chunk lazy da Home obriga o Vitest a transformar
 // dezenas de módulos a frio (>1 s); pré-carregá-lo mantém os testes
 // determinísticos sem aumentar timeouts. O lazy() continua a ser exercitado.
-beforeAll(() => import("@pages/home/home.jsx"));
+// Em beforeEach (não só beforeAll): os testes que usam vi.resetModules()
+// esvaziam o registo de módulos e o lazy() do AppRoutes voltaria a avaliar a
+// Home a frio no teste seguinte (falha intermitente por timeout, já presente
+// na Fase 8). Fora disso, a importação é um acerto de cache.
+beforeEach(() => import("@pages/home/home.jsx"));
 
 beforeEach(() => {
   // Os widgets da Home ficam "fora do viewport" (sem animações a correr)
@@ -141,3 +145,98 @@ describe("Rotas — navegação SPA", () => {
     await waitFor(() => expect(canonical()).toHaveAttribute("href", `${SITE}/privacidade`));
   });
 });
+
+// Fragmentos (#Location, …): o browser tenta resolvê-los antes de a página
+// lazy existir; o RouteAnnouncer alinha o alvo depois do commit. O jsdom não
+// tem layout: verifica-se em que elemento e com que opções é pedido o scroll
+// (posição real, header e Back/Forward em tests/e2e/anchors.spec.js).
+describe("Rotas — fragmentos da Home", () => {
+  let scrolled;
+  beforeEach(() => {
+    scrolled = [];
+    Element.prototype.scrollIntoView = vi.fn(function (opts) {
+      scrolled.push({ id: this.id, opts });
+    });
+    return () => delete Element.prototype.scrollIntoView;
+  });
+
+  test.each(["Location", "AboutUs", "Works", "Transformations"])(
+    "carregamento direto de /#%s alinha a secção, sem animação",
+    async (id) => {
+      renderAt(`/#${id}`);
+      await screen.findByRole("heading", { level: 1 });
+      await waitFor(() => expect(scrolled.map((s) => s.id)).toContain(id));
+      expect(scrolled.filter((s) => s.id === id)).toHaveLength(1); // sem duplicados
+      expect(scrolled[0].opts).toEqual({ block: "start", behavior: "instant" });
+      expect(document.body).toHaveFocus(); // o foco não é movido
+    }
+  );
+
+  test("espera pela página lazy: o scroll só acontece depois de a secção existir", async () => {
+    vi.resetModules();
+    const { default: FreshRoutes } = await import("./routes");
+    // módulo da Home já avaliado no registo novo (evita a importação a frio,
+    // >1 s sob carga); o lazy() novo suspende na mesma no 1.º render
+    await import("@pages/home/home.jsx");
+    const existedOnScroll = [];
+    Element.prototype.scrollIntoView = vi.fn(function () {
+      existedOnScroll.push(document.contains(this));
+    });
+    render(
+      <MemoryRouter initialEntries={["/#Location"]}>
+        <FreshRoutes />
+      </MemoryRouter>
+    );
+    expect(document.getElementById("Location")).toBeNull(); // ainda a carregar
+    await screen.findByRole("heading", { level: 1 });
+    await waitFor(() => expect(existedOnScroll).toEqual([true]));
+  });
+
+  test("fragmento inexistente: nenhum scroll", async () => {
+    renderAt("/#NaoExiste");
+    await screen.findByRole("heading", { level: 1 });
+    await waitFor(() => expect(document.title).toBe("Ria Canal Hair Design"));
+    expect(scrolled).toEqual([]);
+  });
+
+  test("navegação SPA de /termos para /#Location alinha a secção e foca o <main>", async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/termos", "/#Location"]} initialIndex={0}>
+        <AppRoutes />
+        <NavigateOnClick to="/#Location" />
+      </MemoryRouter>
+    );
+    await screen.findByRole("heading", { level: 1, name: "Termos & Condições" });
+    expect(scrolled).toEqual([]);
+    await userEvent.click(container.querySelector("[data-go]"));
+    await screen.findByRole("heading", { level: 1, name: /Ria Canal/ });
+    await waitFor(() => expect(scrolled.map((s) => s.id)).toEqual(["Location"]));
+    await waitFor(() => expect(screen.getByRole("main")).toHaveFocus());
+  });
+});
+
+describe("Rotas — fragmentos em Back/Forward", () => {
+  test("POP de /termos para /#Location: não força scroll (o browser repõe a posição)", async () => {
+    const scrolled = [];
+    Element.prototype.scrollIntoView = vi.fn(function () {
+      scrolled.push(this.id);
+    });
+    const { container } = render(
+      <MemoryRouter initialEntries={["/#Location", "/termos"]} initialIndex={1}>
+        <AppRoutes />
+        <NavigateOnClick to={-1} />
+      </MemoryRouter>
+    );
+    await screen.findByRole("heading", { level: 1, name: "Termos & Condições" });
+    await userEvent.click(container.querySelector("[data-go]"));
+    await screen.findByRole("heading", { level: 1, name: /Ria Canal/ });
+    await waitFor(() => expect(screen.getByRole("main")).toHaveFocus());
+    expect(scrolled).toEqual([]);
+    delete Element.prototype.scrollIntoView;
+  });
+});
+
+function NavigateOnClick({ to }) {
+  const navigate = useNavigate();
+  return <button type="button" data-go onClick={() => navigate(to)}>ir</button>;
+}

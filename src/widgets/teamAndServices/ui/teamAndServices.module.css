@@ -3,7 +3,7 @@
    Objetivos:
    - Layout estável em todas as larguras
    - <=630px: bloco de serviços centrado
-   - >=968px: conjunto (foto+serviços) centrado no miolo
+   - >=1200px: conjunto (foto+serviços) centrado no miolo
    ========================================= */
 
 /* === BASE (wrapper) === */
@@ -297,10 +297,14 @@
 }
 
 /* =========================
-   >= 968px: força o conjunto centrado (foto + serviços)
+   >= 1200px (75rem): força o conjunto centrado (foto + serviços)
    (reforço extra para o caso da Mary “invertida”)
    ========================= */
-@media (min-width: 968px) {
+/* O conjunto fixo (24rem + 34.75rem + gap + padding = 1120px) só cabe no
+   container a partir de 1200px (75rem). Antes aplicava-se desde 968px e,
+   entre 968px e 1199px, transbordava e era cortado dos dois lados; nessa
+   faixa vale agora a grelha fluida base (.others, 2 colunas). */
+@media (min-width: 75rem) {
     .others {
         grid-template-columns: 24rem 34.75rem;
         justify-content: center;

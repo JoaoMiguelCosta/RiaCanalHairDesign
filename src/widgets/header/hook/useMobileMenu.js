@@ -12,7 +12,7 @@ const DESKTOP_MIN = 1024; // > 64rem: menu desktop assume
  *   <header>) fica `inert`, para que o foco do teclado e a leitura não saiam
  *   para conteúdo invisível; o header (marca, redes sociais, botão) mantém-se
  *   utilizável;
- * - bloqueia o scroll do body enquanto aberto.
+ * - bloqueia o scroll da página (<html>) enquanto aberto.
  */
 export function useMobileMenu() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -75,13 +75,17 @@ export function useMobileMenu() {
     return () => covered.forEach((el) => (el.inert = false));
   }, [menuOpen]);
 
-  // Bloqueia o scroll enquanto o overlay está aberto
+  // Bloqueia o scroll da página enquanto o overlay está aberto. O documento
+  // (viewport) é o scroll container: o overflow do <html> passa para o
+  // viewport e a posição atual mantém-se. (No <body>, overflow:hidden não
+  // bloquearia o viewport.)
   useEffect(() => {
     if (!menuOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = prev || "";
+      root.style.overflow = prev || "";
     };
   }, [menuOpen]);
 

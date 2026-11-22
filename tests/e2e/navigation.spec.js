@@ -116,7 +116,7 @@ test.describe("Menu mobile (tátil)", () => {
     await expect(nav).toBeVisible();
     await expect(nav).toHaveAccessibleName("Navegação principal");
     await expect(nav.getByRole("link").first()).toBeFocused();
-    expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+    expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe("hidden");
   });
 
   test("Escape fecha e devolve o foco ao botão; o scroll fica desbloqueado", async ({ page }) => {
@@ -126,7 +126,7 @@ test.describe("Menu mobile (tátil)", () => {
     await page.keyboard.press("Escape");
     await expect(btn).toHaveAttribute("aria-expanded", "false");
     await expect(btn).toBeFocused();
-    expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+    expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe("");
     expect(await page.locator("main").evaluate((m) => m.inert)).toBe(false);
   });
 
@@ -153,7 +153,7 @@ test.describe("Menu mobile (tátil)", () => {
     await gotoHome(page);
     await page.getByRole("button", { name: "Menu de navegação" }).tap();
     await page.setViewportSize(VIEWPORTS.desktop);
-    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("");
+    await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe("");
     expect(await page.locator("main").evaluate((m) => m.inert)).toBe(false);
     await expect(page.locator("#mobile-menu")).toBeHidden();
     await expect.poll(() => page.evaluate(() => document.activeElement?.id)).toBe("main");

@@ -9,11 +9,22 @@
   box-sizing: border-box;
 }
 
-/* Altura total do documento */
-html,
-body {
+/* Altura total do documento e corte do overflow horizontal.
+   O documento (viewport) é o único scroll container: o overflow-x do <html>
+   passa para o viewport; no <body> usa-se `clip`, que corta sem criar um
+   scroll container (com `hidden` + height:100%, era o <body> que fazia
+   scroll, o que impedia o browser de repor a posição em refresh/Back/Forward
+   e de recolher a barra de endereço em mobile). Browsers sem `clip` ficam
+   com `hidden` (comportamento anterior). */
+html {
   height: 100%;
   overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Remover margem padrão do body */

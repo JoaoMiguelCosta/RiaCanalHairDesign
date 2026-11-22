@@ -17,5 +17,6 @@ afterEach(() => {
   cleanup(); // desmonta antes de repor timers (os efeitos limpam-se com eles)
   vi.useRealTimers();
   document.body.style.overflow = "";
+  document.documentElement.style.overflow = "";
   window.history.replaceState(null, "", "/");
 });

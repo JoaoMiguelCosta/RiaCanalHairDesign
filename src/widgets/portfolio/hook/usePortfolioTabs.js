@@ -23,7 +23,8 @@ function groupWorks(arr, size = 3) {
  * Mantém o comportamento original:
  * - serviço inicial via ?service= (se válido) ou "Cabeleireiro"
  * - evento externo "activate-portfolio-service" ativa tab e faz scroll
- * - se URL tem #Works em refresh, faz scroll
+ * - abrir /#Works (ou refresh) é resolvido centralmente, como qualquer outro
+ *   fragmento, pelo RouteAnnouncer (src/app/routes.jsx)
  * - agrupa trabalhos por linhas (máx. 3) evitando 1 isolado na última linha
  */
 export function usePortfolioTabs(
@@ -65,13 +66,6 @@ export function usePortfolioTabs(
     return () =>
       window.removeEventListener("activate-portfolio-service", handler);
   }, [isValid, selectServiceAndScroll]);
-
-  // Se entra com #Works na URL (refresh), faz scroll
-  useEffect(() => {
-    if (window.location.hash === "#Works") {
-      setTimeout(scrollToWorks, 0);
-    }
-  }, [scrollToWorks]);
 
   const rows = useMemo(
     () => groupWorks(worksMap?.[activeService] ?? [], itemsPerRow),
