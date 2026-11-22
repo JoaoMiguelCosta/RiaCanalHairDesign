@@ -43,21 +43,3 @@
 
     /* .centerMobile mantém center */
 }
-
-/* ===== Helpers opcionais (usar via className) ===== */
-
-/* limita largura de leitura e centra em containers grandes */
-.narrow {
-    max-width: 42rem;
-    margin-inline: auto;
-}
-
-/* versão “lead” um pouco maior */
-.lead {
-    font-size: clamp(1rem, 0.6vw + 1rem, 1.125rem);
-}
-
-/* cor atenuada (ex.: notas) */
-.muted {
-    color: #9CA3AF;
-}

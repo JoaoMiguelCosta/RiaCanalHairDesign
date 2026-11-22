@@ -7,6 +7,10 @@ import {
   FaLocationDot,
   FaClock,
   FaRegComment,
+  FaPause,
+  FaPlay,
+  FaVolumeHigh,
+  FaVolumeXmark,
 } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoLogoWhatsapp, IoMenu } from "react-icons/io5";
@@ -27,15 +31,36 @@ const icons = {
   location: FaLocationDot,
   clock: FaClock,
   comment: FaRegComment,
+  // controlos multimédia / carrossel
+  pause: FaPause,
+  play: FaPlay,
+  volumeOn: FaVolumeHigh,
+  volumeOff: FaVolumeXmark,
 };
 
+/**
+ * Ícone do catálogo acima.
+ * Decorativo por defeito (aria-hidden + focusable="false"): o nome acessível
+ * vem do texto ou do aria-label do botão/link que o contém. Se o ícone
+ * transmitir informação por si só, passar `aria-label` (ou `title`) e deixa
+ * de ser ocultado.
+ */
 const Icon = ({ name, className, ...props }) => {
   const IconComponent = icons[name];
   if (!IconComponent) {
     console.warn(`Icon "${name}" not found.`);
     return null;
   }
-  return <IconComponent className={className} {...props} />;
+  const labelled = Boolean(props["aria-label"] || props.title);
+  return (
+    <IconComponent
+      className={className}
+      aria-hidden={labelled ? undefined : "true"}
+      focusable="false"
+      {...(labelled ? { role: "img" } : null)}
+      {...props}
+    />
+  );
 };
 
 export default Icon;

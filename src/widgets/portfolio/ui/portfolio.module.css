@@ -104,6 +104,27 @@
 /* classe vazia para toggle com CSS Modules */
 .open {}
 
+/* Touch: botão nativo transparente sobre todo o cartão (acima do hint, que
+   não recebe eventos); o anel de foco fica por dentro, porque o cartão
+   corta o que sai dos seus limites (overflow: hidden) */
+.cardToggle {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cardToggle:focus-visible {
+  outline-offset: -3px;
+}
+
 .imageHoverCard::before {
   content: "";
   position: absolute;
@@ -219,12 +240,16 @@
 
 /* Hover só em dispositivos com rato/trackpad */
 @media (hover: hover) and (pointer: fine) {
-  .imageHoverCard:hover .imageOverlay {
+
+  /* :focus-visible: o teclado revela a descrição tal como o hover */
+  .imageHoverCard:hover .imageOverlay,
+  .imageHoverCard:focus-visible .imageOverlay {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .imageHoverCard:hover .myImage {
+  .imageHoverCard:hover .myImage,
+  .imageHoverCard:focus-visible .myImage {
     transform: translate(-50%, -50%) scale(1.05);
     filter: brightness(0.9);
   }

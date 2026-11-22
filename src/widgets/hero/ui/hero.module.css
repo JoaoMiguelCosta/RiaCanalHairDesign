@@ -3,7 +3,12 @@
     flex-direction: column;
     position: relative;
 
-    background-image: url("../../../content/media/hero/hero.png");
+    /* WebP como fallback para browsers sem image-set()/type(); AVIF preferido */
+    background-image: url("../../../content/media/hero/hero-1920.webp");
+    background-image: image-set(
+        url("../../../content/media/hero/hero-1920.avif") type("image/avif"),
+        url("../../../content/media/hero/hero-1920.webp") type("image/webp")
+    );
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -60,6 +65,18 @@
 }
 
 /* Títulos */
+
+/* <h1> que agrupa Title1 + Title2: neutraliza margem, tamanho e peso nativos
+   para manter exatamente o aspeto das antigas <div> */
+.heroTitle {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
 .Title1 {
     padding-block: clamp(4px, 1.2vw, 8px);
 }
@@ -136,6 +153,8 @@
 .instagramBtn:hover,
 .locationBtn:hover {
     background-color: #d59532;
+    /* contraste no hover: #f2f2f2 s/ dourado = 2.29:1 → #1A1F2D = 6.40:1 */
+    color: #1A1F2D;
     transform: scale(1.03);
 }
 

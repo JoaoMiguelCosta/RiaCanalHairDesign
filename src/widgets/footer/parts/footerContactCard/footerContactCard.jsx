@@ -19,7 +19,7 @@ const TextOrLink = ({ type, href, content, external }) =>
 
 const FooterContactCard = () => (
   <div className={styles.info}>
-    <h3 className={styles.title}>{data.title}</h3>
+    <h2 className={styles.title}>{data.title}</h2>
 
     <ul className={styles.list}>
       {(data.contacts ?? []).map(({ icon, ...rest }, idx) => (

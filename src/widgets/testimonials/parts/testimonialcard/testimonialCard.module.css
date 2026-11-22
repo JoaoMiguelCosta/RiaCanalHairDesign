@@ -35,14 +35,46 @@
     background: rgba(213, 149, 50, 0.18);
 }
 
+/* Preenchimento animado com transform (só composição: sem layout por frame) */
 .progressFill {
     height: 100%;
-    width: 0%;
+    width: 100%;
     background: #D59532;
-    transition: width 100ms linear;
-    will-change: width;
-    /* 🔹 ajuda o browser a animar a largura */
+    transform: scaleX(0);
+    transform-origin: left center;
 }
+
+/* O tempo de apresentação é a própria animação: pausada por omissão e só
+   corre quando nenhum motivo de pausa está ativo (data-running). Ao pausar,
+   o progresso fica congelado; ao retomar, continua do mesmo ponto. */
+.container[data-active="true"] .progressFill {
+    animation: progressFill var(--progress-duration, 3000ms) linear forwards;
+    animation-play-state: paused;
+}
+
+.container[data-active="true"][data-running="true"] .progressFill {
+    animation-play-state: running;
+}
+
+@keyframes progressFill {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* Movimento reduzido: a rotação não arranca sozinha, mas se o utilizador a
+   retomar explicitamente a barra tem de manter a duração real (a regra global
+   encurta todas as animações para 0.01ms, o que faria avançar a cada frame). */
+@media (prefers-reduced-motion: reduce) {
+    .container[data-active="true"] .progressFill {
+        animation-duration: var(--progress-duration, 3000ms) !important;
+    }
+}
+
 /* Depoimento */
 .quote {
     display: block;

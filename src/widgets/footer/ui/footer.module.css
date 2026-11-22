@@ -20,12 +20,21 @@
     padding-block: clamp(10px, 2.5vw, 20px);
 }
 
+/* Agora um <a>: reproduz a caixa e o alinhamento nativos do antigo <button>
+   (inline-block + texto centrado; inline-flex para centrar também na
+   altura fixa do mobile) */
 .talkButton {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     width: auto;
     min-width: clamp(12rem, 30vw, 17rem);
     padding: clamp(10px, 2vw, 14px) clamp(16px, 3vw, 20px);
     background: #D59532;
-    color: #F2F2F2;
+    /* contraste: #F2F2F2 s/ dourado = 2.29:1 → #1A1F2D = 6.40:1
+       (hover #c17f28: 4.96:1) */
+    color: #1A1F2D;
     border: 0;
     border-radius: .25rem;
     font: 600 1.25rem/1 Montserrat, sans-serif;

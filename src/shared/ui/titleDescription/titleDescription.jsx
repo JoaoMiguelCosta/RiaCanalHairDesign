@@ -1,11 +1,18 @@
 import styles from "./titleDescription.module.css";
 
-const TitleDescription = ({ title, legend, legend1, variant = "default" }) => {
+const TitleDescription = ({
+  title,
+  legend,
+  legend1,
+  variant = "default",
+  as = "h3", // nome da profissional: subsecção do título da secção (h2)
+}) => {
+  const Tag = as;
   return (
     <div className={`${styles.Container} ${styles[`Container_${variant}`]}`}>
-      <h2 className={`${styles.title} ${styles[`title_${variant}`]}`}>
+      <Tag className={`${styles.title} ${styles[`title_${variant}`]}`}>
         {title}
-      </h2>
+      </Tag>
       <p className={`${styles.legend} ${styles[`legend_${variant}`]}`}>
         <span>{legend}</span>
         <span>{legend1}</span>

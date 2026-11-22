@@ -73,9 +73,12 @@
     line-height: 1;
     transition: color .3s ease;
 
-    /* quebra elegante por defeito (melhor para colunas estreitas) */
+    /* colunas estreitas: hifenização (lang="pt") em vez de partir a palavra
+       num ponto arbitrário; break-word só parte se a palavra não couber de
+       todo (sem overflow horizontal) */
     white-space: normal;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 /* ===== Preferências de movimento reduzido ===== */

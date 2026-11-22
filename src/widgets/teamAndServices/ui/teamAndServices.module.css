@@ -241,15 +241,8 @@
     flex: 0 0 calc((100% - clamp(24px, 6vw, 100px)) / 2);
 }
 
-/* >=377px: não partir palavras nos chips */
+/* >=377px: chips com a largura do próprio conteúdo */
 @media (min-width: 377px) {
-    :global(.serviceItem) {
-        white-space: nowrap !important;
-        word-break: keep-all !important;
-        overflow-wrap: normal !important;
-        hyphens: none !important;
-    }
-
     .EsteticaAdvanced>* {
         flex: 0 0 auto;
         max-width: 100%;

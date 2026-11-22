@@ -2,7 +2,8 @@ import styles from "./titleServices.module.css";
 
 const TitleServices = ({ children, variant }) => {
   return (
-    <h2 className={variant ? styles[variant] : styles.container}>{children}</h2>
+    // h3: "Serviços" é subsecção de "Equipa & Serviços" (h2)
+    <h3 className={variant ? styles[variant] : styles.container}>{children}</h3>
   );
 };
 

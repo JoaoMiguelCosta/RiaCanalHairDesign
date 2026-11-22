@@ -16,9 +16,19 @@ const ProfessionalPhoto = ({
   fit = "cover",
   placeholder, // JSX ou url de fallback
   draggable = false,
+  // atributos do wrapper (ex.: ref observada e handlers de hover), que fica
+  // sempre no DOM mesmo quando a <img> falha
+  containerProps,
   ...rest
 }) => {
   const [error, setError] = useState(false);
+  // O erro pertence ao src que falhou: cada mudança de src volta a tentar
+  // (ajuste de estado durante o render, padrão recomendado pelo React)
+  const [lastSrc, setLastSrc] = useState(src);
+  if (src !== lastSrc) {
+    setLastSrc(src);
+    setError(false);
+  }
 
   // Hooks SEMPRE no topo (antes de qualquer return)
   const wrapperStyle = useMemo(() => {
@@ -37,10 +47,11 @@ const ProfessionalPhoto = ({
   const role = alt === "" ? "presentation" : undefined;
 
   // Após hooks, podes ter returns condicionais
-  if (!src && !placeholder) return <div className={ContainerImg} />;
+  if (!src && !placeholder)
+    return <div className={ContainerImg} {...containerProps} />;
 
   return (
-    <div className={ContainerImg} style={wrapperStyle}>
+    <div className={ContainerImg} style={wrapperStyle} {...containerProps}>
       {!error ? (
         <img
           src={src}

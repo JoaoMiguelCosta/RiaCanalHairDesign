@@ -70,9 +70,11 @@
     font-size: clamp(1rem, 1.8vw, 1.25rem);
 }
 
+/* Contraste (WCAG 1.4.3): texto escuro sobre o dourado (#fff era 2.57:1;
+   #1A1F2D é 6.40:1, a mesma cor usada nos separadores ativos do Portfólio) */
 .instagramButton:hover {
     background-color: #D59532;
-    color: #fff;
+    color: #1A1F2D;
 }
 
 /* Botão "Seguir no Instagram" */
@@ -86,10 +88,12 @@
     border: none;
     font-size: clamp(1rem, 1.6vw, 1.125rem);
     font-weight: 600;
-    color: #F2F2F2;
+    /* contraste: #F2F2F2 s/ dourado = 2.29:1 → #1A1F2D = 6.40:1 */
+    color: #1A1F2D;
     letter-spacing: 0.125rem;
 }
 
+/* hover: #1A1F2D s/ #b37c26 = 4.56:1 */
 .instagramFollowButton:hover {
     background-color: #b37c26;
 }

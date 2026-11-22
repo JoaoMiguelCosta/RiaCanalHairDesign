@@ -5,7 +5,9 @@ const Subtitle = ({ children, variant = "default" }) => {
     variant === "highlight" ? styles.containerHighlight : styles.container;
 
   return (
-    <div className={containerClass} role="heading" aria-level={3}>
+    // Texto de destaque ("eyebrow") que antecede o título da secção: não é um
+    // heading, por isso não expõe role="heading".
+    <div className={containerClass}>
       <span className={styles.subtitle}>{children}</span>
     </div>
   );

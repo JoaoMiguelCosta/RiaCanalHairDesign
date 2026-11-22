@@ -1,6 +1,5 @@
 // src/pages/privacy/privacy.jsx
 import { Link } from "react-router-dom";
-import "@app/styles/global.css";
 import styles from "./privacy.module.css";
 
 function Privacy() {
@@ -9,6 +8,7 @@ function Privacy() {
       id="main"
       aria-labelledby="privacy-title"
       className={styles.container}
+      tabIndex={-1}
     >
       <Link
         to="/"

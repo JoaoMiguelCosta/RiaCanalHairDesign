@@ -6,8 +6,8 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import pluginImport from "eslint-plugin-import";
 
 export default [
-  // Ignorar build
-  { ignores: ["dist"] },
+  // Ignorar build e artefactos gerados pelos testes (relatórios, resultados)
+  { ignores: ["dist", "coverage", "playwright-report", "test-results", "blob-report"] },
 
   // Base recomendada do ESLint (flat config: sem "extends")
   js.configs.recommended,
@@ -33,12 +33,8 @@ export default [
             ["@app", "./src/app"],
             ["@pages", "./src/pages"],
             ["@widgets", "./src/widgets"],
-            ["@features", "./src/features"],
-            ["@entities", "./src/entities"],
             ["@shared", "./src/shared"],
-            ["@lib", "./src/lib"],
             ["@content", "./src/content"],
-            ["@services", "./src/services"],
             ["@media", "./src/content/media"],
           ],
           extensions: [".js", ".jsx", ".json", ".css"],
@@ -57,5 +53,17 @@ export default [
       // Qualidade
       "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
     },
+  },
+
+  // Configurações de ferramentas e testes E2E: correm em Node (process, …).
+  // Os E2E não contêm React: o `use` das fixtures do Playwright não é o
+  // hook `use` do React, pelo que rules-of-hooks não se aplica ali.
+  {
+    files: ["*.config.js", "tests/**/*.js", "scripts/**/*.js"],
+    languageOptions: { globals: { ...globals.node } },
+  },
+  {
+    files: ["tests/e2e/**/*.js"],
+    rules: { "react-hooks/rules-of-hooks": "off" },
   },
 ];

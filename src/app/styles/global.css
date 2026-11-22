@@ -51,6 +51,38 @@ button {
    TEMA / TIPOGRAFIA
    ========================= */
 
+/* Fallback métrico da Montserrat (só o peso 600 é carregado, com
+   display=swap): enquanto a webfont não chega, o texto usa Arial/Helvetica
+   redimensionada para a largura da Montserrat, para que a troca de fonte não
+   refaça as quebras de linha (CLS). Não altera a fonte final. Razões de
+   largura medidas no texto das páginas legais. */
+@font-face {
+  font-family: "Montserrat Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  font-weight: 100 500;
+  size-adjust: 114.2%;
+  ascent-override: 84.8%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  /* só os glifos que a Montserrat carregada cobre (setas, etc. seguem para
+     o sans-serif, como antes) */
+  unicode-range: U+0000-024F, U+2000-206F, U+20AC;
+}
+
+@font-face {
+  font-family: "Montserrat Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Helvetica Bold"),
+    local("Liberation Sans Bold");
+  font-weight: 600 900;
+  size-adjust: 107.8%;
+  ascent-override: 89.8%;
+  descent-override: 23.3%;
+  line-gap-override: 0%;
+  /* só os glifos que a Montserrat carregada cobre (setas, etc. seguem para
+     o sans-serif, como antes) */
+  unicode-range: U+0000-024F, U+2000-206F, U+20AC;
+}
+
 :root {
   --bg: #000000;
   --text: #eaeaea;
@@ -70,5 +102,37 @@ body {
   color: var(--text);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+/* =========================
+   ACESSIBILIDADE
+   ========================= */
+
+/* Indicador de foco consistente (teclado), na cor de destaque da marca */
+:focus-visible {
+  outline: 2px solid #d59532;
+  outline-offset: 2px;
+}
+
+/* <main tabIndex="-1"> recebe foco programático (skip link / mudança de rota):
+   não é um controlo, por isso não desenha anel à volta de toda a página */
+#main:focus {
+  outline: none;
+}
+
+/* Respeita a preferência de movimento reduzido em transições/animações CSS */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

@@ -1,5 +1,22 @@
 // src/widgets/portfolio/hook/usePortfolioTabs.js
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { prefersReducedMotion } from "@shared/lib/usePrefersReducedMotion";
+
+const DEFAULT_SERVICE = "Cabeleireiro";
+
+// Agrupa em linhas de `size`, evitando 1 card isolado na última (função pura)
+function groupWorks(arr, size = 3) {
+  if (!Array.isArray(arr) || arr.length === 0) return [];
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += size)
+    chunks.push(arr.slice(i, i + size));
+  if (chunks.length > 1 && chunks[chunks.length - 1].length === 1) {
+    const last = chunks.pop();
+    const prev = chunks.pop();
+    chunks.push(prev.slice(0, -1), [prev[prev.length - 1], ...last]);
+  }
+  return chunks;
+}
 
 /**
  * Controla tabs de serviços e paginação visual (linhas) do portfólio.
@@ -17,18 +34,14 @@ export function usePortfolioTabs(
   const SERVICE_SET = useMemo(() => new Set(services), [services]);
   const isValid = useCallback((s) => s && SERVICE_SET.has(s), [SERVICE_SET]);
 
- const getInitialService = useCallback(() => {
-  const params = new URLSearchParams(window.location.search);
-   const s = params.get("service");
-  if (isValid(s)) return s;
-   return "Cabeleireiro";
- }, [isValid]);
-
-  const [activeService, setActiveService] = useState(getInitialService);
+  const [activeService, setActiveService] = useState(() => {
+    const s = new URLSearchParams(window.location.search).get("service");
+    return isValid(s) ? s : DEFAULT_SERVICE;
+  });
 
   const scrollToWorks = useCallback(() => {
     document.getElementById("Works")?.scrollIntoView({
-      behavior: "smooth",
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
       block: "start",
     });
   }, []);
@@ -60,39 +73,10 @@ export function usePortfolioTabs(
     }
   }, [scrollToWorks]);
 
-  const works = useMemo(() => {
-    return worksMap?.[activeService] ?? [];
-  }, [worksMap, activeService]);
-
-
-  // Agrupa em linhas, evitando 1 card isolado na última
-  const groupWorks = useCallback((arr, size = 3) => {
-    if (!Array.isArray(arr) || arr.length === 0) return [];
-    const chunks = [];
-    for (let i = 0; i < arr.length; i += size)
-      chunks.push(arr.slice(i, i + size));
-    if (chunks.length > 1 && chunks[chunks.length - 1].length === 1) {
-      const last = chunks.pop();
-      const prev = chunks.pop();
-      const balanced = [
-        prev.slice(0, prev.length - 1),
-        [prev[prev.length - 1], ...last],
-      ];
-      chunks.push(...balanced);
-    }
-    return chunks;
-  }, []);
-
   const rows = useMemo(
-    () => groupWorks(works, itemsPerRow),
-    [works, itemsPerRow, groupWorks]
+    () => groupWorks(worksMap?.[activeService] ?? [], itemsPerRow),
+    [worksMap, activeService, itemsPerRow]
   );
 
-  return {
-    activeService,
-    setActiveService,
-    selectServiceAndScroll,
-    works,
-    rows,
-  };
+  return { activeService, selectServiceAndScroll, rows };
 }

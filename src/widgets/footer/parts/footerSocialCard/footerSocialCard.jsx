@@ -10,7 +10,7 @@ const EXT_PROPS = { target: "_blank", rel: "noopener noreferrer" };
 
 const FooterSocialCard = () => (
   <div className={info}>
-    <h3 className={title}>Siga-nos</h3>
+    <h2 className={title}>Siga-nos</h2>
 
     <ul className={icons}>
       {FooterSocials.map(({ name, href, label }) => (

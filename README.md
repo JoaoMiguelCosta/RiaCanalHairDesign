@@ -228,6 +228,29 @@ SPA simples por secções/âncoras. Pode integrar **React Router** sem impacto n
 - Output: `dist/`
 - Deploy automático em push para `main`
 
+### SEO, routing e URLs públicos
+
+- **HTML inicial por rota (sem SSR):** o plugin `scripts/routeDocuments.js`
+  gera no build `index.html`, `termos.html`, `privacidade.html` e `404.html`
+  a partir do mesmo `index.html` processado pelo Vite (mesmos JS/CSS com
+  hash); só muda o bloco de metadados (title, description, canonical, Open
+  Graph, Twitter e, na Home, JSON-LD `HairSalon`).
+- **Fonte única dos metadados:** `src/app/seo/routeMeta.js`. Na navegação
+  SPA, `syncHead.js` atualiza as mesmas tags (sem duplicados).
+- **Política de URLs:** domínio `https://www.riacanalhairdesign.pt`;
+  caminhos em minúsculas, sem barra final (exceto `/`) e sem `.html`.
+  - `/termos/` → `308 /termos` (`trailingSlash: false`, query preservada)
+  - `/termos.html` → `308 /termos` (`cleanUrls: true`)
+  - maiúsculas (`/Termos`) → `404` (rotas `caseSensitive`)
+  - URL desconhecido ou asset inexistente → `404.html` com HTTP 404 (`noindex`)
+  - fragmentos (`/#Location`) não chegam ao servidor e não são alterados
+- **`vercel.json`:** sem rewrite catch-all (impediria o `404.html`); cache
+  imutável apenas em `/assets/*` (nomes com hash).
+- **Domínio:** o redirect apex → `www` é configurado no dashboard da Vercel
+  (Domains), não no `vercel.json`; deve ser permanente (308).
+- `npm run preview` emula localmente estas regras estáticas; a confirmação
+  dos códigos HTTP reais exige um Preview Deploy.
+
 
 ## 🤝 Contribuição
 

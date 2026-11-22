@@ -55,6 +55,24 @@
     cursor: pointer;
 }
 
+/* Itens com submenu: <button> (antes <span>) com aparência idêntica ao texto */
+.menuButton {
+    display: inline;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    line-height: inherit;
+    text-align: inherit;
+    cursor: pointer;
+}
+
+/* Estado expandido (teclado/clique) com a mesma cor do hover */
+.menuButton[aria-expanded="true"] {
+    color: #d59532;
+}
+
 /* Ícone da seta */
 .arrowIcon {
   display: inline-block;
@@ -72,15 +90,18 @@
     color: currentColor;
 }
 
-/* Mostra submenu ao passar o mouse */
-.menuItemWrapper:hover ul {
+/* Mostra submenu ao passar o rato ou quando aberto por teclado/clique */
+.menuItemWrapper:hover ul,
+.menuItemWrapper.open ul {
     display: flex;
 }
 
 /* Esconde menu no mobile → hamburger assume */
 @media (max-width: 64rem) {
 
-    /* 1024px */
+    /* 1024px: esconde o próprio <nav> (não só a lista), para que a navegação
+       desktop não fique exposta como landmark em mobile/tablet */
+    .nav,
     .menu {
         display: none;
     }

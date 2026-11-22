@@ -1,5 +1,12 @@
 // src/shared/ui/logo/logoComponent.jsx
-import Logo from "@shared/assets/branding/logo.png";
+// WebP sem perdas (com transparência), 320×319: 2× o maior tamanho apresentado (Hero, 160px).
+// O PNG original (2505×2496) mantém-se no repositório.
+import Logo from "@shared/assets/branding/logo.webp";
+
+// Dimensões intrínsecas: dão ao browser a proporção antes do download (evita CLS).
+// O tamanho apresentado continua definido pelo CSS de cada local.
+const LOGO_WIDTH = 320;
+const LOGO_HEIGHT = 319;
 
 /**
  * Componente de logo acessível.
@@ -12,8 +19,8 @@ const LogoComponent = ({
   imgClassName,
   alt = "Ria Canal Hair Design",
   ariaHidden = false,
-  width, // opcional: ajuda a evitar CLS
-  height, // opcional
+  width = LOGO_WIDTH,
+  height = LOGO_HEIGHT,
   loading = "eager",
   decoding = "async",
   draggable = false,

@@ -25,6 +25,19 @@
         margin-right: 0.5rem;
     }
 
+    /* Antes herdado de um seletor `a` global em socialIcons.module.css */
+    .topIcons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: transform .3s ease, color .3s ease;
+    }
+
+    .topIcons a:hover {
+        transform: scale(1.1);
+    }
+
     .icon,
     .icon:hover {
         width: 1rem;
@@ -74,6 +87,11 @@
         /* reforços anti-scroll dentro do overlay */
         overscroll-behavior: contain;
         touch-action: none;
+    }
+
+    /* O display:flex acima sobrepõe-se ao [hidden] nativo */
+    .menuOverlay[hidden] {
+        display: none;
     }
 
     .menuList {

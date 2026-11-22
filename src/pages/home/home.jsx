@@ -1,5 +1,4 @@
 // src/pages/home/home.jsx
-import "@app/styles/global.css";
 
 import Header from "@widgets/header/ui/header.jsx";
 import Hero from "@widgets/hero/ui/hero.jsx";
@@ -18,7 +17,8 @@ function Home() {
     <>
       <Header />
       {/* ✅ usa o container global */}
-      <main id="main" className="container">
+      {/* tabIndex -1: destino focável do skip link e da navegação entre rotas */}
+      <main id="main" className="container" tabIndex={-1}>
         <Hero />
         <AboutUs />
         <TeamAndServices />

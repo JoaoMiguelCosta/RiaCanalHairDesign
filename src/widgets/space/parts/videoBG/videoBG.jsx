@@ -1,4 +1,4 @@
-// src/widgets/space/videoBG/VideoBG.jsx
+// src/widgets/space/parts/videoBG/videoBG.jsx
 import { forwardRef } from "react";
 
 const VideoBG = forwardRef(function VideoBG(

@@ -13,7 +13,9 @@
     width: 100%;
     box-sizing: border-box;
     margin: 0;
-    /* h1 tem margin por defeito */
+    /* headings têm margin, font-size e font-weight nativos: neutralizados */
+    font-size: inherit;
+    font-weight: inherit;
 }
 
 /* alinhamentos (mantidos) */

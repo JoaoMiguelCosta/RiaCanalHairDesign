@@ -11,7 +11,8 @@
     padding: 0 .5rem;
 }
 
-a,
+/* Limitado aos links do componente: um seletor `a` solto é global num CSS Module */
+.container a,
 .icon {
     display: inline-flex;
     align-items: center;
@@ -20,7 +21,7 @@ a,
     transition: transform .3s ease, color .3s ease;
 }
 
-a:hover {
+.container a:hover {
     transform: scale(1.1);
 }
 

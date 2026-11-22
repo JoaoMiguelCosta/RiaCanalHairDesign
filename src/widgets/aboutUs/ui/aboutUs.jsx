@@ -7,12 +7,11 @@ import Text from "@shared/ui/text/text.jsx";
 import Quote from "@shared/ui/quote/quote.jsx";
 import StatCard from "@shared/ui/statCard/statCard.jsx";
 import TitleCaption from "@shared/ui/titleCaption/titleCaption.jsx";
-import ProfessionalPhoto from "@shared/ui/professionalPhoto/professionalPhoto.jsx";
 import InfoCard from "@widgets/aboutUs/parts/infoCard/infoCard.jsx";
-import { useRotatingImage } from "@widgets/aboutUs/hook/useRotatingImage";
+import RotatingPhoto from "@widgets/aboutUs/parts/rotatingPhoto/rotatingPhoto.jsx";
 
-import entranceExterior from "@media/entrance/entranceExterior.jpg";
-import entranceInterior from "@media/entrance/entranceInterior.jpg";
+import entranceExterior from "@media/entrance/entranceExterior.webp";
+import entranceInterior from "@media/entrance/entranceInterior.webp";
 
 const {
   aboutSection,
@@ -28,19 +27,24 @@ const {
   valuesSection,
 } = styles;
 
+// Ordem da rotação (a cada 3s); com movimento reduzido fica a primeira
 const IMAGES = [entranceExterior, entranceInterior];
 
 const AboutUs = () => {
-  const { currentImage } = useRotatingImage(IMAGES, {
-    intervalMs: 3000,
-    startIndex: 0,
-  });
-
   return (
-    <div id="AboutUs" className={aboutSection}>
+    <section
+      id="AboutUs"
+      className={aboutSection}
+      aria-labelledby="AboutUs-title"
+    >
       <div className={topSection}>
         <div className={leftColumn}>
-          <Title line1="Quem" line2="Somos" variant="default" />
+          <Title
+            id="AboutUs-title"
+            line1="Quem"
+            line2="Somos"
+            variant="default"
+          />
 
           <Text className={bodyText} variant="highlight">
             Somos um espaço de beleza e identidade no coração de Aveiro. No Ria
@@ -66,10 +70,11 @@ const AboutUs = () => {
 
         <div className={rightColumn}>
           <div className={rightInner}>
-            <ProfessionalPhoto
-              ContainerImg={imageContainer}
+            <RotatingPhoto
+              images={IMAGES}
+              intervalMs={3000}
+              containerClass={imageContainer}
               imageClass={image}
-              src={currentImage}
               alt="Entrada do Salão"
             />
 
@@ -95,7 +100,7 @@ const AboutUs = () => {
           individualidade de cada mulher.
         </InfoCard>
       </div>
-    </div>
+    </section>
   );
 };
 

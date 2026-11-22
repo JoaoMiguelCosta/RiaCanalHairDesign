@@ -7,7 +7,6 @@ import SocialLinks from "@content/social/socialLinks.json";
 // 🔗 Componente pequeno para um item (evita JSX duplicado no map)
 const SocialIconLink = ({ name, url, label }) => (
   <a
-    key={name}
     href={url}
     target="_blank"
     rel="noopener noreferrer"

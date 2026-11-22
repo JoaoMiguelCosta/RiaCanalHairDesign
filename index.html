@@ -5,40 +5,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Ria Canal Hair Design</title>
-  <meta name="description" content="Serviços de Cabeleireiro & Estética em Aveiro. Equipa, serviços e contacto." />
+  <!-- Metadados por rota (title, description, canonical, Open Graph, Twitter
+       e JSON-LD na Home): gerados a partir de src/app/seo/routeMeta.js pelo
+       plugin scripts/routeDocuments.js, que também emite termos.html,
+       privacidade.html e 404.html no build. Não editar aqui. -->
+  <!--route-head-->
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
 
   <!-- PWA / Icons -->
-<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-<link rel="manifest" href="/site.webmanifest" />
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#D59532" />
-<meta name="theme-color" content="#1C2431" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#D59532" />
+  <meta name="theme-color" content="#1C2431" />
+
+  <!-- Hero (LCP): descoberta antecipada da imagem de fundo, só na Home.
+       Este <link> nunca descarrega nada (media="not all"); existe para o Vite
+       lhe resolver o URL final com hash. O script seguinte cria o preload real
+       apenas quando a rota inicial é "/" (as páginas legais e o 404 não usam o
+       Hero). Fica antes da folha de estilos das fontes para não esperar por ela. -->
+  <link id="hero-preload" rel="preload" as="image" type="image/avif" media="not all"
+    href="/src/content/media/hero/hero-1920.avif" />
+  <script>
+    (function () {
+      var src = document.getElementById("hero-preload");
+      if (!src || location.pathname !== "/") return;
+      var link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.type = "image/avif";
+      link.setAttribute("fetchpriority", "high");
+      link.href = src.href;
+      document.head.appendChild(link);
+    })();
+  </script>
 
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Playfair+Display:wght@700&family=Lato:wght@600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Playfair+Display:wght@700&display=swap"
     rel="stylesheet" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="RiaCanal Hair Design" />
-  <meta property="og:description"
-    content="Serviços de Cabeleireiro & Estética em Aveiro. Equipa, serviços e contacto." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://ria-canal-hair-design-b8od.vercel.app/og.jpg" />
-  <meta property="og:url" content="https://ria-canal-hair-design-b8od.vercel.app/" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="RiaCanal Hair Design" />
-  <meta name="twitter:description"
-    content="Serviços de Cabeleireiro & Estética em Aveiro. Equipa, serviços e contacto." />
-  <meta name="twitter:image" content="https://ria-canal-hair-design-b8od.vercel.app/og.jpg" />
 </head>
 
 <body>

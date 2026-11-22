@@ -27,8 +27,14 @@
     gap: clamp(.5rem, 2vw, 1.5rem);
 }
 
-html {
-    scroll-padding-top: var(--header-h);
+/* html e body têm height:100% + overflow-x:hidden (global.css): o overflow do
+   <html> passa para o viewport, mas o do <body> não, pelo que é o <body> que
+   faz scroll. scroll-padding/scroll-behavior têm de estar no scroll container
+   real; ficam nos dois por segurança. --header-offset é a altura real do
+   header sticky (medida em header.jsx), que pode exceder o min-height. */
+html,
+body {
+    scroll-padding-top: var(--header-offset, var(--header-h));
     scroll-behavior: smooth;
 }
 

@@ -1,4 +1,11 @@
 /* TitleServices.module.css */
+
+/* Era <h2>, passou a <h3>: mantém a margem nativa do h2 (0.83em) */
+.container,
+.highlight {
+    margin-block: 0.83em;
+}
+
 .container {
     display: flex;
     height: 5.375rem;
@@ -23,7 +30,8 @@
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
-    width: 34.75rem;
+    /* reflow (WCAG 1.4.10): nunca mais largo do que o contentor */
+    width: min(100%, 34.75rem);
 
     color: #F2F2F2;
     text-align: center;
@@ -40,7 +48,8 @@
     .container,
     .highlight {
         display: flex;
-        width: 21.4375rem;
+        /* reflow: a 320px a largura fixa (343px) transbordava o contentor */
+        width: min(100%, 21.4375rem);
         
         height: 2.875rem;
         justify-content: center;

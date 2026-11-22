@@ -7,25 +7,35 @@ import FooterContactCard from "@widgets/footer/parts/footerContactCard/footerCon
 import FooterLinksCard from "@widgets/footer/parts/footerLinksCard/footerLinksCard.jsx";
 import FooterSocialCard from "@widgets/footer/parts/footerSocialCard/footerSocialCard.jsx";
 import FooterLegalBar from "@widgets/footer/parts/footerLegalBar/footerLegalBar.jsx";
-import { useOpenExternal } from "@widgets/footer/hook/useOpenExternal";
+import footerContact from "@content/footer/contact.json";
 
-const WHATSAPP_URL = "https://wa.me/351916887537";
+// Mesmo destino do contacto WhatsApp do cartão de contactos do footer
+const WHATSAPP_URL = footerContact.contacts.find(
+  (c) => c.icon === "whatsapp"
+)?.href;
 
-const TalkButton = ({ onClick }) => (
-  <button type="button" className={styles.talkButton} onClick={onClick}>
+// Abre o WhatsApp (navegação externa): link nativo, não <button>
+const TalkLink = () => (
+  <a
+    href={WHATSAPP_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={styles.talkButton}
+  >
     Fale Connosco
-  </button>
+  </a>
 );
 
 const Footer = () => {
-  const openWhatsApp = useOpenExternal(WHATSAPP_URL);
-
   return (
     <footer className={styles.footer}>
       {/* ✅ conteúdo do footer com o mesmo content width do main */}
       <div className="container">
         <div className={styles.title}>
+          {/* Slogan de chamada à ação, não título de conteúdo: <p> com o mesmo
+              estilo (os títulos do footer são os h2 dos cartões) */}
           <Title
+            as="p"
             line1="Visual novo, com cuidado e sofisticação."
             line2="Está pronta?"
             variant="highlight"
@@ -33,7 +43,7 @@ const Footer = () => {
         </div>
 
         <div className={styles.talk}>
-          <TalkButton onClick={openWhatsApp} />
+          <TalkLink />
         </div>
 
         <div className={styles.cards}>

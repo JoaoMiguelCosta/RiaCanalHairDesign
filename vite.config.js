@@ -3,22 +3,21 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
+import routeDocuments from "./scripts/routeDocuments.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [react()],
+  // routeDocuments: HTML inicial com metadados por rota (index, termos,
+  // privacidade, 404) e emulação local das regras estáticas da Vercel.
+  plugins: [react(), routeDocuments()],
   resolve: {
     alias: {
       "@app": path.resolve(__dirname, "src/app"),
       "@pages": path.resolve(__dirname, "src/pages"),
       "@widgets": path.resolve(__dirname, "src/widgets"),
-      "@features": path.resolve(__dirname, "src/features"),
-      "@entities": path.resolve(__dirname, "src/entities"),
       "@shared": path.resolve(__dirname, "src/shared"),
-      "@lib": path.resolve(__dirname, "src/lib"),
       "@content": path.resolve(__dirname, "src/content"),
-      "@services": path.resolve(__dirname, "src/services"),
       "@media": path.resolve(__dirname, "src/content/media"),
     },
   },

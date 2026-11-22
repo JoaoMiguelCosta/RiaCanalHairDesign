@@ -12,9 +12,10 @@ const Row = ({ l, v }) => (
 
 const Arrive = () => (
   <section className={arrive} aria-labelledby="arrive-title">
-    <h2 id="arrive-title" className={title}>
+    {/* h3: subsecção de "Contactos & Localização" (h2) */}
+    <h3 id="arrive-title" className={title}>
       {data.title}
-    </h2>
+    </h3>
     <p className={intro}>{data.intro}</p>
     {data.infoRows.map(({ label: l, value: v }) => (
       <Row key={l} l={l} v={v} />

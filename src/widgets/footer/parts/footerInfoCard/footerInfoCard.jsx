@@ -7,24 +7,18 @@ import TagLine from "@shared/ui/tagLine/tagLine.jsx";
 const { info, logoLink, logoTagline, logoWrapper, logoImg, text, textspan } =
   styles;
 
-const TAGLINE_PROPS = {
-  taglineClass: "taglineFooter",
-  brandClass: "brandFooter",
-  serviceClass: "serviceFooter",
-};
-
 const FooterInfoCard = () => (
   <div className={info}>
-    <a href="#Start" className={logoLink} aria-label="Voltar ao início">
+    <a href="#Start" className={logoLink} aria-label="Ria Canal Hairdesign — voltar ao início">
       <div className={logoTagline}>
-        {/* Logo decorativo porque o link já tem aria-label e a TagLine tem texto */}
+        {/* Logo decorativo: o aria-label do link inclui o texto visível da TagLine (WCAG 2.5.3) */}
         <LogoComponent
           className={logoWrapper}
           imgClassName={logoImg}
           alt=""
           ariaHidden
         />
-        <TagLine {...TAGLINE_PROPS} />
+        <TagLine variant="footer" />
       </div>
     </a>
 
