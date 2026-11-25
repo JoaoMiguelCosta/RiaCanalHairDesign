@@ -104,6 +104,7 @@ Repetir a validação manual de UX da secção 2 no domínio público.
 | Downloads antecipados de vídeo/MP3 no Safari | O WebKit do Playwright (Windows) ignorava `preload="none"`. **Corrigido:** os `<video>`/`<audio>` só recebem `src` na interação; verificado no servidor em Chromium, Firefox e WebKit (0 pedidos antes da interação) | Confirmar em Safari macOS e iPhone reais → Web Inspector → Network, sem tocar no cartão: 0 pedidos `.mp4`/`.mp3`; hover/toque → só os MP4; botão de som → MP3 |
 | Header com texto ampliado | **Corrigido:** espaços do header em `rem` (escala com a preferência de letra) e modo compacto (menu mobile) quando o desktop não cabe (texto ampliado só no conteúdo). Verificado no Firefox real até 200 % e por emulação CSS nos 3 motores; sem diferença visual com a letra por omissão | Verificar no Preview com Chrome (Definições → Aspeto → Tamanho do tipo de letra) e Safari (zoom só de texto) a ~1300–1440 px |
 | Separadores abertos durante um deploy | Os chunks lazy de um deployment anterior deixam de existir (404) | Aceitável (recarregar resolve); a Vercel oferece *Skew Protection* em alguns planos |
+| Cache imutável em 404 de `/assets/*` | **Confirmado no Preview:** `GET /assets/nao-existe.js` → 404 `text/html` com `Cache-Control: public, max-age=31536000, immutable`; os assets válidos com hash recebem a cache imutável pretendida. **Causa:** a regra `"/assets/(.*)"` do `vercel.json` aplica-se pelo caminho do pedido; as condições `has`/`missing` só avaliam o pedido (header, cookie, host, query) e a documentação da Vercel não prevê filtro por código de estado. Restringir o padrão a nomes com hash não resolve (um nome com hash inexistente também é 404); listar ficheiros um a um seria frágil; remover a regra deixaria os assets sem cache imutável documentada. **Documentado pela Vercel:** respostas 404 também podem ser guardadas em cache na CDN. **Não medido:** a duração efetiva dessa cache na CDN para esta resposta | **Risco aceite, sem alteração ao `vercel.json`.** O cabeçalho `Cache-Control: public, max-age=31536000, immutable` pode prolongar a reutilização da resposta 404 pelo browser. A Vercel também suporta cache de respostas 404 na CDN, mas a duração efetiva dessa cache não foi medida neste caso. O impacto prático é considerado baixo, mas não nulo, devido ao versionamento dos assets (nomes com hash do conteúdo, referenciados apenas pelo HTML revalidado do próprio deployment) e à imutabilidade dos deployments. Cenário mais provável de efeito visível: um separador antigo pede um chunk lazy após um deploy e depois é feito rollback para o deployment que o continha (ver secção 4). Reavaliar se se ativar *Skew Protection* ou se mudar a forma de servir os assets |
 
 ## 4. Rollback
 
@@ -129,4 +130,8 @@ regressão grave de layout ou acessibilidade, assets partidos.
 rollback é visível de imediato. Os assets têm nomes com hash e cache
 imutável: o deployment reposto referencia os seus próprios ficheiros, sem
 conflito. Separadores abertos com a versão anterior podem pedir chunks lazy
-que já não existem até serem recarregados.
+que já não existem até serem recarregados. Esse 404 recebe a mesma cache
+imutável (ver 3.1): se um browser o tiver recebido antes do rollback, pode
+continuar a reutilizá-lo após o rollback (limpar a cache do browser
+resolve). O efeito de uma eventual cache do 404 na CDN neste cenário não foi
+medido.
