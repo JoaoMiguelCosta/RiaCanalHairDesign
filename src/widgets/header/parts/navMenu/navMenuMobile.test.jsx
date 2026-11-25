@@ -1,8 +1,16 @@
-import { describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NavMenuMobile from "./navMenuMobile";
 import NavItemsMobile from "@content/navigation/navItemsMobile.json";
+import { HEADER_LAYOUT_EVENT, MOBILE_QUERY } from "@widgets/header/hook/headerLayout.js";
+import { installMatchMedia } from "../../../../../tests/setup/browserMocks";
+
+// Layout mobile: abaixo do breakpoint (o menu só é usado nesse layout)
+let media;
+beforeEach(() => {
+  media = installMatchMedia({ [MOBILE_QUERY]: true });
+});
 
 // Estrutura real: <header> com o menu + irmãos cobertos pelo overlay
 function setup() {
@@ -94,14 +102,14 @@ describe("NavMenuMobile", () => {
     expect(document.documentElement.style.overflow).toBe("auto");
   });
 
-  test("passar a desktop (>1024px) fecha o menu e move o foco para o <main>", async () => {
+  test("passar a desktop (acima de 64rem) fecha o menu e move o foco para o <main>", async () => {
     vi.useFakeTimers({ toFake: ["requestAnimationFrame", "cancelAnimationFrame"] });
     const { button, menu } = setup();
     act(() => button.click());
     expect(menu()).toBeVisible();
     expect(document.activeElement).toHaveTextContent(NavItemsMobile[0].label);
 
-    vi.spyOn(window, "innerWidth", "get").mockReturnValue(1280);
+    media.set(MOBILE_QUERY, false);
     act(() => window.dispatchEvent(new Event("resize")));
     act(() => vi.advanceTimersToNextFrame());
     expect(button).toHaveAttribute("aria-expanded", "false");
@@ -112,9 +120,24 @@ describe("NavMenuMobile", () => {
   test("redimensionar dentro do intervalo mobile não fecha", async () => {
     const { button, user } = setup();
     await user.click(button);
-    vi.spyOn(window, "innerWidth", "get").mockReturnValue(800);
     act(() => window.dispatchEvent(new Event("resize")));
     expect(button).toHaveAttribute("aria-expanded", "true");
+  });
+
+  // Fase 10: acima do breakpoint, o header usa o layout mobile quando o
+  // desktop não cabe (header[data-compact], texto ampliado)
+  test("modo compacto: acima do breakpoint o menu continua aberto; ao sair dele fecha", async () => {
+    const { button, user } = setup();
+    const header = button.closest("header");
+    header.setAttribute("data-compact", "");
+    await user.click(button);
+    media.set(MOBILE_QUERY, false);
+    act(() => window.dispatchEvent(new Event("resize")));
+    expect(button).toHaveAttribute("aria-expanded", "true");
+
+    header.removeAttribute("data-compact");
+    act(() => window.dispatchEvent(new Event(HEADER_LAYOUT_EVENT)));
+    expect(button).toHaveAttribute("aria-expanded", "false");
   });
 
   test("redes sociais abrem em novo separador com rel seguro", () => {

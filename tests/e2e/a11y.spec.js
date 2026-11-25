@@ -2,9 +2,17 @@
 // Deteta violações comuns de WCAG 2.x A/AA; não substitui uma avaliação
 // manual (leitor de ecrã, teclado, contraste em contexto, conteúdo).
 import AxeBuilder from "@axe-core/playwright";
-import { test, expect, gotoHome, scrollToSection, touchDevice, VIEWPORTS } from "./fixtures.js";
+import { test, expect, expectPage, gotoHome, scrollToSection, touchDevice, touchContextOptions, VIEWPORTS } from "./fixtures.js";
 
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
+
+// Cada análise axe da Home leva ~3 s no Chromium, mas ~24 s no Firefox e
+// ~30 s no WebKit com a suite em paralelo (medido na Fase 10; 10 s isolado).
+// Nesses motores o limite destes testes triplica (90 s); um bloqueio real
+// continua a falhar.
+test.beforeEach(({ browserName }) => {
+  test.slow(browserName !== "chromium", "axe-core é lento em Firefox/WebKit");
+});
 
 /** Resumo legível: regra, impacto e seletores dos elementos afetados. */
 const summarize = (violations) =>
@@ -47,7 +55,7 @@ test.describe("Rotas (desktop)", () => {
   for (const path of ["/termos", "/privacidade", "/pagina-inexistente"]) {
     test(path, async ({ page }) => {
       await page.goto(path);
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expectNoViolations(page);
     });
   }
@@ -64,14 +72,14 @@ test.describe("Rotas (mobile)", () => {
 
   test("Termos", async ({ page }) => {
     await page.goto("/termos");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expectNoViolations(page);
   });
 });
 
 test.describe("Estados interativos", () => {
-  test("menu mobile aberto", async ({ browser }) => {
-    const context = await browser.newContext(touchDevice(VIEWPORTS.mobile));
+  test("menu mobile aberto", async ({ browser, browserName }) => {
+    const context = await browser.newContext(touchContextOptions(browserName));
     const page = await context.newPage();
     await context.route((url) => url.hostname !== "127.0.0.1", (route) => route.abort());
     await gotoHome(page);
@@ -115,8 +123,8 @@ test.describe("Estados interativos", () => {
     await expectNoViolations(page, { include: "#Space" });
   });
 
-  test("cartão do portefólio aberto por toque", async ({ browser }) => {
-    const context = await browser.newContext(touchDevice(VIEWPORTS.mobile));
+  test("cartão do portefólio aberto por toque", async ({ browser, browserName }) => {
+    const context = await browser.newContext(touchContextOptions(browserName));
     const page = await context.newPage();
     await context.route((url) => url.hostname !== "127.0.0.1", (route) => route.abort());
     await gotoHome(page);

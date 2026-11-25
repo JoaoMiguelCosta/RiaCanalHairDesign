@@ -1,147 +1,156 @@
-/* Por padrão (desktop) não mostra o mobile */
+/* O menu mobile aparece em ≤ 1024px (64rem) e também quando o header
+   desktop não cabe no ecrã (header[data-compact]: texto ampliado só no
+   conteúdo, ver header.jsx). Só o display do contentor depende disso: as
+   restantes regras aplicam-se a elementos dentro dele, que não são
+   apresentados enquanto está oculto. */
 .mobileContainer {
     display: none;
 }
 
-/* ===== Aparece em ≤ 1024px (64rem) ===== */
 @media (max-width: 64rem) {
     .mobileContainer {
         display: flex;
-        position: relative;
-        width: 100%;
-        min-height: 3.125rem;
-        height: auto;
-        align-items: center;
-        justify-content: flex-end;
-        background-color: transparent;
-        z-index: 10;
-        padding: 0 0.5rem;
-    }
-
-    .topIcons {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-right: 0.5rem;
-    }
-
-    /* Antes herdado de um seletor `a` global em socialIcons.module.css */
-    .topIcons a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        transition: transform .3s ease, color .3s ease;
-    }
-
-    .topIcons a:hover {
-        transform: scale(1.1);
-    }
-
-    .icon,
-    .icon:hover {
-        width: 1rem;
-        height: 1rem;
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0;
-        transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .icon {
-        color: #f2f2f2;
-    }
-
-    .icon:hover {
-        color: #d59532;
-        transform: scale(1.2);
-    }
-
-    .menuButton {
-        background: none;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-    }
-
-    /* Overlay ocupa o viewport abaixo do header e CENTRA os itens.
-       - top: altura real do header (--header-offset, medida em header.jsx);
-         o header pode exceder --header-h (ex.: landscape, logótipo maior).
-       - bottom:0 em vez de 100vh: acompanha a área visível em mobile.
-       - Se a lista não couber (landscape, zoom, texto ampliado), o overlay
-         faz scroll; a lista centra-se por margin:auto, que nunca empurra
-         itens para fora da área de scroll (ao contrário de
-         justify-content:center). pan-y permite esse scroll; o scroll da
-         página está bloqueado no <html> e o overscroll não passa para ela. */
-    .menuOverlay {
-        position: fixed;
-        top: var(--header-offset, var(--header-h));
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgb(20, 16, 16);
-        z-index: 999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* ⬅ centra horizontalmente */
-        padding: 2rem 1rem;
-        box-sizing: border-box;
-        overflow-y: auto;
-
-        overscroll-behavior: contain;
-        touch-action: pan-y;
-    }
-
-    /* O display:flex acima sobrepõe-se ao [hidden] nativo */
-    .menuOverlay[hidden] {
-        display: none;
-    }
-
-    .menuList {
-        list-style: none;
-        padding: 0;
-        /* centra verticalmente quando cabe; alinha ao topo quando não cabe */
-        margin: auto 0;
-        width: 100%;
-        max-width: 24rem;
-        /* coluna mais estreita e centrada */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* ⬅ centra itens */
-        gap: 1.25rem;
-        text-align: center;
-        /* ⬅ texto centrado */
-    }
-
-    .menuItem {
-        display: inline-block;
-        /* permite padding/hover */
-        padding: .3rem .25rem;
-        background: none;
-        border: none;
-        color: #f2f2f2;
-        font-family: "Lato", sans-serif;
-        font-size: 0.8rem;
-        /* um pouco maior que 0.625 */
-        font-weight: 600;
-        letter-spacing: 0.125rem;
-        text-transform: uppercase;
-        cursor: pointer;
-        text-decoration: none;
-        transition: color .25s ease, transform .25s ease, opacity .25s ease;
-    }
-
-    .menuItem:hover {
-        color: #d59532;
-        transform: scale(1.03);
-    }
-
-    .menuItem:active {
-        opacity: 0.7;
     }
 }
 
+:global(header[data-compact]) .mobileContainer {
+    display: flex;
+}
+
+.mobileContainer {
+    position: relative;
+    width: 100%;
+    min-height: 3.125rem;
+    height: auto;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: transparent;
+    z-index: 10;
+    padding: 0 0.5rem;
+}
+
+.topIcons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-right: 0.5rem;
+}
+
+/* Antes herdado de um seletor `a` global em socialIcons.module.css */
+.topIcons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform .3s ease, color .3s ease;
+}
+
+.topIcons a:hover {
+    transform: scale(1.1);
+}
+
+.icon,
+.icon:hover {
+    width: 1rem;
+    height: 1rem;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.icon {
+    color: #f2f2f2;
+}
+
+.icon:hover {
+    color: #d59532;
+    transform: scale(1.2);
+}
+
+.menuButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+/* Overlay ocupa o viewport abaixo do header e CENTRA os itens.
+   - top: altura real do header (--header-offset, medida em header.jsx);
+     o header pode exceder --header-h (ex.: landscape, logótipo maior).
+   - bottom:0 em vez de 100vh: acompanha a área visível em mobile.
+   - Se a lista não couber (landscape, zoom, texto ampliado), o overlay
+     faz scroll; a lista centra-se por margin:auto, que nunca empurra
+     itens para fora da área de scroll (ao contrário de
+     justify-content:center). pan-y permite esse scroll; o scroll da
+     página está bloqueado no <html> e o overscroll não passa para ela. */
+.menuOverlay {
+    position: fixed;
+    top: var(--header-offset, var(--header-h));
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(20, 16, 16);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* ⬅ centra horizontalmente */
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+}
+
+/* O display:flex acima sobrepõe-se ao [hidden] nativo */
+.menuOverlay[hidden] {
+    display: none;
+}
+
+.menuList {
+    list-style: none;
+    padding: 0;
+    /* centra verticalmente quando cabe; alinha ao topo quando não cabe */
+    margin: auto 0;
+    width: 100%;
+    max-width: 24rem;
+    /* coluna mais estreita e centrada */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* ⬅ centra itens */
+    gap: 1.25rem;
+    text-align: center;
+    /* ⬅ texto centrado */
+}
+
+.menuItem {
+    display: inline-block;
+    /* permite padding/hover */
+    padding: .3rem .25rem;
+    background: none;
+    border: none;
+    color: #f2f2f2;
+    font-family: "Lato", sans-serif;
+    font-size: 0.8rem;
+    /* um pouco maior que 0.625 */
+    font-weight: 600;
+    letter-spacing: 0.125rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color .25s ease, transform .25s ease, opacity .25s ease;
+}
+
+.menuItem:hover {
+    color: #d59532;
+    transform: scale(1.03);
+}
+
+.menuItem:active {
+    opacity: 0.7;
+}

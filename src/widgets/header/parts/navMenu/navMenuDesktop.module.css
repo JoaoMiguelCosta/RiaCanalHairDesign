@@ -4,8 +4,13 @@
     align-items: center;
     /* Entre 1025px e ~1150px os itens + logótipo + redes sociais não cabiam
        com 30px fixos (os ícones sociais ficavam fora do ecrã): o espaço
-       desce linearmente até 12px em 1025px; ≥1150px mantém 1.875rem. */
-    gap: clamp(0.75rem, 14.4vw - 135.6px, 1.875rem);
+       desce linearmente até 12px em 1025px; ≥1150px mantém 1.875rem.
+       Desvio em rem (8.475rem = 135.6px com letra a 16px), não em px: com o
+       tamanho de letra do browser aumentado, o breakpoint (64rem) e o
+       conteúdo escalam, e o espaço também tem de escalar — em px ficava no
+       máximo logo acima do breakpoint e os ícones sociais saíam do ecrã
+       (Fase 10). Com a letra por omissão o valor calculado é o mesmo. */
+    gap: clamp(0.75rem, 14.4vw - 8.475rem, 1.875rem);
     height: 6.6875rem;
     flex-shrink: 0;
 
@@ -108,4 +113,10 @@
     .menu {
         display: none;
     }
+}
+
+/* Idem quando o header desktop não cabe (texto ampliado; ver header.jsx) */
+:global(header[data-compact]) .nav,
+:global(header[data-compact]) .menu {
+    display: none;
 }

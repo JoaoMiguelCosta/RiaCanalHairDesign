@@ -1,6 +1,6 @@
 // Fragmentos da Home num browser real (Fase 9): links diretos (/#Location),
 // carregamento lazy, refresh, Back/Forward e alinhamento abaixo do header.
-import { test, expect, gotoHome, touchDevice, VIEWPORTS } from "./fixtures.js";
+import { test, expect, expectPage, gotoHome, touchDevice, VIEWPORTS } from "./fixtures.js";
 
 // Secções da Home com id público (links do header/footer)
 const SECTIONS = [
@@ -92,7 +92,7 @@ test.describe("Links diretos para secções da Home (chunk lazy atrasado)", () =
   test("fragmento inexistente: fica no topo, sem erros", async ({ page }) => {
     await delayHomeChunk(page);
     await page.goto("/#NaoExiste");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible();
     expect(await scrollPos(page)).toBe(0);
     await expect(page).toHaveURL(/#NaoExiste$/);
   });
@@ -112,10 +112,15 @@ test.describe("Navegação por âncoras na Home", () => {
     await gotoHome(page, "/#AboutUs");
     await expectAligned(page, "AboutUs");
     await page.reload();
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expectAligned(page, "AboutUs");
   });
 
+  // Back/Forward entre fragmentos da mesma página é tratado pelo browser (a
+  // app não interfere): o Chromium volta a resolver o fragmento; Firefox e
+  // WebKit repõem a posição guardada na entrada do histórico — onde o
+  // utilizador estava quando clicou (o link "Sobre Nós" está no footer).
+  // Os dois destinos são válidos; exige-se um deles, estável.
   test("links internos, Back e Forward entre fragmentos", async ({ page }) => {
     await gotoHome(page);
     const footer = page.locator("footer");
@@ -123,13 +128,25 @@ test.describe("Navegação por âncoras na Home", () => {
     await expect(page).toHaveURL(/#Location$/);
     await expectAligned(page, "Location");
 
-    await footer.getByRole("link", { name: "Sobre Nós" }).click();
+    const aboutLink = footer.getByRole("link", { name: "Sobre Nós" });
+    await aboutLink.scrollIntoViewIfNeeded();
+    const leftAt = await scrollPos(page); // posição guardada na entrada #Location
+    await aboutLink.click();
     await expect(page).toHaveURL(/#AboutUs$/);
     await expectAligned(page, "AboutUs");
 
     await page.goBack();
     await expect(page).toHaveURL(/#Location$/);
-    await expectAligned(page, "Location");
+    const backDestination = async () => {
+      const off = await offsetFromHeader(page, "Location");
+      if (off !== null && off >= -1 && off <= 2) return "secção alinhada";
+      if (Math.abs((await scrollPos(page)) - leftAt) <= 2) return "posição reposta";
+      return "outro";
+    };
+    await expect.poll(backDestination, { timeout: 10_000 }).not.toBe("outro");
+    const destination = await backDestination();
+    await page.waitForTimeout(300);
+    expect(await backDestination(), "destino estável").toBe(destination);
 
     await page.goForward();
     await expect(page).toHaveURL(/#AboutUs$/);

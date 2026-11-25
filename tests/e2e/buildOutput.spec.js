@@ -82,11 +82,27 @@ test.describe("vercel.json", () => {
   });
 
   test("cache imutável apenas para /assets (ficheiros com hash), nunca para HTML", () => {
-    expect(config.headers).toEqual([
+    const withCache = config.headers.filter((rule) =>
+      rule.headers.some((h) => h.key.toLowerCase() === "cache-control")
+    );
+    expect(withCache).toEqual([
       {
         source: "/assets/(.*)",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
+    ]);
+  });
+
+  // Fase 10: cabeçalhos de segurança em todas as respostas. Sem CSP de
+  // recursos (Google Fonts e o iframe do Google Maps teriam de ser listados
+  // e validados em Preview); só frame-ancestors, que não restringe recursos.
+  test("cabeçalhos de segurança em todas as respostas", () => {
+    const all = config.headers.find((rule) => rule.source === "/(.*)");
+    expect(all?.headers).toEqual([
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
     ]);
   });
 });

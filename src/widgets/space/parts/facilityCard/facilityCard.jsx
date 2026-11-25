@@ -8,6 +8,19 @@ import { isTouchDevice } from "@shared/lib/isTouchDevice";
 const AUDIO_SRC = "/audio/IlyaSound_-_Inspiring_Background_Music.mp3";
 
 /**
+ * Os URLs dos vídeos e do áudio só passam a src na interação (estão em
+ * data-src até lá). preload="none" é apenas uma sugestão: o WebKit (port
+ * Windows do Playwright) descarregava o MP4 de 9 MB e o MP3 logo ao carregar
+ * a página (pedidos confirmados no servidor, Fase 10). Sem src nenhum browser
+ * pode descarregar. Chamado no mesmo gesto, imediatamente antes de play().
+ */
+function attachMediaSrc(el) {
+  if (!el || el.getAttribute("src")) return;
+  const src = el.dataset.src;
+  if (src) el.src = src;
+}
+
+/**
  * Cartão da secção Espaço (imagem ou vídeo revelados por hover/foco/toque).
  *
  * Áudio (WCAG 1.4.2): o vídeo reproduz sempre sem som ao hover/foco/toque;
@@ -72,6 +85,7 @@ const FacilityCard = ({
     for (const v of vids) {
       try {
         v.muted = true;
+        attachMediaSrc(v);
         await v.play?.();
       } catch {
         // ignore
@@ -98,6 +112,7 @@ const FacilityCard = ({
     setSoundOn(true);
     try {
       audioRef.current.volume = audioVolume;
+      attachMediaSrc(audioRef.current);
       await audioRef.current.play?.();
     } catch {
       setSoundOn(false); // bloqueado pelo browser ou interrompido
@@ -220,6 +235,7 @@ const FacilityCard = ({
               poster={poster}
               className={styles.bgVideoBlur}
               preload="none"
+              deferSrc
               autoPlay={false}
               muted
               loop
@@ -233,6 +249,7 @@ const FacilityCard = ({
               poster={poster}
               className={styles.bgVideoMain}
               preload="none"
+              deferSrc
               autoPlay={false}
               muted
               loop
@@ -242,7 +259,7 @@ const FacilityCard = ({
             {/* áudio: só toca após ação explícita no botão de som */}
             <audio
               ref={audioRef}
-              src={audioSrc}
+              data-src={audioSrc}
               preload="none"
               onEnded={() => setSoundOn(false)}
             />

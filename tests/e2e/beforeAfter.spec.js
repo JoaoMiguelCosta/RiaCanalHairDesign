@@ -2,7 +2,7 @@
 // pointer capture, scroll vertical, teclado e motivos de pausa.
 // O relógio da página (rAF, setTimeout, performance.now) é controlado com
 // page.clock, para verificar a animação sem esperas reais.
-import { test, expect, gotoHome, pauseClock, scrollToSection, setPageVisibility, touchDevice, VIEWPORTS } from "./fixtures.js";
+import { test, expect, gotoHome, pauseClock, scrollToSection, setPageVisibility, touchDevice, CDP_ONLY_REASON, VIEWPORTS } from "./fixtures.js";
 
 const sliders = (page) => page.locator("#Transformations").getByRole("slider");
 const groups = (page) => page.locator("#Transformations").getByRole("group", { name: /Comparação antes e depois/ });
@@ -194,10 +194,15 @@ test.describe("Slider — rato", () => {
     const group = groups(page).first();
     const slider = sliders(page).first();
     const a = await pointAt(group, 0.25);
+    // id real do ponteiro do rato (1 no Chromium, 0 no Firefox, …)
+    await group.evaluate((el) =>
+      el.addEventListener("pointerdown", (e) => (window.__pointerId = e.pointerId), { once: true })
+    );
+    const captured = () => group.evaluate((el) => el.hasPointerCapture(window.__pointerId));
     await page.mouse.move(a.x, a.y);
     await page.mouse.down();
     expect(Math.abs((await valueOf(slider)) - 25)).toBeLessThanOrEqual(1);
-    expect(await group.evaluate((el) => el.hasPointerCapture(1))).toBe(true);
+    expect(await captured()).toBe(true);
 
     const b = await pointAt(group, 0.75);
     await page.mouse.move(b.x, b.y, { steps: 5 });
@@ -207,7 +212,7 @@ test.describe("Slider — rato", () => {
     await page.mouse.move(a.box.x + a.box.width + 150, b.y + 120, { steps: 5 });
     expect(await valueOf(slider)).toBe(100);
     await page.mouse.up();
-    expect(await group.evaluate((el) => el.hasPointerCapture(1))).toBe(false);
+    expect(await captured()).toBe(false);
 
     // depois de largar, mover o rato já não altera a posição
     await page.mouse.move(a.x, a.y, { steps: 5 });
@@ -239,7 +244,8 @@ test.describe("Slider — toque", () => {
     await cdp.detach();
   }
 
-  test("arrastar horizontalmente com o dedo move a divisão", async ({ page }) => {
+  test("arrastar horizontalmente com o dedo move a divisão", async ({ page, browserName }) => {
+    test.skip(browserName !== "chromium", CDP_ONLY_REASON);
     await openWithFrozenClock(page);
     const group = groups(page).first();
     await group.scrollIntoViewIfNeeded();
@@ -250,7 +256,8 @@ test.describe("Slider — toque", () => {
     expect(Math.abs((await valueOf(slider)) - 80)).toBeLessThanOrEqual(2);
   });
 
-  test("scroll vertical sobre o cartão não altera a posição (pointercancel)", async ({ page }) => {
+  test("scroll vertical sobre o cartão não altera a posição (pointercancel)", async ({ page, browserName }) => {
+    test.skip(browserName !== "chromium", CDP_ONLY_REASON);
     await openWithFrozenClock(page);
     await pauseBtn(page).tap(); // sem autoplay: qualquer mudança seria do gesto
     const group = groups(page).first();

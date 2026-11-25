@@ -7,6 +7,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AppRoutes from "./routes";
 import { installIntersectionObserver } from "../../tests/setup/browserMocks";
+import { setupRoutePageTests } from "../../tests/setup/routePages";
 
 const SITE = "https://www.riacanalhairdesign.pt";
 const canonical = () => document.head.querySelector('link[rel="canonical"]');
@@ -19,14 +20,11 @@ const renderAt = (path) =>
     </MemoryRouter>
   );
 
-// A 1.ª importação do chunk lazy da Home obriga o Vitest a transformar
-// dezenas de módulos a frio (>1 s); pré-carregá-lo mantém os testes
-// determinísticos sem aumentar timeouts. O lazy() continua a ser exercitado.
-// Em beforeEach (não só beforeAll): os testes que usam vi.resetModules()
-// esvaziam o registo de módulos e o lazy() do AppRoutes voltaria a avaliar a
-// Home a frio no teste seguinte (falha intermitente por timeout, já presente
-// na Fase 8). Fora disso, a importação é um acerto de cache.
-beforeEach(() => import("@pages/home/home.jsx"));
+// Páginas carregadas uma vez antes dos testes (custo a frio do ambiente de
+// testes, ver tests/setup/routePages.js) e limites de espera dimensionados
+// para o render da Home completa. Os lazy() continuam a ser usados;
+// a suspensão no 1.º render é verificada em routes.lazy.test.jsx.
+setupRoutePageTests();
 
 beforeEach(() => {
   // Os widgets da Home ficam "fora do viewport" (sem animações a correr)
@@ -37,21 +35,6 @@ beforeEach(() => {
 });
 
 describe("Rotas — carregamento direto", () => {
-  test("mostra o indicador de carregamento enquanto a página lazy chega", async () => {
-    // Um lazy() já resolvido noutro teste não volta a suspender: um módulo de
-    // rotas novo garante o estado inicial, independentemente da ordem.
-    vi.resetModules();
-    const { default: FreshRoutes } = await import("./routes");
-    render(
-      <MemoryRouter initialEntries={["/termos"]}>
-        <FreshRoutes />
-      </MemoryRouter>
-    );
-    expect(screen.getByRole("status")).toHaveTextContent("A carregar…");
-    await screen.findByRole("heading", { level: 1, name: "Termos & Condições" });
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
-  });
-
   test.each([
     ["/termos", "Termos & Condições", "Termos & Condições | Ria Canal Hair Design"],
     ["/privacidade", "Política de Privacidade", "Política de Privacidade | Ria Canal Hair Design"],
@@ -172,25 +155,7 @@ describe("Rotas — fragmentos da Home", () => {
     }
   );
 
-  test("espera pela página lazy: o scroll só acontece depois de a secção existir", async () => {
-    vi.resetModules();
-    const { default: FreshRoutes } = await import("./routes");
-    // módulo da Home já avaliado no registo novo (evita a importação a frio,
-    // >1 s sob carga); o lazy() novo suspende na mesma no 1.º render
-    await import("@pages/home/home.jsx");
-    const existedOnScroll = [];
-    Element.prototype.scrollIntoView = vi.fn(function () {
-      existedOnScroll.push(document.contains(this));
-    });
-    render(
-      <MemoryRouter initialEntries={["/#Location"]}>
-        <FreshRoutes />
-      </MemoryRouter>
-    );
-    expect(document.getElementById("Location")).toBeNull(); // ainda a carregar
-    await screen.findByRole("heading", { level: 1 });
-    await waitFor(() => expect(existedOnScroll).toEqual([true]));
-  });
+  // A espera pela página lazy antes do scroll está em routes.lazy.test.jsx
 
   test("fragmento inexistente: nenhum scroll", async () => {
     renderAt("/#NaoExiste");

@@ -1,0 +1,129 @@
+# .github/workflows/ci.yml
+# Integração contínua: verifica cada pull request e cada push para main.
+# Só lê o repositório: não faz deploy, não publica nada, não escreve no repo
+# e não usa secrets. O deploy continua a cargo da integração Git da Vercel.
+#
+# Jobs:
+#   quality  — npm ci, lint, build, testes unitários/integração (Vitest)
+#   e2e      — Playwright em Linux: chromium, firefox e webkit (matriz)
+#   visual   — regressão visual (Chromium) em Windows, onde foram aprovadas
+#              as baselines (-chromium-win32). Ver README → Testes visuais.
+#
+# Actions oficiais fixadas por SHA (tag indicada no comentário).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Privilégio mínimo: apenas leitura do conteúdo do repositório.
+permissions:
+  contents: read
+
+# Um novo push para o mesmo ref cancela a execução anterior ainda em curso.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: "true"
+  # Sem telemetria/avisos interativos de ferramentas
+  npm_config_fund: "false"
+  npm_config_audit: "false"
+
+jobs:
+  quality:
+    name: Lint, build e unitários
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: package.json # engines.node
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run test:run
+
+      - name: Auditoria das dependências de produção
+        run: npm audit --omit=dev --audit-level=high
+
+  e2e:
+    name: E2E (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false # um motor a falhar não esconde o resultado dos outros
+      matrix:
+        project: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - run: npm ci
+
+      # Browser da versão do @playwright/test do lockfile + dependências do SO
+      - name: Instalar o browser do Playwright
+        run: npx playwright install --with-deps ${{ matrix.project }}
+
+      # O webServer do Playwright faz o build e arranca o vite preview
+      - name: Testes E2E
+        run: npx playwright test --project=${{ matrix.project }}
+
+      - name: Relatório e traces da falha
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-${{ matrix.project }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  visual:
+    name: Visual (chromium, Windows)
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - run: npm ci
+
+      - name: Instalar o browser do Playwright
+        run: npx playwright install chromium
+
+      - name: Testes visuais
+        run: npx playwright test --project=chromium-visual
+
+      - name: Diferenças visuais
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-visual
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore

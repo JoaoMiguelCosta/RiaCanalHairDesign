@@ -66,8 +66,14 @@ describe("FacilityCard (vídeo) — recursos otimizados", () => {
       expect(v.muted).toBe(true);
       expect(v).toHaveAttribute("aria-hidden", "true");
     }
-    expect(blur).toHaveAttribute("src", "/video-blur.mp4");
-    expect(main).toHaveAttribute("src", "/video.mp4");
+    // Fase 10: sem src até à interação (nenhum browser pode descarregar,
+    // mesmo os que ignoram preload="none"); o URL fica em data-src
+    expect(blur).not.toHaveAttribute("src");
+    expect(main).not.toHaveAttribute("src");
+    expect(audio).not.toHaveAttribute("src");
+    expect(blur).toHaveAttribute("data-src", "/video-blur.mp4");
+    expect(main).toHaveAttribute("data-src", "/video.mp4");
+    expect(audio).toHaveAttribute("data-src", "/audio.mp3");
     expect(audio).toHaveAttribute("preload", "none");
     expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   });
@@ -86,6 +92,10 @@ describe("FacilityCard (vídeo) — interação", () => {
     expect(played(blur)).toBe(1);
     expect(played(main)).toBe(1);
     expect(main.muted).toBe(true);
+    // o URL dos vídeos só é atribuído aqui; o do áudio continua por atribuir
+    expect(blur).toHaveAttribute("src", "/video-blur.mp4");
+    expect(main).toHaveAttribute("src", "/video.mp4");
+    expect(audio).not.toHaveAttribute("src");
     expect(played(audio)).toBe(0);
     expect(sound()).toHaveAttribute("aria-pressed", "false");
   });
@@ -95,6 +105,7 @@ describe("FacilityCard (vídeo) — interação", () => {
     const { audio, sound } = renderVideoCard();
     await user.click(sound());
     expect(played(audio)).toBe(1);
+    expect(audio).toHaveAttribute("src", "/audio.mp3"); // atribuído no clique
     expect(audio.volume).toBeCloseTo(0.22);
     expect(sound()).toHaveAttribute("aria-pressed", "true");
     expect(sound()).toHaveAttribute("title", "Desativar som");

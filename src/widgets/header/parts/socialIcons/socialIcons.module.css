@@ -5,8 +5,9 @@
     min-height: 6.625rem;
     justify-content: center;
     align-items: center;
-    /* 12px em 1025px → 1.25rem a partir de ~1150px (ver navMenuDesktop) */
-    gap: clamp(0.75rem, 6.4vw - 53.6px, 1.25rem);
+    /* 12px em 1025px → 1.25rem a partir de ~1150px (ver navMenuDesktop);
+       desvio em rem (3.35rem = 53.6px a 16px) para escalar com a letra */
+    gap: clamp(0.75rem, 6.4vw - 3.35rem, 1.25rem);
     flex-shrink: 0;
     background: transparent;
     padding: 0 .5rem;
@@ -42,4 +43,10 @@
     .container {
         display: none;
     }
+}
+
+/* Header desktop sem espaço (ver header.jsx): os ícones passam para o menu
+   mobile, como em ≤1024px — sem links duplicados visíveis */
+:global(header[data-compact]) .container {
+    display: none;
 }

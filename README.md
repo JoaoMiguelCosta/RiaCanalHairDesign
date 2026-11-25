@@ -2,8 +2,7 @@
 
 Site institucional do salão **Ria Canal Hair Design**.
 
-- **Live (principal):** https://www.riacanalhairdesign.pt/
-- **Live (alternativo):** https://riacanalhairdesign.pt
+- **Produção:** https://www.riacanalhairdesign.pt/ (o domínio sem `www` redireciona para aqui)
 - **Repo:** https://github.com/JoaoMiguelCosta/RiaCanalHairDesign
 
 ## 📸 Screenshots
@@ -19,216 +18,119 @@ Site institucional do salão **Ria Canal Hair Design**.
 
 ### Before & After
 ![Before & After](screenshots/before-and-after.png)
+
 ---
 
 ## 📦 Stack
 
-- React 18 + Vite
-- CSS Modules
-- React Router (base simples; pronto para evoluir)
-- ESLint
-- Node 18+
+- React 19, React Router 7, Vite 7, JavaScript/JSX, CSS Modules
+- Vitest + React Testing Library (jsdom), Playwright + axe-core
+- ESLint 9
+- SPA estática servida pela Vercel (sem backend, sem SSR)
 
-## 🚀 Scripts
+## ⚙️ Requisitos
+
+| Ferramenta | Versão | Onde está definida |
+| --- | --- | --- |
+| Node.js | **24.x (LTS)** | `package.json` → `engines.node` (lido também pela Vercel e pela CI) |
+| npm | 11 (incluído no Node 24) | `package.json` → `packageManager` |
+
+A Vercel usa `engines.node` em vez da versão escolhida nas definições do
+projeto. Node 20 chegou ao fim de vida em abril de 2026.
+
+## 🚀 Comandos
 
 ```bash
-# instalar deps
-npm install
-
-# dev server
-npm run dev
-
-# build de produção
-npm run build
-
-# preview do build local
-npm run preview
-
-# opcional: lint
-npm run lint
+npm ci                      # instala exatamente o package-lock.json
+npm run dev                 # servidor de desenvolvimento (Vite)
+npm run build               # build de produção em dist/
+npm run preview             # serve o dist/ com as regras estáticas da Vercel emuladas
+npm run lint                # ESLint
 ```
 
-## ✨ Funcionalidades
+### Testes
 
-- Layout responsivo (desktop/tablet/mobile)
-- Header com menus Desktop/Mobile, submenus e redes sociais
-- Hero destacado
-- Portfolio com tabs (`usePortfolioTabs`)
-- Secção **Space** com vídeo/hover (`useHoverVideo`)
-- Team & Services com CTA para o portfolio
-- Testimonials com carousel automático (`useAutoCarousel`)
-- Instagram (hook + componente)
-- Contact com cartões de informação/chegada/métricas
-- Footer com contactos, links, social e legal (`useOpenExternal`)
+```bash
+npm run test:run            # unitários e integração (Vitest, jsdom), uma vez
+npm test                    # Vitest em modo watch
+npm run test:coverage       # cobertura em coverage/
+
+npm run test:e2e:install    # 1.ª vez: Chromium do Playwright
+npm run test:e2e:install:all  # Chromium, Firefox e WebKit
+npm run test:e2e            # E2E em Chromium + testes visuais
+npm run test:e2e:cross      # E2E em Firefox e WebKit
+npm run test:e2e:all        # todos os projetos Playwright
+
+npm run test:all            # lint → unitários → E2E (Chromium + visuais)
+```
+
+O Playwright faz o build e arranca o `vite preview` (porta 4318) sozinho; os
+E2E bloqueiam a rede externa e falham com erros JavaScript na página.
+Detalhes, convenções e limitações: [tests/README.md](tests/README.md).
+
+### Vários browsers
+
+| Projeto Playwright | Motor | O que corre |
+| --- | --- | --- |
+| `chromium` | Chromium | suite funcional completa |
+| `chromium-visual` | Chromium | só `visual.spec.js` (baselines por SO) |
+| `firefox` | Firefox | suite funcional, exceto `buildOutput.spec.js` (não usa browser) e os 2 gestos de toque via CDP |
+| `webkit` | WebKit | idem, e ainda sem os 2 testes de ordem de `Tab` entre links nem o que interceta o MP3 com `page.route` |
+
+Os 4 testes com preferências reais de letra (texto ampliado) só correm no
+`firefox`, o único motor onde se configuram.
+
+Os testes saltados indicam o motivo no relatório (`test.skip`); os detalhes
+estão em [tests/README.md](tests/README.md#limitações-conhecidas). WebKit do
+Playwright não é o Safari de um iPhone: a emulação móvel (viewport, toque,
+`isMobile`) não substitui um teste em hardware real.
+
+### Testes visuais
+
+As baselines (`tests/e2e/visual.spec.js-snapshots/*-chromium-win32.png`)
+foram aprovadas em Windows e só são comparadas em Windows (localmente e no
+job `visual` da CI). Para alterar uma baseline:
+
+1. confirmar que a diferença corresponde ao design aprovado (relatório HTML:
+   `npx playwright show-report`);
+2. `npx playwright test --project=chromium-visual --update-snapshots`;
+3. rever as imagens alteradas no diff antes de as versionar.
+
+Não regenerar baselines só para pôr os testes a passar.
+
+## 🔁 Integração contínua (GitHub Actions)
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) corre em pull
+requests, em push para `main` e manualmente:
+
+| Job | Runner | Passos |
+| --- | --- | --- |
+| `quality` | Ubuntu | `npm ci`, lint, build, `test:run`, `npm audit --omit=dev --audit-level=high` |
+| `e2e` | Ubuntu (matriz) | Playwright `chromium`, `firefox`, `webkit` |
+| `visual` | Windows | Playwright `chromium-visual` |
+
+Só tem permissão de leitura do repositório, não usa secrets e não faz deploy.
+Em caso de falha publica o relatório e os traces do Playwright como artefacto
+(7 dias). Sem retries: um teste instável deve ser corrigido, não repetido.
 
 ## 🗂️ Estrutura
 
 ```
-.
-├─ public/
-├─ src/
-│  ├─ app/
-│  ├─ content/
-│  │  ├─ contact/
-│  │  ├─ footer/
-│  │  ├─ gallery/
-│  │  ├─ hero/
-│  │  ├─ instagram/
-│  │  ├─ legal/
-│  │  ├─ media/
-│  │  │  ├─ beforeAndAfter/
-│  │  │  ├─ entrance/
-│  │  │  ├─ hero/
-│  │  │  ├─ space/
-│  │  │  ├─ team/
-│  │  │  ├─ videos/
-│  │  │  └─ works/
-│  │  ├─ navigation/
-│  │  ├─ portfolio/
-│  │  ├─ services/
-│  │  ├─ social/
-│  │  ├─ space/
-│  │  ├─ teamMembers/
-│  │  └─ testimonials/
-│  ├─ pages/
-│  ├─ shared/
-│  │  ├─ assets/
-│  │  └─ ui/
-│  │     ├─ button/
-│  │     ├─ icons/
-│  │     ├─ logo/
-│  │     ├─ pageLoader/
-│  │     ├─ professionalPhoto/
-│  │     ├─ quote/
-│  │     ├─ serviceItem/
-│  │     ├─ signatureMark/
-│  │     ├─ statCard/
-│  │     ├─ subtitle/
-│  │     ├─ tagLine/
-│  │     ├─ text/
-│  │     ├─ title/
-│  │     ├─ titleCaption/
-│  │     └─ titleDescription/
-│  └─ widgets/
-│     ├─ aboutUs/
-│     ├─ beforeAndAfter/
-│     │  ├─ hook/
-│     │  ├─ parts/
-│     │  └─ ui/
-│     ├─ contact/
-│     │  ├─ parts/
-│     │  └─ ui/
-│     ├─ footer/
-│     │  ├─ hook/
-│     │  ├─ parts/
-│     │  └─ ui/
-│     ├─ header/
-│     │  ├─ hook/
-│     │  ├─ parts/
-│     │  └─ ui/
-│     ├─ hero/
-│     │  ├─ ui/
-│     │  ├─ hero.jsx
-│     │  └─ hero.module.css
-│     ├─ instagram/
-│     │  ├─ hook/
-│     │  └─ ui/
-│     ├─ portfolio/
-│     │  ├─ hook/
-│     │  └─ ui/
-│     ├─ space/
-│     ├─ teamAndServices/
-│     └─ testimonials/
-├─ .gitignore
-├─ eslint.config.js
-├─ index.html
-├─ package.json
-├─ README.md
-├─ vercel.json
-└─ vite.config.js
+src/
+  app/        bootstrap, rotas (lazy), SEO por rota (seo/), estilos globais
+  pages/      home, terms, privacy, notFound
+  widgets/    secções da Home (ui/ apresentação, hook/ lógica, parts/ subcomponentes)
+  shared/     componentes, hooks e utilitários reutilizáveis
+  content/    textos/JSON e media ("CMS lite")
+scripts/      plugin de build: HTML inicial por rota (routeDocuments.js)
+tests/        setup do Vitest e E2E do Playwright
+public/       ficheiros estáticos (robots.txt, sitemap.xml, ícones, áudio)
 ```
 
-**Resumo rápido da organização**
+Aliases de import (`vite.config.js`): `@app`, `@pages`, `@widgets`,
+`@shared`, `@content`, `@media`.
 
-- **widgets/**: secções da página. Cada secção isola **ui** (apresentação), **hook** (lógica local) e **parts** (subcomponentes). O **hero** expõe também `hero.jsx` e `hero.module.css` no nível da secção.
-- **content/**: "CMS lite" com textos/JSON e media. Subpastas temáticas (navegação, serviços, equipa, etc.) e `media/` para imagens/vídeos por área.
-- **shared/ui/**: componentes reutilizáveis (botões, ícones, tipografia, cartões, loaders, etc.).
-- **app/** e **pages/**: bootstrap e (se usado) rotas simples.
-- **public/**: estáticos públicos.
-
-### Aliases de import
-
-Configurados no `vite.config.js` (ex.):
-
-```js
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@shared": path.resolve(__dirname, "src/shared"),
-      "@widgets": path.resolve(__dirname, "src/widgets"),
-      "@content": path.resolve(__dirname, "src/content"),
-    },
-  },
-});
-```
-
-## 🧭 Navegação
-
-SPA simples por secções/âncoras. Pode integrar **React Router** sem impacto na estrutura atual.
-
-## 📑 Conteúdos rápidos
-
-- Redes/links: `src/content/navigation/` (JSON)
-- Legal: `src/content/legal/` (Termos e Privacidade)
-- Imagens/Vídeos: `src/content/media/`
-
-## ♿ Acessibilidade (base)
-
-- Labels nos ícones/menus (ex.: `aria-label`)
-- Foco visível (`:focus-visible`)
-- Transições leves, contraste aceitável
-
-## 🔐 Termos e Privacidade
-
-- Termos de Utilização: [https://ria-canal-hair-design.vercel.app/termos](https://ria-canal-hair-design.vercel.app/termos)
-- Política de Privacidade: [https://ria-canal-hair-design.vercel.app/privacidade](https://ria-canal-hair-design.vercel.app/privacidade)
-
-## 🏗️ Arquitetura
-
-- Tipo: SPA estática (React + Vite), sem backend
-- Build: gerado para `dist/` e servido via Vercel (CDN e cache por ficheiro)
-- Princípios
-
-  - Composição > herança; Single Responsibility por componente
-  - UI desacoplada de lógica: hooks encapsulam comportamento; `ui/` é declarativo
-  - Estilos isolados com CSS Modules (sem poluição global)
-  - Data flow unidirecional: props descem; eventos sobem
-
-## ⚡ Performance
-
-- Build otimizado pelo Vite (ESM)
-- Code splitting nativo
-- Imagens e media versionadas
-- Assets servidos pela CDN da Vercel
-
-## 🧪 Testabilidade/Manutenção
-
-- Componentes pequenos e puros facilitam testes unitários
-- Widgets substituíveis sem efeito colateral
-- Conteúdos em `src/content/` → menor necessidade de tocar em código
-
-## 🚀 Deploy (Vercel)
-
-- Build: `npm run build`
-- Output: `dist/`
-- Deploy automático em push para `main`
-
-### SEO, routing e URLs públicos
+## 🔎 SEO, routing e URLs públicos
 
 - **HTML inicial por rota (sem SSR):** o plugin `scripts/routeDocuments.js`
   gera no build `index.html`, `termos.html`, `privacidade.html` e `404.html`
@@ -245,20 +147,36 @@ SPA simples por secções/âncoras. Pode integrar **React Router** sem impacto n
   - URL desconhecido ou asset inexistente → `404.html` com HTTP 404 (`noindex`)
   - fragmentos (`/#Location`) não chegam ao servidor e não são alterados
 - **`vercel.json`:** sem rewrite catch-all (impediria o `404.html`); cache
-  imutável apenas em `/assets/*` (nomes com hash).
+  imutável apenas em `/assets/*` (nomes com hash); cabeçalhos de segurança
+  em todas as respostas (`nosniff`, `Referrer-Policy`, proteção contra
+  framing).
 - **Domínio:** o redirect apex → `www` é configurado no dashboard da Vercel
   (Domains), não no `vercel.json`; deve ser permanente (308).
-- `npm run preview` emula localmente estas regras estáticas; a confirmação
-  dos códigos HTTP reais exige um Preview Deploy.
+- `npm run preview` emula localmente as regras de URLs (não os cabeçalhos);
+  a confirmação dos códigos HTTP e cabeçalhos reais exige um Preview Deploy.
 
+## 🚢 Publicação
+
+> ⚠️ O projeto está ligado à Vercel pela integração Git: **um push para
+> `main` pode publicar diretamente em produção**, e um push para outra branch
+> cria um Preview Deploy. Publicar uma branch nunca é uma operação sem efeitos.
+
+Resumo (procedimento completo, checklist e rollback em
+[docs/RELEASE.md](docs/RELEASE.md)):
+
+1. `npm ci && npm run test:all && npm run test:e2e:cross` sem falhas;
+2. push para uma branch de trabalho (não `main`) e pull request — a CI corre
+   e a Vercel cria um Preview Deploy;
+3. validar o Preview Deploy: `npm run verify:deploy -- <url-do-preview>`
+   (HTTP, metadados, cache, cabeçalhos, indexação) + verificação manual de UX;
+4. merge para `main` só depois de CI verde e Preview validado;
+5. verificar a produção: `npm run verify:deploy -- https://www.riacanalhairdesign.pt --domain`.
+
+Rollback: no dashboard da Vercel (Deployments), promover o deployment anterior
+que estava correto ("Instant Rollback"); não reescrever o histórico Git.
 
 ## 🤝 Contribuição
 
-- Branch: `feat/<nome>`
+- Branch: `feat/<nome>` ou `fix/<nome>`
 - Commits curtos e claros
-- PR para `main`
-
-
----
-
-> Tipo: **SPA estática** (React + Vite). Sem chamadas a API. Pronta para evoluir com roteamento e mais conteúdos sem alterar a organização atual.
+- PR para `main` (com CI verde)

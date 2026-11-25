@@ -12,6 +12,7 @@ const VideoBG = forwardRef(function VideoBG(
     loop = true,
     playsInline = true,
     ariaHidden = true,
+    deferSrc = false,
     onError,
   },
   ref
@@ -22,7 +23,11 @@ const VideoBG = forwardRef(function VideoBG(
     <video
       ref={ref}
       className={className}
-      src={src}
+      // deferSrc: o URL fica em data-src e só passa a src quando o componente
+      // pai o pede (attachMediaSrc). Sem src o browser não pode descarregar
+      // nada, mesmo os que ignoram preload="none" (Fase 10).
+      src={deferSrc ? undefined : src}
+      data-src={deferSrc ? src : undefined}
       poster={poster}
       autoPlay={autoPlay}
       muted={muted}

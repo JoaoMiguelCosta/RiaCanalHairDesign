@@ -3,7 +3,7 @@
 // routing.spec.js; o output do build e o vercel.json em buildOutput.spec.js.
 // Fora do âmbito, por não serem verificáveis localmente: indexação real,
 // pré-visualizações sociais e respostas reais da Vercel (Preview Deploy).
-import { test, expect, gotoHome } from "./fixtures.js";
+import { test, expect, expectPage, gotoHome } from "./fixtures.js";
 
 const SITE = "https://www.riacanalhairdesign.pt";
 const heroPreload = 'link[rel="preload"][as="image"][fetchpriority="high"]';
@@ -54,7 +54,15 @@ test.describe("Canonical e robots por rota", () => {
 });
 
 test.describe("Preload do Hero", () => {
-  test("Home: preload AVIF de alta prioridade e um único pedido do recurso", async ({ page, sameOriginRequests }) => {
+  // Um único download do Hero em qualquer motor: AVIF (preload + image-set)
+  // onde é suportado; onde não é (ex.: WebKit do Playwright em Windows), o
+  // preload com type="image/avif" é ignorado e o image-set() escolhe o WebP —
+  // nunca os dois formatos.
+  test("Home: preload AVIF de alta prioridade e um único pedido do recurso", async ({
+    page,
+    sameOriginRequests,
+    browserName,
+  }) => {
     await gotoHome(page);
     const link = page.locator(heroPreload);
     await expect(link).toHaveCount(1);
@@ -62,14 +70,15 @@ test.describe("Preload do Hero", () => {
     expect(href).toMatch(/\/assets\/hero-1920-[\w-]+\.avif$/);
 
     await page.waitForLoadState("networkidle");
-    const heroRequests = sameOriginRequests.filter((u) => /hero-1920-[\w-]+\.avif$/.test(u));
+    const heroRequests = sameOriginRequests.filter((u) => /hero-1920-[\w-]+\.(avif|webp)$/.test(u));
     expect(heroRequests).toHaveLength(1);
+    if (browserName !== "webkit") expect(heroRequests[0]).toMatch(/\.avif$/);
   });
 
   for (const path of ["/termos", "/privacidade", "/pagina-inexistente"]) {
     test(`${path}: sem preload nem download do Hero`, async ({ page, sameOriginRequests }) => {
       await page.goto(path);
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible();
       await page.waitForLoadState("networkidle");
       await expect(page.locator(heroPreload)).toHaveCount(0);
       expect(sameOriginRequests.filter((u) => /hero-1920/.test(u))).toEqual([]);

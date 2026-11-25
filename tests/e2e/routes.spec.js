@@ -1,5 +1,5 @@
 // Rotas, histórico, foco e skip link num browser real (build de produção).
-import { test, expect, gotoHome } from "./fixtures.js";
+import { test, expect, expectPage, gotoHome, TAB_SKIPS_LINKS } from "./fixtures.js";
 
 const TITLE = "Ria Canal Hair Design";
 const main = (page) => page.locator("main#main");
@@ -14,7 +14,7 @@ test.describe("Carregamento direto", () => {
   ]) {
     test(`${path} → título e h1`, async ({ page }) => {
       await page.goto(path);
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText(h1);
+      await expectPage(page.getByRole("heading", { level: 1 })).toHaveText(h1);
       await expect(page).toHaveTitle(title);
       await expect(page.locator("main")).toHaveCount(1);
     });
@@ -22,7 +22,7 @@ test.describe("Carregamento direto", () => {
 
   test("o carregamento inicial não move o foco", async ({ page }) => {
     await page.goto("/termos");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible();
     expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true);
   });
 });
@@ -47,7 +47,7 @@ test.describe("Navegação SPA e histórico", () => {
 
     await page.goBack();
     await expect(page).toHaveURL(/\/termos$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
 
     await page.goForward();
     await expect(page).toHaveURL(/\/$/);
@@ -58,7 +58,7 @@ test.describe("Navegação SPA e histórico", () => {
     const link = page.getByRole("link", { name: "Termos & Condições" });
     await link.scrollIntoViewIfNeeded();
     await link.click();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
     await expect
       .poll(() => page.evaluate(() => Math.max(document.scrollingElement.scrollTop, document.body.scrollTop)))
       .toBe(0);
@@ -67,17 +67,20 @@ test.describe("Navegação SPA e histórico", () => {
   test("404 → Home pelo link de regresso", async ({ page }) => {
     await page.goto("/nao-existe/abc");
     await page.getByRole("link", { name: "Voltar à página inicial" }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Ria Canal/);
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText(/Ria Canal/);
     await expect.poll(() => isMainFocused(page)).toBe(true);
   });
 });
 
 test.describe("Skip link", () => {
-  test("é o 1.º controlo, fica visível com foco e leva ao <main> sem alterar o URL", async ({ page }) => {
+  test("é o 1.º controlo, fica visível com foco e leva ao <main> sem alterar o URL", async ({ page, browserName }) => {
     await gotoHome(page);
     const skip = page.getByRole("link", { name: "Saltar para o conteúdo" });
 
-    await page.keyboard.press("Tab");
+    // WebKit: Tab não foca links (Safari por omissão); verifica-se o resto
+    // (visível com foco, Enter leva ao <main>) com o foco colocado no link.
+    if (TAB_SKIPS_LINKS(browserName)) await skip.focus();
+    else await page.keyboard.press("Tab");
     await expect(skip).toBeFocused();
     const box = await skip.boundingBox();
     expect(box && box.width > 1 && box.height > 1 && box.y >= 0).toBe(true);
@@ -92,10 +95,11 @@ test.describe("Skip link", () => {
     expect(await page.evaluate(() => document.getElementById("main").contains(document.activeElement))).toBe(true);
   });
 
-  test("também funciona nas páginas legais", async ({ page }) => {
+  test("também funciona nas páginas legais", async ({ page, browserName }) => {
     await page.goto("/privacidade");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible(); // página lazy montada
-    await page.keyboard.press("Tab");
+    await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible(); // página lazy montada
+    if (TAB_SKIPS_LINKS(browserName)) await page.getByRole("link", { name: "Saltar para o conteúdo" }).focus();
+    else await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
     await expect(main(page)).toBeFocused();
   });

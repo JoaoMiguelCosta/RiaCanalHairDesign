@@ -7,7 +7,7 @@
 //   estáticas do vercel.json (scripts/routeDocuments.js: cleanUrls,
 //   trailingSlash:false, 404.html com HTTP 404). Prova a lógica pretendida,
 //   NÃO a resposta da Vercel, que exige um Preview Deploy (ver tests/README.md).
-import { test, expect, gotoHome } from "./fixtures.js";
+import { test, expect, expectPage, gotoHome } from "./fixtures.js";
 
 const SITE = "https://www.riacanalhairdesign.pt";
 const NAME = "Ria Canal Hair Design";
@@ -178,20 +178,20 @@ test.describe("Política de URLs no browser", () => {
   test("barra final: redireciona para o URL canónico e mostra a página", async ({ page }) => {
     await page.goto("/termos/");
     await expect(page).toHaveURL(/\/termos$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
   });
 
   test("query string preservada; canonical sem query", async ({ page }) => {
     await page.goto("/privacidade?utm_source=teste");
     await expect(page).toHaveURL(/\/privacidade\?utm_source=teste$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Política de Privacidade");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Política de Privacidade");
     await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute("href", `${SITE}/privacidade`);
   });
 
   test("maiúsculas no caminho: página 404 coerente com o HTTP 404", async ({ page }) => {
     const res = await page.goto("/Termos");
     expect(res.status()).toBe(404);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Página não encontrada/);
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText(/Página não encontrada/);
     await expect(page).toHaveTitle(NOT_FOUND_TITLE);
   });
 
@@ -202,28 +202,28 @@ test.describe("Política de URLs no browser", () => {
   test("fragmentos das secções preservados (#Location)", async ({ page }) => {
     const res = await page.goto("/#Location");
     expect(res.status()).toBe(200);
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page).toHaveURL(/\/#Location$/);
     await expect(page.locator("#Location")).toHaveCount(1);
 
     await page.evaluate(() => (location.hash = "#Space"));
     await expect(page.locator("#Space")).toBeInViewport();
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible(); // sem recarregar
+    await expectPage(page.getByRole("heading", { level: 1 })).toBeVisible(); // sem recarregar
   });
 
   test("refresh numa rota legal mantém a página e os metadados", async ({ page }) => {
     await page.goto("/privacidade");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Política de Privacidade");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Política de Privacidade");
     const res = await page.reload();
     expect(res.status()).toBe(200);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Política de Privacidade");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Política de Privacidade");
     await expect(page).toHaveTitle(`Política de Privacidade | ${NAME}`);
     await expect(page.locator('head link[rel="canonical"]')).toHaveCount(1);
   });
 
   test("404 → Home → Back/Forward: histórico e metadados sem duplicados", async ({ page }) => {
     await page.goto("/termos");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
     await page.goto("/nao-existe");
     await page.getByRole("link", { name: "Voltar à página inicial" }).click();
     await expect(page).toHaveURL(/\/$/);
@@ -231,13 +231,13 @@ test.describe("Política de URLs no browser", () => {
 
     await page.goBack(); // SPA: volta ao 404 dentro do mesmo documento
     await expect(page).toHaveURL(/\/nao-existe$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Página não encontrada/);
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText(/Página não encontrada/);
     await expect(page.locator('head meta[name="robots"]')).toHaveAttribute("content", "noindex");
     await expect(page.locator('head link[rel="canonical"]')).toHaveCount(0);
 
     await page.goBack(); // documento anterior (termos.html)
     await expect(page).toHaveURL(/\/termos$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
+    await expectPage(page.getByRole("heading", { level: 1 })).toHaveText("Termos & Condições");
 
     await page.goForward();
     await expect(page).toHaveURL(/\/nao-existe$/);

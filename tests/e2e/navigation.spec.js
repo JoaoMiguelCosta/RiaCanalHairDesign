@@ -1,5 +1,5 @@
 // Menus (desktop e mobile) e navegação por âncoras num browser real.
-import { test, expect, gotoHome, touchDevice, VIEWPORTS } from "./fixtures.js";
+import { test, expect, gotoHome, touchDevice, TAB_SKIPS_LINKS, TAB_SKIPS_LINKS_REASON, VIEWPORTS } from "./fixtures.js";
 
 const activeName = (page) =>
   page.evaluate(() => {
@@ -22,7 +22,8 @@ async function tabTo(page, name, max = 30) {
 test.describe("Menu desktop", () => {
   test.use({ viewport: VIEWPORTS.desktop });
 
-  test("todos os itens de topo são alcançáveis por Tab, sem passar por submenus fechados", async ({ page }) => {
+  test("todos os itens de topo são alcançáveis por Tab, sem passar por submenus fechados", async ({ page, browserName }) => {
+    test.skip(TAB_SKIPS_LINKS(browserName), TAB_SKIPS_LINKS_REASON);
     await gotoHome(page);
     const nav = page.getByRole("navigation", { name: "Navegação principal" });
     const labels = await nav.locator(":scope > ul > li > :is(a, button)").allTextContents();
@@ -43,17 +44,21 @@ test.describe("Menu desktop", () => {
     }
   });
 
-  test("Enter/Espaço abrem o submenu; Escape fecha e devolve o foco", async ({ page }) => {
+  test("Enter/Espaço abrem o submenu; Escape fecha e devolve o foco", async ({ page, browserName }) => {
     await gotoHome(page);
     const btn = page.getByRole("button", { name: "PORTFÓLIO", exact: true });
     const submenu = page.getByRole("list", { name: "Submenu de PORTFÓLIO" });
+    // WebKit: Tab não chega aos links; o foco é colocado diretamente
+    const tabSkipsLinks = TAB_SKIPS_LINKS(browserName);
 
-    await tabTo(page, "PORTFÓLIO");
+    if (tabSkipsLinks) await btn.focus();
+    else await tabTo(page, "PORTFÓLIO");
     await page.keyboard.press("Enter");
     await expect(btn).toHaveAttribute("aria-expanded", "true");
     await expect(submenu).toBeVisible();
 
-    await page.keyboard.press("Tab");
+    if (tabSkipsLinks) await submenu.getByRole("link").first().focus();
+    else await page.keyboard.press("Tab");
     expect(await activeName(page)).toBe("TRABALHOS");
     await page.keyboard.press("Escape");
     await expect(btn).toHaveAttribute("aria-expanded", "false");
@@ -66,7 +71,8 @@ test.describe("Menu desktop", () => {
     await expect(btn).toHaveAttribute("aria-expanded", "false");
   });
 
-  test("sair do submenu com Tab fecha-o", async ({ page }) => {
+  test("sair do submenu com Tab fecha-o", async ({ page, browserName }) => {
+    test.skip(TAB_SKIPS_LINKS(browserName), TAB_SKIPS_LINKS_REASON);
     await gotoHome(page);
     const btn = page.getByRole("button", { name: "SOBRE NÓS" });
     await tabTo(page, "SOBRE NÓS");
