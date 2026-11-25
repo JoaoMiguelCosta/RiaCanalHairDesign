@@ -21,25 +21,62 @@ const progress = (page) =>
   );
 
 /**
+ * Tempo congelado da animação pausada, lido só depois de a pausa estar
+ * efetivamente aplicada (`animation.ready`). Enquanto a pausa está pendente,
+ * o playState já é "paused" mas o currentTime ainda é provisório: no WebKit
+ * chega a ser superior ao valor com que a animação fica congelada (ex.:
+ * 1943 → 1819), o que fazia a retoma parecer um recuo.
+ */
+const frozenTime = (page) =>
+  page.evaluate(async () => {
+    const anim = document.getAnimations().find((a) => /progressFill/.test(a.animationName));
+    await anim.ready;
+    return Number(anim.currentTime);
+  });
+
+/**
  * Começa a observar, frame a frame e dentro da página, o 1.º estado depois de
  * uma retoma (clique, scroll, …): devolve uma função que espera por ele.
  * Ler o estado e o tempo em chamadas separadas do teste não chega: sob carga,
  * o tempo restante pode esgotar-se entre as duas leituras e o cartão avança.
- * Cada amostra (autor + estado + tempo) é atómica, num único frame.
+ * Cada amostra (autor + estado + tempo + mesma instância) é atómica, num
+ * único frame. Se a retoma não acontecer em 5 s, devolve o estado dos
+ * motivos de pausa (para a falha dizer porquê, em vez de esgotar o tempo do
+ * teste sem informação).
  */
 async function watchResume(page) {
   await page.evaluate(() => {
+    const find = () => document.getAnimations().find((a) => /progressFill/.test(a.animationName));
+    const initial = find();
     const read = () => {
-      const anim = document.getAnimations().find((a) => /progressFill/.test(a.animationName));
+      const anim = find();
       return {
         author: document.querySelector('#Testimonials [data-active="true"] span')?.textContent,
         state: anim?.playState,
         time: Number(anim?.currentTime),
+        sameAnimation: anim === initial,
+      };
+    };
+    const diagnose = () => {
+      const root = document.getElementById("Testimonials");
+      const rect = root.getBoundingClientRect();
+      const focused = document.activeElement;
+      return {
+        dataRunning: root.querySelector('[data-active="true"]')?.dataset.running,
+        hover: root.matches(":hover"),
+        focusInside: root.contains(focused),
+        focusVisible: Boolean(focused?.matches?.(":focus-visible")),
+        inViewport: rect.bottom > 0 && rect.top < window.innerHeight,
+        visibilityState: document.visibilityState,
+        button: root.querySelector("button")?.getAttribute("aria-label"),
       };
     };
     const start = read();
+    window.__resumeDiagnose = () => ({ start, timedOut: { last: read(), ...diagnose() } });
+    window.__resumeStopped = false;
     window.__resume = new Promise((resolve) => {
       const tick = () => {
+        if (window.__resumeStopped) return; // prazo esgotado: termina o ciclo
         const s = read();
         if (s.author !== start.author || s.state === "running") resolve({ start, first: s });
         else requestAnimationFrame(tick);
@@ -47,18 +84,37 @@ async function watchResume(page) {
       requestAnimationFrame(tick);
     });
   });
-  return () => page.evaluate(() => window.__resume);
+  // O prazo só começa quando o teste espera (depois do clique/scroll de
+  // retoma, que sob carga pode demorar segundos a ser entregue).
+  return async () => {
+    const result = await page.evaluate(
+      () =>
+        new Promise((resolve) => {
+          const timer = setTimeout(() => {
+            window.__resumeStopped = true;
+            resolve(window.__resumeDiagnose());
+          }, 5_000);
+          window.__resume.then((value) => {
+            clearTimeout(timer);
+            resolve(value);
+          });
+        })
+    );
+    expect(result.timedOut, `a retoma não aconteceu: ${JSON.stringify(result.timedOut)}`).toBeUndefined();
+    return result;
+  };
 }
 
 /**
- * Retomar continua do ponto congelado: no 1.º frame em que volta a correr, o
- * mesmo cartão tem tempo ≥ congelado; ou o tempo restante esgotou-se dentro
- * desse frame e o cartão já é o seguinte. Um recomeço apareceria como o
- * mesmo cartão a correr com tempo < congelado.
+ * Retomar continua do ponto congelado: no 1.º frame em que volta a correr, a
+ * mesma animação do mesmo cartão tem tempo ≥ congelado; ou o tempo restante
+ * esgotou-se dentro desse frame e o cartão já é o seguinte. Um recomeço
+ * apareceria como outra instância da animação ou tempo < congelado.
  */
 function expectContinued({ start, first }, frozen) {
   if (first.author === start.author) {
     expect(first.state).toBe("running");
+    expect(first.sameAnimation).toBe(true);
     expect(first.time).toBeGreaterThanOrEqual(frozen);
   } else {
     const i = data.findIndex((t) => t.author === start.author);
@@ -105,12 +161,28 @@ test("roda automaticamente pela ordem dos dados, uma animação de cada vez", as
 
 test("Pausar congela o progresso; Retomar continua do mesmo ponto", async ({ page }) => {
   await open(page);
-  await expect.poll(async () => (await progress(page))[0]?.time ?? 0).toBeGreaterThan(300);
-  await pauseBtn(page).click();
+  // Pausar a meio de um cartão: a verificação do tempo e o clique no botão
+  // acontecem no mesmo frame, dentro da página. Com locator.click() havia um
+  // intervalo sem limite entre os dois (sob carga, a espera de estabilidade
+  // do Playwright chegou a 4–9 s no WebKit) e a pausa caía no fim do cartão
+  // ou no início do seguinte (tempo 0). A retoma, abaixo, usa o clique real.
+  await page.evaluate(
+    () =>
+      new Promise((resolve) => {
+        const tick = () => {
+          const anim = document.getAnimations().find((a) => /progressFill/.test(a.animationName));
+          if (anim?.playState === "running" && anim.currentTime > 300 && anim.currentTime < 1500) {
+            document.querySelector("#Testimonials button").click();
+            resolve();
+          } else requestAnimationFrame(tick);
+        };
+        tick();
+      })
+  );
   await expect(pauseBtn(page)).toHaveAccessibleName("Retomar rotação dos testemunhos");
   await page.mouse.move(2, 2);
   await expect.poll(async () => (await progress(page))[0].state).toBe("paused");
-  const frozen = (await progress(page))[0].time;
+  const frozen = await frozenTime(page);
   expect(frozen).toBeGreaterThan(0);
   expect(frozen).toBeLessThan(3000);
   const author = await activeAuthor(page);
@@ -152,7 +224,7 @@ test("fora do viewport pausa e preserva o progresso", async ({ page }) => {
   });
   await expect(section(page)).not.toBeInViewport();
   await expect.poll(async () => (await progress(page))[0].state).toBe("paused");
-  const frozen = (await progress(page))[0].time;
+  const frozen = await frozenTime(page);
   const resumed = await watchResume(page);
   await scrollToSection(page, "Testimonials");
   expectContinued(await resumed(), frozen);
