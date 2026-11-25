@@ -186,19 +186,33 @@ const headerControlsOutside = (page) =>
 
 const isCompact = (page) => page.locator("header").evaluate((h) => h.hasAttribute("data-compact"));
 
-/** Espera que o header deixe de mudar de modo/tamanho (ResizeObserver + rAF). */
-async function headerSettled(page) {
-  let previous = null;
-  await expect
-    .poll(async () => {
-      const now = await page.locator("header").evaluate(
-        (h) => `${h.hasAttribute("data-compact")}:${Math.round(h.getBoundingClientRect().height)}`
-      );
-      const stable = now === previous;
-      previous = now;
-      return stable;
-    })
-    .toBe(true);
+/**
+ * Espera que o header deixe de mudar de modo/tamanho: `need` frames seguidos
+ * (rAF) com o mesmo modo e altura. Contam-se frames, não amostras no tempo:
+ * o useHeaderCompact reavalia no rAF seguinte ao ResizeObserver, e no WebKit
+ * cada amostra pelo protocolo demorava 300–500 ms, pelo que duas amostras
+ * iguais podiam cair ambas antes dessa reavaliação (ainda compacto, já com a
+ * altura nova — CI, Fase 11). O estado intermédio dura no máximo 2 frames.
+ * Uma oscilação real continua a falhar (limite de frames).
+ */
+async function headerSettled(page, need = 5, maxFrames = 300) {
+  const result = await page.locator("header").evaluate(
+    async (h, [need, maxFrames]) => {
+      const read = () => `${h.hasAttribute("data-compact")}:${Math.round(h.getBoundingClientRect().height)}`;
+      const seen = [];
+      for (let run = 0, prev = null; seen.length < maxFrames; ) {
+        await new Promise((r) => requestAnimationFrame(r));
+        const now = read();
+        run = now === prev ? run + 1 : 1;
+        prev = now;
+        seen.push(now);
+        if (run >= need) return { settled: true };
+      }
+      return { settled: false, last: seen.slice(-20) };
+    },
+    [need, maxFrames]
+  );
+  expect(result, "header sem estabilizar").toEqual({ settled: true });
 }
 
 test.describe("Header com texto ampliado", () => {

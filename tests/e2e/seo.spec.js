@@ -87,25 +87,43 @@ test.describe("Preload do Hero", () => {
 });
 
 test.describe("Imagens", () => {
-  test("todas as imagens da Home carregam a partir do build (sem 404)", async ({ page }) => {
+  test("todas as imagens da Home carregam a partir do build (sem 404)", async ({ page, baseURL }) => {
+    const origin = new URL(baseURL).origin;
     const failed = [];
     page.on("response", (res) => {
-      if (res.url().startsWith(new URL(page.url() || "http://x").origin) && res.status() >= 400) {
+      if (res.url().startsWith(origin) && res.status() >= 400) {
         failed.push(`${res.status()} ${res.url()}`);
       }
     });
     await gotoHome(page);
-    // percorre a página para disparar o lazy loading
+
+    // Cada imagem, pela ordem do documento, passa pelo viewport durante 2
+    // frames (como num scroll real: o lazy loading nativo é avaliado no
+    // rendering do frame, e o download, uma vez iniciado, continua); tudo
+    // numa só chamada, porque no Firefox/WebKit sob carga cada ida ao
+    // protocolo chegou a 300–500 ms.
     await page.evaluate(async () => {
-      const scroller = document.scrollingElement;
-      for (let y = 0; y < document.body.scrollHeight; y += 600) {
-        window.scrollTo(0, y);
-        document.body.scrollTo?.(0, y);
-        await new Promise((r) => requestAnimationFrame(() => r()));
+      const frame = () => new Promise((r) => requestAnimationFrame(r));
+      for (const img of document.querySelectorAll("img")) {
+        img.scrollIntoView({ block: "center", behavior: "instant" });
+        await frame();
+        await frame();
       }
-      scroller.scrollTop = 0;
+      window.scrollTo({ top: 0, behavior: "instant" });
     });
-    await page.waitForLoadState("networkidle");
+    // Espera pelo objetivo (todas carregadas e válidas), não pela rede: o
+    // networkidle expirou no Firefox da CI sem nenhum pedido da página em voo
+    // (Fase 11). 15 s, como PAGE_READY_TIMEOUT: um só vite preview serve
+    // todos os workers.
+    await expect
+      .poll(
+        () =>
+          page.$$eval("img", (imgs) =>
+            imgs.filter((i) => !(i.complete && i.naturalWidth > 0)).map((i) => i.getAttribute("src"))
+          ),
+        { message: "imagens por carregar ou partidas", timeout: 15_000 }
+      )
+      .toEqual([]);
 
     const images = await page.$$eval("img", (imgs) =>
       imgs.map((img) => ({ src: img.currentSrc || img.src, complete: img.complete, w: img.naturalWidth }))
