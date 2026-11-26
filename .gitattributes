@@ -1,0 +1,5 @@
+# Licenças das fontes (SIL OFL 1.1): texto oficial preservado byte a byte.
+# - whitespace=-blank-at-eol: o texto distribuído tem espaços no fim de linha;
+#   só esta verificação é desligada, e só nestes ficheiros.
+# - -text: sem conversão de fim de linha no checkout (mantém LF).
+src/shared/assets/fonts/OFL-*.txt -text whitespace=-blank-at-eol

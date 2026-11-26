@@ -45,5 +45,12 @@
     { "value": "24h", "label": "Resposta WhatsApp" },
     { "value": "100%", "label": "Satisfação" }
   ],
-  "mapEmbedSrc": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d756.837798441559!2d-8.64660314662673!3d40.64418825438006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2399e20ebc758b%3A0xc664252753d9c1c5!2sRia%20Canal%20-%20Hair%20Design!5e0!3m2!1spt-PT!2spt!4v1755174991101!5m2!1spt-PT!2spt"
+  "mapEmbedSrc": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d756.837798441559!2d-8.64660314662673!3d40.64418825438006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2399e20ebc758b%3A0xc664252753d9c1c5!2sRia%20Canal%20-%20Hair%20Design!5e0!3m2!1spt-PT!2spt!4v1755174991101!5m2!1spt-PT!2spt",
+  "map": {
+    "title": "Mapa da localização do Ria Canal Hair Design em Aveiro",
+    "heading": "Mapa da localização",
+    "notice": "O mapa é fornecido pelo Google Maps. Ao mostrá-lo, o seu browser liga-se aos servidores da Google, que recebem dados técnicos como o endereço IP.",
+    "privacyLabel": "Mais informação na Política de Privacidade",
+    "button": "Mostrar mapa"
+  }
 }

@@ -37,7 +37,8 @@ test.describe("Navegação SPA e histórico", () => {
 
     await page.getByRole("link", { name: "Voltar à página inicial" }).click();
     await expect(page).toHaveURL(/\/$/);
-    await page.getByRole("link", { name: "Política de Privacidade" }).click();
+    // link legal do footer (o placeholder do mapa tem outro, mais descritivo)
+    await page.locator("footer").getByRole("link", { name: "Política de Privacidade" }).click();
     await expect(page).toHaveTitle(`Política de Privacidade | ${TITLE}`);
 
     await page.goBack();

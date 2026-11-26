@@ -24,7 +24,7 @@
        Este <link> nunca descarrega nada (media="not all"); existe para o Vite
        lhe resolver o URL final com hash. O script seguinte cria o preload real
        apenas quando a rota inicial é "/" (as páginas legais e o 404 não usam o
-       Hero). Fica antes da folha de estilos das fontes para não esperar por ela. -->
+       Hero). -->
   <link id="hero-preload" rel="preload" as="image" type="image/avif" media="not all"
     href="/src/content/media/hero/hero-1920.avif" />
   <script>
@@ -41,13 +41,8 @@
     })();
   </script>
 
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Playfair+Display:wght@700&display=swap"
-    rel="stylesheet" />
+  <!-- Fontes: servidas pelo próprio domínio (@font-face em
+       src/app/styles/global.css), sem pedidos a serviços externos. -->
 </head>
 
 <body>

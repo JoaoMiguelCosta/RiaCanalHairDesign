@@ -1,7 +1,8 @@
 // tests/e2e/fixtures.js
 // Base comum dos testes E2E:
-// - sem rede externa: pedidos fora do servidor local (Google Fonts, Google
-//   Maps, …) são abortados, para resultados determinísticos e offline;
+// - sem rede externa: pedidos fora do servidor local (ex.: o Google Maps,
+//   depois de «Mostrar mapa») são abortados, para resultados determinísticos
+//   e offline;
 // - erros JavaScript não tratados na página fazem falhar o teste;
 // - `sameOriginRequests`: registo dos pedidos ao servidor local.
 import { test as base, expect } from "@playwright/test";

@@ -180,7 +180,7 @@ test.describe("Navegação por âncoras na Home", () => {
       await page.locator("footer").getByRole("link", { name: "Contactos" }).click();
       await expectAligned(page, "Location");
 
-      const legalLink = page.getByRole("link", { name: linkName });
+      const legalLink = page.locator("footer").getByRole("link", { name: linkName });
       await legalLink.scrollIntoViewIfNeeded();
       const before = await scrollPos(page);
       expect(before).toBeGreaterThan(0);

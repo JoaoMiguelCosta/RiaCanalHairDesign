@@ -1,0 +1,85 @@
+/* Dentro da moldura .Map (contorno dourado), com a proporção do mapa
+   (439/360). Se o texto não couber (ecrãs estreitos, letra ampliada), cresce
+   em altura: num bloco sem scroll, a altura mínima automática do
+   aspect-ratio é a do conteúdo, que assim nunca transborda. */
+.placeholder {
+    aspect-ratio: 439 / 360;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .75rem;
+    padding: clamp(1rem, 4vw, 1.75rem);
+    box-sizing: border-box;
+    background: #0d0f14;
+    text-align: center;
+}
+
+.heading {
+    margin: 0;
+    color: #F2F2F2;
+    font-family: "Playfair Display", serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.notice {
+    margin: 0;
+    max-width: 22rem;
+    color: #D1D5DB;
+    font-family: Montserrat, sans-serif;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.45;
+}
+
+/* dourado sobre #0d0f14: ~7.4:1 */
+.notice a {
+    color: #D59532;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.notice a:hover {
+    color: #e6b05a;
+}
+
+/* Mesmo estilo dos botões dos cartões de contacto («Ver Google Maps») */
+.button {
+    padding: .5rem 1.25rem;
+    border-radius: 9999px;
+    border: none;
+    background: #D59532;
+    /* #1A1F2D sobre dourado: 6.40:1 */
+    color: #1A1F2D;
+    font-family: Montserrat, sans-serif;
+    font-size: .9375rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* #b37c26 com texto escuro: 4.56:1 */
+.button:hover {
+    background: #b37c26;
+}
+
+/* mesma proporção e tamanho da moldura antes desta alteração */
+.frame {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 439 / 360;
+    border: 0;
+}
+
+@media (max-width: 23.5rem) {
+    .heading {
+        font-size: 1.0625rem;
+    }
+
+    .notice {
+        font-size: .8125rem;
+    }
+}

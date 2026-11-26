@@ -58,6 +58,27 @@ test.describe("Output do build", () => {
     }
   });
 
+  // Auditoria de privacidade: fontes locais; nada antecipa ligações à Google.
+  test("sem Google Fonts nem ligações antecipadas à Google; fontes WOFF2 locais", () => {
+    const assets = fs.readdirSync(path.join(DIST, "assets"));
+    const textFiles = [
+      ...DOCUMENTS,
+      ...assets.filter((f) => /\.(css|js)$/.test(f)).map((f) => `assets/${f}`),
+    ];
+    for (const file of textFiles) {
+      expect(read(file), file).not.toMatch(/fonts\.(googleapis|gstatic)\.com/);
+    }
+    for (const doc of DOCUMENTS) {
+      expect(read(doc), doc).not.toMatch(/<link[^>]+rel="(?:preconnect|dns-prefetch)"/);
+    }
+    const css = assets.filter((f) => f.endsWith(".css")).map((f) => read(`assets/${f}`)).join("\n");
+    const fonts = assets.filter((f) => f.endsWith(".woff2"));
+    expect(fonts.map((f) => f.replace(/-[\w-]{8}\.woff2$/, ""))).toEqual(
+      expect.arrayContaining(["montserrat-latin-600-normal", "playfair-display-latin-700-normal"])
+    );
+    for (const font of fonts) expect(css, font).toContain(`/assets/${font}`);
+  });
+
   test("os documentos diferem apenas no bloco de metadados", () => {
     const strip = (html) =>
       html.replace(/<title>[^<]*<\/title>|<(?:meta|link) (?:name|property|rel)="(?:description|robots|canonical|og:[\w:]+|twitter:\w+)"[^>]*>|<script type="application\/ld\+json">[^<]*<\/script>/g, "")
@@ -94,8 +115,9 @@ test.describe("vercel.json", () => {
   });
 
   // Fase 10: cabeçalhos de segurança em todas as respostas. Sem CSP de
-  // recursos (Google Fonts e o iframe do Google Maps teriam de ser listados
-  // e validados em Preview); só frame-ancestors, que não restringe recursos.
+  // recursos (o iframe do Google Maps, carregado por clique, teria de ser
+  // listado e validado em Preview); só frame-ancestors, que não restringe
+  // recursos.
   test("cabeçalhos de segurança em todas as respostas", () => {
     const all = config.headers.find((rule) => rule.source === "/(.*)");
     expect(all?.headers).toEqual([
