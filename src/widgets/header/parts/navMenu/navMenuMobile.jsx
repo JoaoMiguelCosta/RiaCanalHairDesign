@@ -5,8 +5,11 @@ import NavItemsMobile from "@content/navigation/navItemsMobile.json";
 import SocialLinks from "@content/social/socialLinks.json";
 import { useMobileMenu } from "@widgets/header/hook/useMobileMenu";
 
+const MENU_ID = "mobile-menu";
+
 const NavMenuMobile = () => {
-  const { menuOpen, toggleMenu, handleClose } = useMobileMenu();
+  const { menuOpen, toggleMenu, handleClose, buttonRef, menuRef } =
+    useMobileMenu();
   const currentHash = typeof window !== "undefined" ? window.location.hash : "";
 
   return (
@@ -30,10 +33,14 @@ const NavMenuMobile = () => {
             </a>
           ))}
 
+        {/* Disclosure: nome constante + estado em aria-expanded */}
         <Button
+          ref={buttonRef}
           onClick={toggleMenu}
-          button={styles.menuButton} // mantém se o teu Button usa esta prop
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          className={styles.menuButton}
+          aria-label="Menu de navegação"
+          aria-expanded={menuOpen}
+          aria-controls={MENU_ID}
         >
           <Icon
             name={menuOpen ? "close" : "menu"}
@@ -44,30 +51,30 @@ const NavMenuMobile = () => {
         </Button>
       </div>
 
-      {menuOpen && (
-        <div
-          className={styles.menuOverlay}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu de navegação"
-          onKeyDown={(e) => e.key === "Escape" && handleClose()}
-        >
-          <ul className={styles.menuList}>
-            {NavItemsMobile.map((item) => (
-              <li key={item.label}>
-                <a
-                  href={item.href}
-                  className={styles.menuItem}
-                  onClick={handleClose}
-                  aria-current={item.href === currentHash ? "true" : undefined}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/* Sempre no DOM (aria-controls válido); `hidden` retira-o da ordem de
+          foco e da árvore de acessibilidade quando fechado. */}
+      <nav
+        id={MENU_ID}
+        ref={menuRef}
+        className={styles.menuOverlay}
+        aria-label="Navegação principal"
+        hidden={!menuOpen}
+      >
+        <ul className={styles.menuList}>
+          {NavItemsMobile.map((item) => (
+            <li key={item.label}>
+              <a
+                href={item.href}
+                className={styles.menuItem}
+                onClick={handleClose}
+                aria-current={item.href === currentHash ? "true" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 };

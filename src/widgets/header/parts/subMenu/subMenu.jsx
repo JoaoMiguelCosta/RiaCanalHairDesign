@@ -2,7 +2,7 @@
 import styles from "./subMenu.module.css";
 import submenuData from "@content/navigation/submenu.json";
 
-const SubMenu = ({ label }) => {
+const SubMenu = ({ label, id, onNavigate }) => {
   const items = submenuData[label];
   if (!items) return null;
 
@@ -10,13 +10,14 @@ const SubMenu = ({ label }) => {
   const currentHash = typeof window !== "undefined" ? window.location.hash : "";
 
   return (
-    <ul className={styles.submenu} aria-label={`Submenu de ${label}`}>
+    <ul id={id} className={styles.submenu} aria-label={`Submenu de ${label}`}>
       {items.map(({ text, href }) => (
         <li key={text} className={styles.submenuItem}>
           <a
             href={href}
             className={styles.submenuLink}
             aria-current={href === currentHash ? "true" : undefined}
+            onClick={onNavigate}
           >
             {text}
           </a>

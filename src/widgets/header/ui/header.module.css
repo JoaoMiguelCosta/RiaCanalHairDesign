@@ -21,14 +21,27 @@
     align-items: center;
     justify-content: space-between;
     /* antes: center */
-    width: min(1280px, 100% - clamp(1rem, 4vw, 4rem));
+    /* 80rem = 1280px com a letra por omissão (16px): sem alteração visual.
+       Em rem, e não em px, para acompanhar o conteúdo (também em rem) quando
+       o utilizador aumenta o tamanho de letra do browser em ecrãs largos; com
+       1280px fixos, os últimos controlos ficavam cortados mesmo com espaço
+       disponível (Fase 10). Junto com os espaços em rem (navMenuDesktop,
+       socialIcons), todo o header escala com a letra: com letra a N %, um
+       ecrã de W px comporta-se como W/N com a letra por omissão. */
+    width: min(80rem, 100% - clamp(1rem, 4vw, 4rem));
     margin-inline: auto;
     min-height: var(--header-h);
     gap: clamp(.5rem, 2vw, 1.5rem);
 }
 
-html {
-    scroll-padding-top: var(--header-h);
+/* O scroll é do documento (viewport; ver global.css): scroll-padding e
+   scroll-behavior no <html> aplicam-se ao viewport. Mantêm-se também no
+   <body> para browsers sem overflow:clip, onde o <body> continua a ser o
+   scroll container. --header-offset é a altura real do header sticky
+   (medida em header.jsx), que pode exceder o min-height. */
+html,
+body {
+    scroll-padding-top: var(--header-offset, var(--header-h));
     scroll-behavior: smooth;
 }
 
@@ -38,4 +51,11 @@ html {
         width: 100%;
         padding-inline: .5rem;
     }
+}
+
+/* Modo compacto: o layout de ≤1024px quando o desktop não cabe no ecrã
+   (texto ampliado sem alterar o breakpoint; ver useHeaderCompact) */
+.header[data-compact] .headerContent {
+    width: 100%;
+    padding-inline: .5rem;
 }

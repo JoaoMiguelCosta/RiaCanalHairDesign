@@ -2,7 +2,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.875rem;
+    /* Entre 1025px e ~1150px os itens + logótipo + redes sociais não cabiam
+       com 30px fixos (os ícones sociais ficavam fora do ecrã): o espaço
+       desce linearmente até 12px em 1025px; ≥1150px mantém 1.875rem.
+       Desvio em rem (8.475rem = 135.6px com letra a 16px), não em px: com o
+       tamanho de letra do browser aumentado, o breakpoint (64rem) e o
+       conteúdo escalam, e o espaço também tem de escalar — em px ficava no
+       máximo logo acima do breakpoint e os ícones sociais saíam do ecrã
+       (Fase 10). Com a letra por omissão o valor calculado é o mesmo. */
+    gap: clamp(0.75rem, 14.4vw - 8.475rem, 1.875rem);
     height: 6.6875rem;
     flex-shrink: 0;
 
@@ -55,6 +63,24 @@
     cursor: pointer;
 }
 
+/* Itens com submenu: <button> (antes <span>) com aparência idêntica ao texto */
+.menuButton {
+    display: inline;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    line-height: inherit;
+    text-align: inherit;
+    cursor: pointer;
+}
+
+/* Estado expandido (teclado/clique) com a mesma cor do hover */
+.menuButton[aria-expanded="true"] {
+    color: #d59532;
+}
+
 /* Ícone da seta */
 .arrowIcon {
   display: inline-block;
@@ -72,16 +98,25 @@
     color: currentColor;
 }
 
-/* Mostra submenu ao passar o mouse */
-.menuItemWrapper:hover ul {
+/* Mostra submenu ao passar o rato ou quando aberto por teclado/clique */
+.menuItemWrapper:hover ul,
+.menuItemWrapper.open ul {
     display: flex;
 }
 
 /* Esconde menu no mobile → hamburger assume */
 @media (max-width: 64rem) {
 
-    /* 1024px */
+    /* 1024px: esconde o próprio <nav> (não só a lista), para que a navegação
+       desktop não fique exposta como landmark em mobile/tablet */
+    .nav,
     .menu {
         display: none;
     }
+}
+
+/* Idem quando o header desktop não cabe (texto ampliado; ver header.jsx) */
+:global(header[data-compact]) .nav,
+:global(header[data-compact]) .menu {
+    display: none;
 }

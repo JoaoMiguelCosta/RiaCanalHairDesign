@@ -1,53 +1,31 @@
 import { forwardRef } from "react";
 
+/**
+ * Botão ou link com a mesma API de apresentação.
+ * - Com `href` (string): navegação → renderiza <a>. Atributos exclusivos de
+ *   botão (`type`, `disabled`) não chegam ao link; com target="_blank" o `rel`
+ *   assume "noopener noreferrer" se não for indicado.
+ * - Sem `href`: ação → renderiza <button type="button"> (não submete
+ *   formulários por acidente; `type` pode ser sobreposto).
+ * - `className` é a classe do elemento; atributos HTML/ARIA nativos
+ *   (`aria-label`, `aria-pressed`, `onClick`, …) são encaminhados.
+ */
 const Button = forwardRef(function Button(
-  {
-    button, // classe (mantido)
-    children,
-    href, // opcional: se existir, renderiza <a>
-    target,
-    rel,
-    loading = false, // opcional: estado de loading
-    disabled = false, // opcional
-    ariaLabel, // opcional: acessibilidade
-    ...props
-  },
+  { children, href, target, rel, type = "button", disabled = false, ...props },
   ref
 ) {
-  const isLink = typeof href === "string";
+  if (typeof href === "string") {
+    const safeRel = target === "_blank" ? rel || "noopener noreferrer" : rel;
 
-  // se for link externo e tiver target=_blank, reforça segurança
-  const safeRel =
-    isLink && target === "_blank" ? rel || "noopener noreferrer" : rel;
-
-  if (isLink) {
     return (
-      <a
-        ref={ref}
-        href={href}
-        target={target}
-        rel={safeRel}
-        className={button}
-        aria-label={ariaLabel}
-        aria-busy={loading || undefined}
-        role="button"
-        {...props}
-      >
+      <a ref={ref} href={href} target={target} rel={safeRel} {...props}>
         {children}
       </a>
     );
   }
 
   return (
-    <button
-      ref={ref}
-      type="button"
-      className={button}
-      disabled={disabled || loading}
-      aria-label={ariaLabel}
-      aria-busy={loading || undefined}
-      {...props}
-    >
+    <button ref={ref} type={type} disabled={disabled} {...props}>
       {children}
     </button>
   );

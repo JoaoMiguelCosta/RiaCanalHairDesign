@@ -6,7 +6,6 @@ const ServiceItem = ({ label, variant = "primary" }) => {
       className={`${styles.item} ${styles[variant]}`}
       data-variant={variant}
       title={label}
-      aria-label={label}
     >
       <span className={styles.bullet} aria-hidden="true" />
       <span className={styles.text}>{label}</span>

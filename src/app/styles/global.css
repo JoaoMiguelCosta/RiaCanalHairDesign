@@ -9,11 +9,22 @@
   box-sizing: border-box;
 }
 
-/* Altura total do documento */
-html,
-body {
+/* Altura total do documento e corte do overflow horizontal.
+   O documento (viewport) é o único scroll container: o overflow-x do <html>
+   passa para o viewport; no <body> usa-se `clip`, que corta sem criar um
+   scroll container (com `hidden` + height:100%, era o <body> que fazia
+   scroll, o que impedia o browser de repor a posição em refresh/Back/Forward
+   e de recolher a barra de endereço em mobile). Browsers sem `clip` ficam
+   com `hidden` (comportamento anterior). */
+html {
   height: 100%;
   overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Remover margem padrão do body */
@@ -51,6 +62,69 @@ button {
    TEMA / TIPOGRAFIA
    ========================= */
 
+/* Webfonts servidas pelo próprio domínio (sem pedidos a fonts.googleapis.com
+   / fonts.gstatic.com). Ficheiros WOFF2 oficiais da Google Fonts, subconjunto
+   latin (o único que o conteúdo usa; o mesmo que o browser descarregava do
+   serviço remoto), com o unicode-range que a Google publica para ele. Só os
+   pesos carregados antes: Montserrat 600 e Playfair Display 700 (os restantes
+   pesos usados no CSS continuam a ser resolvidos pelo browser a partir
+   destes, como antes). Licença SIL OFL 1.1: ver src/shared/assets/fonts/.
+   Lato não é carregada (já não era antes desta alteração): os menus que a
+   referem usam o sans-serif do sistema, que é o aspeto aprovado. */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../shared/assets/fonts/montserrat-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../shared/assets/fonts/playfair-display-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Fallback métrico da Montserrat (só o peso 600 é carregado, com
+   display=swap): enquanto a webfont não chega, o texto usa Arial/Helvetica
+   redimensionada para a largura da Montserrat, para que a troca de fonte não
+   refaça as quebras de linha (CLS). Não altera a fonte final. Razões de
+   largura medidas no texto das páginas legais. */
+@font-face {
+  font-family: "Montserrat Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  font-weight: 100 500;
+  size-adjust: 114.2%;
+  ascent-override: 84.8%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  /* só os glifos que a Montserrat carregada cobre (setas, etc. seguem para
+     o sans-serif, como antes) */
+  unicode-range: U+0000-024F, U+2000-206F, U+20AC;
+}
+
+@font-face {
+  font-family: "Montserrat Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Helvetica Bold"),
+    local("Liberation Sans Bold");
+  font-weight: 600 900;
+  size-adjust: 107.8%;
+  ascent-override: 89.8%;
+  descent-override: 23.3%;
+  line-gap-override: 0%;
+  /* só os glifos que a Montserrat carregada cobre (setas, etc. seguem para
+     o sans-serif, como antes) */
+  unicode-range: U+0000-024F, U+2000-206F, U+20AC;
+}
+
 :root {
   --bg: #000000;
   --text: #eaeaea;
@@ -70,5 +144,37 @@ body {
   color: var(--text);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+/* =========================
+   ACESSIBILIDADE
+   ========================= */
+
+/* Indicador de foco consistente (teclado), na cor de destaque da marca */
+:focus-visible {
+  outline: 2px solid #d59532;
+  outline-offset: 2px;
+}
+
+/* <main tabIndex="-1"> recebe foco programático (skip link / mudança de rota):
+   não é um controlo, por isso não desenha anel à volta de toda a página */
+#main:focus {
+  outline: none;
+}
+
+/* Respeita a preferência de movimento reduzido em transições/animações CSS */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

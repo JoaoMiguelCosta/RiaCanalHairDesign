@@ -65,7 +65,8 @@
     border-radius: 9999px;
     border: none;
     background: #D59532;
-    color: #fff;
+    /* contraste: #fff s/ dourado = 2.57:1 → #1A1F2D = 6.40:1 */
+    color: #1A1F2D;
     font-family: Montserrat, sans-serif;
     font-size: .875rem;
     font-weight: 600;
@@ -74,8 +75,9 @@
     text-decoration: none;
 }
 
+/* hover: #b17a24 daria 4.44:1 com texto escuro; #b37c26 (quase igual) dá 4.56:1 */
 .ButtonWrapper>*:hover {
-    background: #b17a24;
+    background: #b37c26;
 }
 
 .Description {

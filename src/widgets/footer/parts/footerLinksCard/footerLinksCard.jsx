@@ -7,7 +7,7 @@ const { info, title, linksGrid, linkText } = styles;
 
 const FooterLinksCard = () => (
   <div className={info}>
-    <h3 className={title}>Links Rápidos</h3>
+    <h2 className={title}>Links Rápidos</h2>
 
     <div className={linksGrid}>
       {FooterLinks.map(({ label, href }) => (

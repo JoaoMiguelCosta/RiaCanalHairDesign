@@ -2,7 +2,7 @@
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem 1rem;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat", "Montserrat Fallback", sans-serif;
     line-height: 1.6;
     color: #f5f5f5;
     /* texto claro para fundo escuro */

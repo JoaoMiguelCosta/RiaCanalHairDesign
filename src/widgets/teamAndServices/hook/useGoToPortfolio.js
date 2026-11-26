@@ -1,29 +1,21 @@
 // src/widgets/teamAndServices/hook/useGoToPortfolio.js
 import { useCallback } from "react";
 
+const PORTFOLIO_ID = "Works";
+
 /**
- * Dispara o evento global "activate-portfolio-service" e faz scroll até #Works.
- * Mantém exatamente o comportamento anterior (inclui update do hash).
+ * Atualiza o hash para #Works (sem saltar) e dispara o evento global
+ * "activate-portfolio-service". O Portfolio (usePortfolioTabs) ouve o evento,
+ * ativa a tab correspondente e faz o scroll até #Works, respeitando o
+ * movimento reduzido; o scroll não é repetido aqui.
  */
 export function useGoToPortfolio() {
   return useCallback((service) => {
-    // Notifica o Portfolio para ativar a tab correta
+    if (window.location.hash !== `#${PORTFOLIO_ID}`) {
+      history.replaceState(null, "", `#${PORTFOLIO_ID}`);
+    }
     window.dispatchEvent(
       new CustomEvent("activate-portfolio-service", { detail: service })
     );
-
-    // Faz scroll suave para a secção #Works e atualiza o hash
-    try {
-      const id = "Works";
-      const el = document.getElementById(id);
-      if (el) {
-        if (location.hash !== `#${id}`) {
-          history.replaceState(null, "", `#${id}`);
-        }
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    } catch {
-      // ignora erros de ambiente sem DOM (SSR/tests)
-    }
   }, []);
 }

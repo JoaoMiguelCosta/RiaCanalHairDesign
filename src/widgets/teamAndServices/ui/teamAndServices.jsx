@@ -13,11 +13,9 @@ import ServiceItem from "@shared/ui/serviceItem/serviceItem.jsx";
 import servicesData from "@content/services/services.js";
 import Quote from "@shared/ui/quote/quote.jsx";
 
-// ⬇️ Importa sempre como TeamMembers
 import TeamMembers from "@content/teamMembers/teamMembers.js";
-import Hero from "@media/hero/hero.png";
+import Hero from "@media/hero/hero-1920.webp";
 
-// ⬇️ Hook extraído
 import { useGoToPortfolio } from "@widgets/teamAndServices/hook/useGoToPortfolio";
 
 const {
@@ -73,61 +71,64 @@ const OthersSection = ({
   portfolioKey, // "Estética" | "Unhas"
   inverted = false, // Mary é invertida
   onPortfolio,
-}) => (
-  <div className={others}>
-    {inverted ? (
-      <>
-        <div className={others2}>
-          <Button onClick={() => onPortfolio(portfolioKey)} button={buttonCls}>
-            VER PORTFÓLIO
-          </Button>
-          <TitleServices variant="highlight">Serviços</TitleServices>
-          <ServicesList
-            items={services}
-            className={`${EsteticaAdvanced} ${servicesModClass}`}
-          />
-        </div>
-        <div className={others1}>
-          <PersonBlock
-            name={person.name}
-            legend={person.legend}
-            legend1={person.legend1}
-            photo={person.photo}
-          />
-        </div>
-      </>
-    ) : (
-      <>
-        <div className={others1}>
-          <PersonBlock
-            name={person.name}
-            legend={person.legend}
-            legend1={person.legend1}
-            photo={person.photo}
-          />
-        </div>
-        <div className={others2}>
-          <Button onClick={() => onPortfolio(portfolioKey)} button={buttonCls}>
-            VER PORTFÓLIO
-          </Button>
-          <TitleServices variant="highlight">Serviços</TitleServices>
-          <ServicesList
-            items={services}
-            className={`${EsteticaAdvanced} ${servicesModClass}`}
-          />
-        </div>
-      </>
-    )}
-  </div>
-);
+}) => {
+  const personColumn = (
+    <div className={others1}>
+      <PersonBlock
+        name={person.name}
+        legend={person.legend}
+        legend1={person.legend1}
+        photo={person.photo}
+      />
+    </div>
+  );
+
+  const servicesColumn = (
+    <div className={others2}>
+      <Button onClick={() => onPortfolio(portfolioKey)} className={buttonCls}>
+        VER PORTFÓLIO
+      </Button>
+      <TitleServices variant="highlight">Serviços</TitleServices>
+      <ServicesList
+        items={services}
+        className={`${EsteticaAdvanced} ${servicesModClass}`}
+      />
+    </div>
+  );
+
+  return (
+    <div className={others}>
+      {inverted ? (
+        <>
+          {servicesColumn}
+          {personColumn}
+        </>
+      ) : (
+        <>
+          {personColumn}
+          {servicesColumn}
+        </>
+      )}
+    </div>
+  );
+};
 
 const TeamAndServices = () => {
   const goToPortfolio = useGoToPortfolio();
 
   return (
-    <div id="TeamAndServices" className={teamandservices}>
+    <section
+      id="TeamAndServices"
+      className={teamandservices}
+      aria-labelledby="TeamAndServices-title"
+    >
       <Subtitle>A NOSSA EQUIPA</Subtitle>
-      <Title line1="Equipa &" line2="Serviços" variant="highlight" />
+      <Title
+        id="TeamAndServices-title"
+        line1="Equipa &"
+        line2="Serviços"
+        variant="highlight"
+      />
       <Text className={aboutText} variant="centerMobile">
         <span>
           Profissionais especializadas, dedicadas a realçar a sua beleza natural
@@ -139,15 +140,12 @@ const TeamAndServices = () => {
       <div className={HairDressers}>
         {TeamMembers.hairdressers.map(({ name, legend, legend1, photo }, i) => (
           <div className={HairDressersingle} key={name + i}>
-            <ProfessionalPhoto
-              ContainerImg={myImageContainer}
-              imageClass={myImage}
-              src={getPhoto(photo)}
-              alt={`${name} — ${legend || "Profissional"}`}
-              loading="lazy"
-              decoding="async"
+            <PersonBlock
+              name={name}
+              legend={legend}
+              legend1={legend1}
+              photo={photo}
             />
-            <TitleDescription title={name} legend={legend} legend1={legend1} />
           </div>
         ))}
       </div>
@@ -156,7 +154,7 @@ const TeamAndServices = () => {
       <div className={HairdresserBottom}>
         <Button
           onClick={() => goToPortfolio("Cabeleireiro")}
-          button={buttonCls}
+          className={buttonCls}
         >
           VER PORTFÓLIO
         </Button>
@@ -190,11 +188,11 @@ const TeamAndServices = () => {
         onPortfolio={goToPortfolio}
       />
 
-      <Quote variante="default">
+      <Quote variant="default">
         “Cada profissional da nossa equipa é escolhida pela sua paixão, técnica
         e dedicação em criar experiências únicas para cada cliente.”
       </Quote>
-    </div>
+    </section>
   );
 };
 

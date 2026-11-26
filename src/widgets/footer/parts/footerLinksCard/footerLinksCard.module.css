@@ -27,10 +27,10 @@
     transition: color .25s;
 }
 
+/* Foco: mantém a mudança de cor e usa o anel de foco global (antes removido) */
 .linkText:hover,
 .linkText:focus-visible {
     color: #D59532;
-    outline: none;
 }
 
 @media (max-width:23.5rem) {

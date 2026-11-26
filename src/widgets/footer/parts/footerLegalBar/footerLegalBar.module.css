@@ -65,12 +65,6 @@
     color: #D59532;
 }
 
-/* textos sem link */
-.text {
-    color: #9CA3AF;
-    font: inherit;
-}
-
 /* ===== mobile muito pequeno (<= 376px) ===== */
 @media (max-width: 23.5rem) {
     .bar {
@@ -87,6 +81,18 @@
     .right {
         order: 1;
         width: 100%;
+        /* o espaço vertical passa para o padding dos links (abaixo); a margem
+           negativa compensa esse padding nas extremidades da barra */
+        row-gap: 0;
+        margin-block: -6px;
+    }
+
+    /* Tamanho do alvo (WCAG 2.5.8): com as linhas a quebrar, os links tinham
+       12px de altura a 23px de distância; padding vertical → 24px de alvo,
+       mantendo o mesmo ritmo visual (+1px por linha) */
+    .link {
+        display: inline-block;
+        padding-block: 6px;
     }
 }
 

@@ -9,16 +9,19 @@ import StatCard from "@shared/ui/statCard/statCard.jsx";
 import Quote from "@shared/ui/quote/quote.jsx";
 
 import data from "@content/instagram/instagram.json";
-import { useInstagramOpen } from "@widgets/instagram/hook/useInstagram";
 
 const Instagram = () => {
   const { url, handle, stats = [], hashtags = [], quote } = data ?? {};
-  const handleInstagramClick = useInstagramOpen(url);
 
   return (
-    <div id="Instagram" className={styles.instagram}>
+    <section
+      id="Instagram"
+      className={styles.instagram}
+      aria-labelledby="Instagram-title"
+    >
       <Subtitle variant="default">REDES SOCIAIS</Subtitle>
       <Title
+        id="Instagram-title"
         className={styles.customTitle}
         line2="No Instagram"
         variant="highlight"
@@ -31,10 +34,12 @@ const Instagram = () => {
       </Text>
 
       <div className={styles.buttoninsta}>
-        {/* A11y: nome da ação claro para leitores de ecrã */}
+        {/* Navegação externa: <a> nativo (o Button renderiza <a> com href e
+            reforça rel="noopener noreferrer" em target=_blank) */}
         <Button
-          button={styles.instagramButton}
-          onClick={handleInstagramClick}
+          className={styles.instagramButton}
+          href={url}
+          target="_blank"
           aria-label="Abrir Instagram: perfil @ria_canal_hairdesign"
         >
           {handle}
@@ -52,11 +57,11 @@ const Instagram = () => {
         </div>
 
         <div className={styles.seguir}>
-          {/* A11y: ação explícita */}
+          {/* Navegação externa: link nativo; o nome acessível é o texto visível */}
           <Button
-            button={styles.instagramFollowButton}
-            onClick={handleInstagramClick}
-            aria-label="Seguir no Instagram"
+            className={styles.instagramFollowButton}
+            href={url}
+            target="_blank"
           >
             SEGUIR NO INSTAGRAM
           </Button>
@@ -69,8 +74,8 @@ const Instagram = () => {
         ))}
       </div>
 
-      <Quote variante="default">"{quote}"</Quote>
-    </div>
+      <Quote variant="default">"{quote}"</Quote>
+    </section>
   );
 };
 

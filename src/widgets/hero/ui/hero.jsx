@@ -20,8 +20,11 @@ const Hero = () => {
         <LogoComponent imgClassName={styles.logoImg} alt="" ariaHidden />
       </div>
 
-      <div className={styles.Title1}><span>{title1}</span></div>
-      <div className={styles.Title2}><span>{title2}</span></div>
+      {/* Heading principal da Home: as duas linhas visuais formam um só <h1> */}
+      <h1 className={styles.heroTitle}>
+        <span className={styles.Title1}><span>{title1}</span></span>{" "}
+        <span className={styles.Title2}><span>{title2}</span></span>
+      </h1>
 
       <div className={styles.phrase}>
         <p>{phrase}</p>
@@ -34,8 +37,8 @@ const Hero = () => {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            ariaLabel={ariaLabel}
-            className={BTN_CLASS_BY_ICON[icon]}   
+            aria-label={ariaLabel}
+            className={BTN_CLASS_BY_ICON[icon]}
           >
             <Icon name={icon} aria-hidden="true" />
             <span>{label}</span>

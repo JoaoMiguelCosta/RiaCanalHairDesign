@@ -1,28 +1,28 @@
 // src/content/gallery/beforeAfter.js
 
 // Balayage
-import balayageBefore from "@media/beforeAndAfter/balayage/before.jpg";
-import balayageAfter from "@media/beforeAndAfter/balayage/after.jpg";
+import balayageBefore from "@media/beforeAndAfter/balayage/before.webp";
+import balayageAfter from "@media/beforeAndAfter/balayage/after.webp";
 
 // Alisamento
-import hairStraighteningBefore from "@media/beforeAndAfter/hairStraightening/before.jpg";
-import hairStraighteningAfter from "@media/beforeAndAfter/hairStraightening/after.jpg";
+import hairStraighteningBefore from "@media/beforeAndAfter/hairStraightening/before.webp";
+import hairStraighteningAfter from "@media/beforeAndAfter/hairStraightening/after.webp";
 
 // Madeixas
-import highlightsBefore from "@media/beforeAndAfter/highlights/before.jpg";
-import highlightsAfter from "@media/beforeAndAfter/highlights/after.jpg";
+import highlightsBefore from "@media/beforeAndAfter/highlights/before.webp";
+import highlightsAfter from "@media/beforeAndAfter/highlights/after.webp";
 
 // Tratamento de Hidratação
-import hairHydrationBefore from "@media/beforeAndAfter/hairHydrationTreatment/before.jpg";
-import hairHydrationAfter from "@media/beforeAndAfter/hairHydrationTreatment/after.jpg";
+import hairHydrationBefore from "@media/beforeAndAfter/hairHydrationTreatment/before.webp";
+import hairHydrationAfter from "@media/beforeAndAfter/hairHydrationTreatment/after.webp";
 
 // Sobrancelhas (imagens existentes em 'face' .png)
-import browMicropigmentationBefore from "@media/beforeAndAfter/face/before.png";
-import browMicropigmentationAfter from "@media/beforeAndAfter/face/after.png";
+import browMicropigmentationBefore from "@media/beforeAndAfter/face/before.webp";
+import browMicropigmentationAfter from "@media/beforeAndAfter/face/after.webp";
 
 // Micropigmentação Labial
-import lipMicropigmentationBefore from "@media/beforeAndAfter/lipMicropigmentation/before.jpg";
-import lipMicropigmentationAfter from "@media/beforeAndAfter/lipMicropigmentation/after.jpg";
+import lipMicropigmentationBefore from "@media/beforeAndAfter/lipMicropigmentation/before.webp";
+import lipMicropigmentationAfter from "@media/beforeAndAfter/lipMicropigmentation/after.webp";
 
 const BeforeAfter = [
   {

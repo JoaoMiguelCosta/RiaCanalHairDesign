@@ -248,8 +248,3 @@
         --card-min-h: clamp(16rem, 62vw, 22rem);
     }
 }
-
-/* ===== Desativar "toque para ver" apenas no Space ===== */
-:global(#Space .tapHint) {
-    display: none !important;
-}

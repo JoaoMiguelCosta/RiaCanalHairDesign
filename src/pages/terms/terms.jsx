@@ -1,11 +1,15 @@
 // src/pages/terms/terms.jsx
 import { Link } from "react-router-dom";
-import "@app/styles/global.css";
 import styles from "./terms.module.css";
 
 function Terms() {
   return (
-    <main id="main" aria-labelledby="terms-title" className={styles.container}>
+    <main
+      id="main"
+      aria-labelledby="terms-title"
+      className={styles.container}
+      tabIndex={-1}
+    >
       <Link
         to="/"
         className={styles.backButton}

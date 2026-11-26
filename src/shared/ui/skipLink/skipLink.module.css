@@ -1,0 +1,25 @@
+/* Fora do ecrã até receber foco; não ocupa espaço no layout */
+.skipLink {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 2000;
+    /* acima do header sticky (z-index 1000) */
+
+    padding: 0.625rem 1rem;
+    background: #000;
+    color: #f2f2f2;
+    border: 1px solid #d59532;
+    font: 600 0.875rem/1 Montserrat, sans-serif;
+    letter-spacing: 0.06rem;
+    text-decoration: none;
+
+    transform: translateY(calc(-100% - 1rem));
+}
+
+.skipLink:focus,
+.skipLink:focus-visible {
+    transform: none;
+    outline: 2px solid #d59532;
+    outline-offset: 2px;
+}

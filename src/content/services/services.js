@@ -1,40 +1,40 @@
-// src/content/media/works/index.js (ou onde já estavas a colocar isto)
+// src/content/services/services.js
 
 // Serviços disponíveis
 export const services = ["Cabeleireiro", "Estética", "Unhas"];
 
 /* =========================
-   IMPORTS (batem com o screenshot)
+   IMPORTS
    ========================= */
 
 // AESTHETICS
-import eyebrowDesign from "@media/works/aesthetics/eyebrowDesign.jpg";
-import eyelashExtensions from "@media/works/aesthetics/eyelashExtensions.jpg";
-import Eyeliner from "@media/works/aesthetics/Eyeliner.jpg";
-import laserRemoval from "@media/works/aesthetics/laserRemoval.jpg";
-import lashes from "@media/works/aesthetics/lashes.jpg";
-import lipMicropigmentation from "@media/works/aesthetics/lipMicropigmentation.jpg";
-import microblading from "@media/works/aesthetics/microblading.jpg";
-import microneedling from "@media/works/aesthetics/microneedling.jpg";
-import nanoStrokesBrows from "@media/works/aesthetics/nanoStrokesBrows.jpg";
+import eyebrowDesign from "@media/works/aesthetics/eyebrowDesign.webp";
+import eyelashExtensions from "@media/works/aesthetics/eyelashExtensions.webp";
+import Eyeliner from "@media/works/aesthetics/Eyeliner.webp";
+import laserRemoval from "@media/works/aesthetics/laserRemoval.webp";
+import lashes from "@media/works/aesthetics/lashes.webp";
+import lipMicropigmentation from "@media/works/aesthetics/lipMicropigmentation.webp";
+import microblading from "@media/works/aesthetics/microblading.webp";
+import microneedling from "@media/works/aesthetics/microneedling.webp";
+import nanoStrokesBrows from "@media/works/aesthetics/nanoStrokesBrows.webp";
 
 // HAIRDRESSERS
-import Balayage from "@media/works/hairdressers/Balayage.png";
-import bridalHairstyle from "@media/works/hairdressers/bridalHairstyle.png";
-import hairColorJpg from "@media/works/hairdressers/hairColor.jpg";
-import hairColorPng from "@media/works/hairdressers/hairColor.png";
-import haircut from "@media/works/hairdressers/haircut.jpg";
-import hairStraightening from "@media/works/hairdressers/hairStraightening.jpg";
-import hairstyling from "@media/works/hairdressers/hairstyling.jpg";
-import PenteadoNoiva from "@media/works/hairdressers/PenteadoNoiva.jpg";
+import Balayage from "@media/works/hairdressers/Balayage.webp";
+import bridalHairstyle from "@media/works/hairdressers/bridalHairstyle.webp";
+import hairColorJpg from "@media/works/hairdressers/hairColor.webp";
+import hairColorPng from "@media/works/hairdressers/hairColor-png.webp";
+import haircut from "@media/works/hairdressers/haircut.webp";
+import hairStraightening from "@media/works/hairdressers/hairStraightening.webp";
+import hairstyling from "@media/works/hairdressers/hairstyling.webp";
+import PenteadoNoiva from "@media/works/hairdressers/PenteadoNoiva.webp";
 
 // NAILS
-import gelNails1 from "@media/works/nails/gelNails1.jpg";
-import gelNails2 from "@media/works/nails/gelNails2.jpg";
-import gelNails3 from "@media/works/nails/gelNails3.jpg";
-import gelPolish from "@media/works/nails/gelPolish.jpg";
+import gelNails1 from "@media/works/nails/gelNails1.webp";
+import gelNails2 from "@media/works/nails/gelNails2.webp";
+import gelNails3 from "@media/works/nails/gelNails3.webp";
+import gelPolish from "@media/works/nails/gelPolish.webp";
 import nailArt1 from "@media/works/nails/nailArt1.avif";
-import pinkNails from "@media/works/nails/pinkNails.jpg";
+import pinkNails from "@media/works/nails/pinkNails.webp";
 import redManicure from "@media/works/nails/redManicure.avif";
 
 /* =========================

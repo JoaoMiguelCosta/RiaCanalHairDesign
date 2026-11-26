@@ -7,9 +7,11 @@ import Title from "@shared/ui/title/title.jsx";
 import Text from "@shared/ui/text/text.jsx";
 import Quote from "@shared/ui/quote/quote.jsx";
 
-import InformationCard from "@widgets/contact/parts/informationCard/informationCard.jsx"
+import InformationCard from "@widgets/contact/parts/informationCard/informationCard.jsx";
 import MetricCard from "@widgets/contact/parts/metricCard/metricCard.jsx";
 import Arrive from "@widgets/contact/parts/arrive/arrive.jsx";
+import MapEmbed from "@widgets/contact/parts/mapEmbed/mapEmbed.jsx";
+import data from "@content/contact/contact.json";
 
 // Desestrutura classes para cortar repetição de `styles.`
 const {
@@ -26,85 +28,61 @@ const {
 // Props reutilizáveis para links externos
 const EXT_PROPS = { target: "_blank", rel: "noreferrer" };
 
-// Fonte única da verdade para os cartões de contacto (ordem preservada)
-const CONTACT_CARDS = [
-  {
-    Letra: "T",
-    Title: "Telefone",
-    Description: (
-      <a
-        href="tel:+351234420471"
-        aria-label="Ligar +351 234 420 471"
-        rel="noreferrer"
-      >
-        +351 234 420 471
+// Conteúdo de cada cartão a partir de contact.json (fonte única dos contactos)
+const renderDescription = ({ type, phone, aria, url, label, text }) => {
+  if (type === "phone") {
+    return (
+      <a href={`tel:${phone}`} aria-label={aria}>
+        {label}
       </a>
-    ),
-  },
-  {
-    Letra: "W",
-    Title: "WhatsApp",
-    Description: (
-      <a href="https://wa.me/351916887537" {...EXT_PROPS}>
-        +351 916 887 537
+    );
+  }
+  if (url) {
+    return (
+      <a href={url} {...EXT_PROPS}>
+        {label}
       </a>
-    ),
-  },
-  {
-    Letra: "I",
-    Title: "Instagram",
-    Description: (
-      <a href="https://www.instagram.com/ria_canal_hairdesign/" {...EXT_PROPS}>
-        @ria_canal_hairdesign
-      </a>
-    ),
-  },
-  {
-    Letra: "H",
-    Title: "Horário",
-    Description: "Terça a Sábado: 9h00 – 19h00",
-  },
-  {
-    Letra: "L",
-    Title: "Localização",
-    Description: "Praceta Dr. Alberto Souto 9, 3800-147 Aveiro",
-    button: (
-      <a
-        href="https://www.google.com/maps/dir/?api=1&destination=40.64422,-8.64587&travelmode=driving"
-        {...EXT_PROPS}
-      >
-        Ver Google Maps
-      </a>
-    ),
-  },
-];
+    );
+  }
+  return text;
+};
 
-// Métricas em array para evitar duplicação
-const METRICS = [
-  { value: "24h", label: "Resposta WhatsApp" },
-  { value: "100%", label: "Satisfação" },
-];
+// Ordem preservada (a do JSON)
+const CONTACT_CARDS = data.cards.map((card) => ({
+  Letra: card.letter,
+  Title: card.title,
+  Description: renderDescription(card),
+  button: card.button && (
+    <a href={card.button.url} {...EXT_PROPS}>
+      {card.button.label}
+    </a>
+  ),
+}));
 
 const Contact = () => {
   return (
-    <div id="Location" className={contactCls}>
+    <section
+      id="Location"
+      className={contactCls}
+      aria-labelledby="Location-title"
+    >
       <Subtitle variant="default">ENTRE EM CONTACTO</Subtitle>
-      <Title line1="Contactos &" line2="Localização" variant="highlight" />
+      <Title
+        id="Location-title"
+        line1="Contactos &"
+        line2="Localização"
+        variant="highlight"
+      />
       <Text className={aboutText} variant="centerMobile">
-        <span>Marque o seu momento de cuidado e elegância. Fale connosco.</span>
+        <span>{data.intro}</span>
       </Text>
 
       <div className={cardsMetricMap}>
         <div className={mapArrive}>
           <Arrive />
           <div className={mapCls}>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d756.837798441559!2d-8.64660314662673!3d40.64418825438006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2399e20ebc758b%3A0xc664252753d9c1c5!2sRia%20Canal%20-%20Hair%20Design!5e0!3m2!1spt-PT!2spt!4v1755174991101!5m2!1spt-PT!2spt"
-              style={{ border: 0, width: "100%", height: "100%" }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            {/* Google Maps só depois de «Mostrar mapa» (ver MapEmbed) */}
+            <MapEmbed src={data.mapEmbedSrc} {...data.map} />
           </div>
         </div>
 
@@ -116,18 +94,18 @@ const Contact = () => {
           </div>
 
           <div className={metricCardWrap}>
-            {METRICS.map(({ value, label }) => (
+            {data.metrics.map(({ value, label }) => (
               <MetricCard key={label} value={value} label={label} />
             ))}
           </div>
         </div>
       </div>
 
-      <Quote variante="default">
+      <Quote variant="default">
         "Estamos aqui para transformar o seu momento de cuidado numa experiência
         única e memorável. Entre em contacto e descubra a diferença."
       </Quote>
-    </div>
+    </section>
   );
 };
 
