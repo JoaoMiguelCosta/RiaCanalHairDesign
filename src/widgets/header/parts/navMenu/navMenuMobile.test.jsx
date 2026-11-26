@@ -117,6 +117,24 @@ describe("NavMenuMobile", () => {
     expect(document.documentElement.style.overflow).toBe("");
   });
 
+  // Regressão (CI, Chromium em Linux): o link focado fica oculto pela media
+  // query e o browser retira-lhe o foco (para o <body>) antes do resize; o
+  // foco perdido com o menu aberto também tem de ir para o <main>.
+  test("passar a desktop com o foco já perdido para o <body> move-o para o <main>", async () => {
+    vi.useFakeTimers({ toFake: ["requestAnimationFrame", "cancelAnimationFrame"] });
+    const { button, menu } = setup();
+    act(() => button.click());
+    expect(menu()).toBeVisible();
+
+    media.set(MOBILE_QUERY, false);
+    act(() => document.activeElement.blur());
+    expect(document.activeElement).toBe(document.body);
+    act(() => window.dispatchEvent(new Event("resize")));
+    act(() => vi.advanceTimersToNextFrame());
+    expect(button).toHaveAttribute("aria-expanded", "false");
+    expect(document.getElementById("main")).toHaveFocus();
+  });
+
   test("redimensionar dentro do intervalo mobile não fecha", async () => {
     const { button, user } = setup();
     await user.click(button);
