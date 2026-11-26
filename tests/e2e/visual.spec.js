@@ -1,7 +1,9 @@
 // Regressão visual de um conjunto reduzido de blocos estáveis.
-// Condições controladas: viewport fixo, sem rede externa (fontes de recurso
-// do sistema, sempre as mesmas nesta máquina), relógio JS parado, movimento
-// reduzido (sliders e testemunhos começam em pausa), imagens carregadas.
+// Condições controladas: viewport fixo, sem rede externa, webfonts servidas
+// pelo próprio site (Montserrat/Playfair Display, as mesmas que o visitante
+// vê; até à remoção da Google Fonts as baselines usavam fontes de recurso do
+// sistema), relógio JS parado, movimento reduzido (sliders e testemunhos
+// começam em pausa), imagens carregadas.
 // As baselines são específicas do SO/browser (sufixo -chromium-win32): num
 // ambiente diferente (ex.: CI em Linux) têm de ser geradas lá.
 import { test, expect, gotoHome, pauseClock, VIEWPORTS } from "./fixtures.js";

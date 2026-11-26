@@ -10,6 +10,7 @@ import Quote from "@shared/ui/quote/quote.jsx";
 import InformationCard from "@widgets/contact/parts/informationCard/informationCard.jsx";
 import MetricCard from "@widgets/contact/parts/metricCard/metricCard.jsx";
 import Arrive from "@widgets/contact/parts/arrive/arrive.jsx";
+import MapEmbed from "@widgets/contact/parts/mapEmbed/mapEmbed.jsx";
 import data from "@content/contact/contact.json";
 
 // Desestrutura classes para cortar repetição de `styles.`
@@ -80,14 +81,8 @@ const Contact = () => {
         <div className={mapArrive}>
           <Arrive />
           <div className={mapCls}>
-            <iframe
-              title="Mapa da localização do Ria Canal Hair Design em Aveiro"
-              src={data.mapEmbedSrc}
-              style={{ border: 0, width: "100%", height: "100%" }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            {/* Google Maps só depois de «Mostrar mapa» (ver MapEmbed) */}
+            <MapEmbed src={data.mapEmbedSrc} {...data.map} />
           </div>
         </div>
 

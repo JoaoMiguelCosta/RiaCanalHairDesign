@@ -57,12 +57,13 @@
     min-height: 0;
 }
 
-/* Mapa responsivo */
+/* Moldura do mapa. A proporção (439/360) está no conteúdo (placeholder e
+   iframe, ver MapEmbed): o placeholder pode assim crescer em altura quando
+   o texto não cabe, em vez de transbordar. */
 .Map {
     width: 100%;
     max-width: 27.4375rem;
     height: auto;
-    aspect-ratio: 439 / 360;
     border: 1px solid #D59532;
     box-sizing: border-box;
 }
@@ -125,8 +126,11 @@
         align-items: center;
     }
 
-    /* Coluna esquerda */
+    /* Coluna esquerda. Em coluna, a base flex (26rem) seria a ALTURA: o
+       bloco ficava com 416px e o mapa saía dele, por baixo dos cartões
+       seguintes (tapava o fundo do mapa e o botão «Mostrar mapa»). */
     .MapArrive {
+        flex: 0 0 auto;
         width: 100%;
         max-width: 21.4375rem;
         /* 343px */

@@ -55,8 +55,16 @@ export function useMobileMenu() {
     const onResize = () => {
       if (isMobileHeaderLayout(buttonRef.current)) return;
       const active = document.activeElement;
+      // Com o menu aberto, o resto da página está inert: foco no <body> quer
+      // dizer que o browser o retirou ao link do menu, ocultado pela media
+      // query, antes deste evento (Chromium em Linux, na CI). Conta como foco
+      // no menu, para não ficar perdido.
+      const focusLost =
+        menuOpenRef.current && (!active || active === document.body);
       const focusWasInMenu =
-        menuRef.current?.contains(active) || buttonRef.current === active;
+        focusLost ||
+        menuRef.current?.contains(active) ||
+        buttonRef.current === active;
       if (!focusWasInMenu) {
         setMenuOpen(false);
         return;

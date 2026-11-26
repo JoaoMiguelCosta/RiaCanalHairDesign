@@ -1,5 +1,5 @@
 // src/widgets/testimonials/hook/useAutoCarousel.js
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useInViewport } from "@shared/lib/useInViewport";
 import { usePageVisibility } from "@shared/lib/usePageVisibility";
 
@@ -33,6 +33,21 @@ export function useAutoCarousel(total, { rootRef, enabled = true, startIndex = 0
   const advance = useCallback(() => {
     if (total > 1) setActiveIndex((i) => (i + 1) % total);
   }, [total]);
+
+  // O pointerleave nem sempre chega: no clique em Pausar/Retomar o ícone
+  // debaixo do ponteiro é substituído (FaPause ↔ FaPlay) e o Chromium pode
+  // não enviar o leave à secção quando o rato sai. O hover ficava preso
+  // (botão «Pausar», animação parada). Enquanto há hover, um movimento do
+  // ponteiro fora da secção também o termina.
+  useEffect(() => {
+    if (!hover) return;
+    const onMove = (e) => {
+      const root = rootRef?.current;
+      if (e.pointerType !== "touch" && root && !root.contains(e.target)) setHover(false);
+    };
+    document.addEventListener("pointermove", onMove);
+    return () => document.removeEventListener("pointermove", onMove);
+  }, [hover, rootRef]);
 
   const pauseHandlers = useMemo(
     () => ({
