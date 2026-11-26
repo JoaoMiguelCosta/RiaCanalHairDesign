@@ -44,6 +44,16 @@ async function trackRotationTimers(page) {
 const rotationArmed = (page) =>
   expect.poll(() => page.evaluate(() => window.__rotationTimers.size)).toBeGreaterThan(0);
 
+/**
+ * Espera até a app cancelar o timer de rotação (a pausa foi aplicada). O
+ * not.toBeInViewport() do Playwright e o visibilitychange não esperam pelo
+ * IntersectionObserver/efeito da app: avançar o relógio antes disso disparava
+ * o timer ainda armado (falha na CI, WebKit). Com o relógio parado, o timer só
+ * desaparece por clearTimeout, logo isto prova a pausa.
+ */
+const rotationDisarmed = (page) =>
+  expect.poll(() => page.evaluate(() => window.__rotationTimers.size)).toBe(0);
+
 /** Avança um intervalo completo, depois de confirmar que o timer existe. */
 async function nextRotation(page) {
   await rotationArmed(page);
@@ -90,11 +100,13 @@ test("fora do viewport e com a página oculta não roda", async ({ page }) => {
   const first = await currentFile(page);
   await scrollToSection(page, "Location");
   await expect(photo(page)).not.toBeInViewport();
+  await rotationDisarmed(page);
   await page.clock.runFor(9000);
   expect(await currentFile(page)).toBe(first);
 
   await photo(page).scrollIntoViewIfNeeded();
   await setPageVisibility(page, "hidden");
+  await rotationDisarmed(page);
   await page.clock.runFor(9000);
   expect(await currentFile(page)).toBe(first);
 
