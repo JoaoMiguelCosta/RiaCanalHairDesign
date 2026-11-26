@@ -126,6 +126,22 @@ describe("Testimonials", () => {
     expect(isRunning()).toBe(true);
   });
 
+  // Regressão: o pointerleave pode perder-se (ex.: o ícone sob o ponteiro é
+  // substituído no clique em Pausar/Retomar); mover o ponteiro para fora da
+  // secção também termina o hover.
+  test("hover termina com movimento fora da secção, mesmo sem pointerleave", () => {
+    const { show, isRunning, section, pauseButton } = setup();
+    show();
+    fireEvent.pointerOver(section, { pointerType: "mouse" });
+    expect(isRunning()).toBe(false);
+    fireEvent.pointerMove(pauseButton(), { pointerType: "mouse" }); // dentro: mantém
+    expect(isRunning()).toBe(false);
+    fireEvent.pointerMove(document.body, { pointerType: "touch" }); // toque: ignorado
+    expect(isRunning()).toBe(false);
+    fireEvent.pointerMove(document.body, { pointerType: "mouse" }); // fora: retoma
+    expect(isRunning()).toBe(true);
+  });
+
   test("pausa com foco de teclado e retoma ao sair da secção", async () => {
     const user = userEvent.setup();
     const { show, isRunning, pauseButton } = setup();
